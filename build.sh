@@ -10,3 +10,7 @@ python manage.py collectstatic --noinput
 
 # Run database migrations
 python manage.py migrate --noinput
+
+# Create superuser from environment variables (if provided)
+# This command is idempotent - it won't create duplicates
+python manage.py create_superuser
