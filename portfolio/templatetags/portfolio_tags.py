@@ -149,6 +149,7 @@ def get_social_icon(platform):
         'github': 'fab fa-github',
         'linkedin': 'fab fa-linkedin',
         'twitter': 'fab fa-twitter',
+        'x': 'fab fa-x-twitter',
         'instagram': 'fab fa-instagram',
         'facebook': 'fab fa-facebook',
         'youtube': 'fab fa-youtube',

@@ -67,19 +67,22 @@
                     <h5 class="mb-3">Follow Me</h5>
                     {% if social_links %}
                         {% for link in social_links %}
-                            <a href="{{ link.url }}" target="_blank" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
                                 <i class="{% get_social_icon link.platform %}"></i>
                             </a>
                         {% endfor %}
                     {% else %}
-                        <a href="https://github.com" target="_blank" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                        <a href="https://github.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://linkedin.com" target="_blank" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://twitter.com" target="_blank" class="btn btn-outline-dark btn-sm rounded-circle me-2">
-                            <i class="fab fa-twitter"></i>
+                        <a href="https://x.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                            <i class="fab fa-instagram"></i>
                         </a>
                     {% endif %}
                 </div>

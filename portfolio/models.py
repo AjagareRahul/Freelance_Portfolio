@@ -40,6 +40,7 @@ class SocialLink(models.Model):
         ('github', 'GitHub'),
         ('linkedin', 'LinkedIn'),
         ('twitter', 'Twitter'),
+        ('x', 'X (Twitter)'),
         ('instagram', 'Instagram'),
         ('facebook', 'Facebook'),
         ('youtube', 'YouTube'),

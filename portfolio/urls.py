@@ -22,7 +22,6 @@ urlpatterns = [
     # Authentication - mapped to main urls.py views
     path('accounts/login/', views.login_view, name='login'),
     path('accounts/logout/', views.logout_view, name='logout'),
-    path('accounts/register/', views.register_view, name='register'),
     
     # Dashboard (requires login)
     path('dashboard/', views.dashboard_view, name='dashboard'),
