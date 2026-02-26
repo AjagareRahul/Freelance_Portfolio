@@ -341,6 +341,11 @@
                     <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-light btn-lg">
                         <i class="fas fa-envelope me-2"></i>Contact Me
                     </a>
+                    {% if site_info and site_info.resume %}
+                    <a href="{{ site_info.resume.url }}" class="btn btn-success btn-lg" target="_blank">
+                        <i class="fas fa-download me-2"></i>Download CV
+                    </a>
+                    {% endif %}
                 </div>
                 <!-- Social Links -->
                 <div class="mt-4" data-aos="fade-up" data-aos-delay="500" style="display: flex; flex-wrap: wrap; gap: 10px;">

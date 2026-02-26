@@ -20,6 +20,11 @@
                         {% endif %}
                         <h5>{{ user.username }}</h5>
                         <p class="text-muted">{{ user.email }}</p>
+                        {% if site_info and site_info.resume %}
+                        <a href="{{ site_info.resume.url }}" class="btn btn-warning mt-2" target="_blank">
+                            <i class="fas fa-download me-2"></i>View Resume
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -53,6 +58,20 @@
                                 <div class="col-md-12">
                                     <input type="file" name="profile_image" class="form-control" accept="image/*">
                                     <small class="text-muted">Recommended size: 400x400 pixels</small>
+                                    {% if site_info and site_info.profile_image %}
+                                    <br><small class="text-success">Current: {{ site_info.profile_image.url }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <h5 class="mt-4 mb-3">Resume</h5>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx">
+                                    <small class="text-muted">Upload PDF or Word document</small>
+                                    {% if site_info and site_info.resume %}
+                                    <br><small class="text-success">Current: <a href="{{ site_info.resume.url }}" target="_blank">{{ site_info.resume.name }}</a></small>
+                                    {% endif %}
                                 </div>
                             </div>
                             

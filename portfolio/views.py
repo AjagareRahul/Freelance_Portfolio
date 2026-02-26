@@ -406,6 +406,14 @@ def profile_view(request):
             else:
                 SiteInfo.objects.create(profile_image=request.FILES['profile_image'])
         
+        # Handle resume upload
+        if 'resume' in request.FILES:
+            if site_info:
+                site_info.resume = request.FILES['resume']
+                site_info.save()
+            else:
+                SiteInfo.objects.create(resume=request.FILES['resume'])
+        
         messages.success(
             request, 
             'Profile updated successfully!',
