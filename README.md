@@ -3,8 +3,9 @@
 This is a **Personal Portfolio Website** built using **Django**.  
 The website is created for **freelance purposes** to showcase my skills, projects, and services to clients.
 
----
+Note : "This entire website was built using Kilo Code. Credit goes to Kilo Code."
 
+-->
  ৹ Purpose of This Website
 
 - Personal branding
@@ -12,8 +13,7 @@ The website is created for **freelance purposes** to showcase my skills, project
 - Client communication
 - Skill and service presentation
 
----
- 
+--> 
  ৹ Features
 
 - Home page with introduction
@@ -23,8 +23,7 @@ The website is created for **freelance purposes** to showcase my skills, project
 - Contact page
 - Responsive design
 
----
-
+-->
  ৹ Technologies Used
 
 - Python
