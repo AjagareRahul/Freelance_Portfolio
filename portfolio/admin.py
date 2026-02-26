@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
     SiteInfo, SocialLink, Skill, Project, Experience, Education,
-    BlogPost, ContactMessage, VisitorCount, UserActivity, Testimonial, Service
+    BlogPost, ContactMessage, VisitorCount, UserActivity, Testimonial, Service, Gallery
 )
 
 
@@ -137,3 +137,12 @@ class ServiceAdmin(admin.ModelAdmin):
     list_editable = ['is_active', 'order']
     search_fields = ['title', 'description']
     prepopulated_fields = {'slug': ('title',)}
+
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'is_active', 'order', 'created_at']
+    list_filter = ['is_active']
+    list_editable = ['is_active', 'order']
+    search_fields = ['title', 'description']
+    ordering = ['order', '-created_at']

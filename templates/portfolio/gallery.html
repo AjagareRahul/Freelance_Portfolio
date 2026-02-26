@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - Ajagare Rahul{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4 text-center">Gallery</h2>
+            </div>
+        </div>
+        
+        {% if gallery_images %}
+        <div class="row g-4">
+            {% for image in gallery_images %}
+            <div class="col-md-4 col-sm-6">
+                <div class="gallery-item">
+                    <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery Image' }}" class="img-fluid rounded shadow-sm">
+                    {% if image.title or image.description %}
+                    <div class="gallery-caption mt-2">
+                        {% if image.title %}
+                        <h5>{{ image.title }}</h5>
+                        {% endif %}
+                        {% if image.description %}
+                        <p class="text-muted mb-0">{{ image.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="text-muted">No gallery images yet. Add images from the admin panel.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

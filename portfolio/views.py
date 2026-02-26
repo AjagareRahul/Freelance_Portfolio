@@ -16,7 +16,7 @@ from django.utils import timezone
 
 from .models import (
     Project, Skill, Experience, Education, BlogPost, ContactMessage,
-    Testimonial, Service, SocialLink, SiteInfo, VisitorCount, UserActivity
+    Testimonial, Service, SocialLink, SiteInfo, VisitorCount, UserActivity, Gallery
 )
 from .forms import (
     ContactForm, RegistrationForm, LoginForm, ProjectForm, SkillForm,
@@ -227,6 +227,20 @@ class ServicesView(TemplateView):
         context['services'] = Service.objects.filter(
             is_active=True
         ).order_by('order')
+        return context
+
+
+class GalleryView(TemplateView):
+    """
+    Gallery page
+    """
+    template_name = 'portfolio/gallery.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['gallery_images'] = Gallery.objects.filter(
+            is_active=True
+        ).order_by('order', '-created_at')
         return context
 
 

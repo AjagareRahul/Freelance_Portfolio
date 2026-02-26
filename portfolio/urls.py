@@ -18,6 +18,7 @@ urlpatterns = [
     path('blog/<slug:slug>/', views.BlogDetailView.as_view(), name='blog_detail'),
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('services/', views.ServicesView.as_view(), name='services'),
+    path('gallery/', views.GalleryView.as_view(), name='gallery'),
     
     # Authentication - mapped to main urls.py views
     path('accounts/login/', views.login_view, name='login'),

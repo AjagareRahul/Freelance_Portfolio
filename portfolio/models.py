@@ -309,3 +309,23 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Gallery(models.Model):
+    """
+    Store gallery images
+    """
+    title = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to='gallery/', help_text="Upload gallery image")
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name = 'Gallery Image'
+        verbose_name_plural = 'Gallery Images'
+
+    def __str__(self):
+        return self.title if self.title else f"Gallery Image {self.id}"
