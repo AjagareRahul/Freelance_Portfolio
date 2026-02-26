@@ -4,11 +4,16 @@
 {% block title %}Profile - {{ site_info.owner_name|default:"Portfolio" }}{% endblock %}
 
 {% block content %}
+<section class="page-header bg-dark text-white py-5">
+    <div class="container py-5">
+        <h1 class="display-4" data-aos="fade-up">My Profile</h1>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container py-5">
-        <h2 class="mb-4">My Profile</h2>
         <div class="row g-4">
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="fade-up">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
                         {% if site_info and site_info.profile_image %}
@@ -29,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" data-aos="fade-up" data-aos-delay="100">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <h5 class="mb-3">About Me</h5>
