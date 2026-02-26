@@ -26,6 +26,8 @@ urlpatterns = [
     # Dashboard (requires login)
     path('dashboard/', views.dashboard_view, name='dashboard'),
     path('profile/', views.profile_view, name='profile'),
+    path('my-profile/', views.profile_view, name='my_profile'),
+    path('public-profile/', views.public_profile_view, name='public_profile'),
     path('messages/', views.messages_view, name='messages'),
     path('messages/<int:pk>/read/', views.mark_message_read, name='mark_message_read'),
     

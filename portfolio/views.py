@@ -363,7 +363,7 @@ def dashboard_view(request):
 @login_required
 def profile_view(request):
     """
-    User profile view
+    User profile view - for updating own profile (requires login)
     """
     # Get or create site info for profile image
     from portfolio.models import SiteInfo
@@ -400,6 +400,23 @@ def profile_view(request):
         return redirect('portfolio:profile')
     
     return render(request, 'portfolio/profile.html', {'user': request.user, 'site_info': site_info})
+
+
+def public_profile_view(request):
+    """
+    Public profile view - shows portfolio owner's profile to visitors (no login required)
+    """
+    from portfolio.models import SiteInfo
+    site_info = SiteInfo.objects.first()
+    
+    # Get the first superuser as the owner
+    from django.contrib.auth.models import User
+    owner = User.objects.filter(is_superuser=True).first()
+    
+    return render(request, 'portfolio/public_profile.html', {
+        'site_info': site_info,
+        'owner': owner
+    })
 
 
 @login_required
