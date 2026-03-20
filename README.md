@@ -3,7 +3,7 @@
 This is a **Personal Portfolio Website** built using **Django**.  
 The website is created for **freelance purposes** to showcase my skills, projects, and services to clients.
 
-Note : "This entire website was built using Kilo Code. Credit goes to Kilo Code."
+Note : "This entire website was built using Kilo Code."
 
 -->
  ৹ Purpose of This Website
