@@ -54,9 +54,6 @@ class HomeView(TemplateView):
         context['database_skills'] = skills.filter(category='database')
         context['tools_skills'] = skills.filter(category='tools')
         
-        # Get services
-        context['services'] = Service.objects.filter(is_active=True).order_by('order')
-        
         # Get testimonials
         context['testimonials'] = Testimonial.objects.filter(
             is_active=True
@@ -214,20 +211,6 @@ class ContactView(TemplateView):
         context = self.get_context_data()
         context['form'] = form
         return render(request, self.template_name, context)
-
-
-class ServicesView(TemplateView):
-    """
-    Services page
-    """
-    template_name = 'portfolio/services.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['services'] = Service.objects.filter(
-            is_active=True
-        ).order_by('order')
-        return context
 
 
 class GalleryView(TemplateView):
