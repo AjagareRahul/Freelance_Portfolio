@@ -44,10 +44,130 @@
                         <h5 class="mt-4 mb-3">Location</h5>
                         <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>{{ site_info.address }}</p>
                         {% endif %}
+                        
+                        {% if site_info.resume %}
+                        <div class="mt-4">
+                            <a href="{{ site_info.resume.url }}" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-download me-2"></i>Download Resume
+                            </a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Experience Section -->
+        {% if experiences %}
+        <div class="row mt-5">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Work Experience</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for experience in experiences %}
+                        <div class="experience-item mb-4 pb-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">{{ experience.position }}</h6>
+                                    <p class="text-primary mb-1">{{ experience.company_name }}</p>
+                                    {% if experience.location %}
+                                    <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">
+                                        {{ experience.start_date|date:"M Y" }} - 
+                                        {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                            <p class="text-muted">{{ experience.description }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Education Section -->
+        {% if educations %}
+        <div class="row mt-4">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Education</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for education in educations %}
+                        <div class="education-item mb-4 pb-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">{{ education.degree }} in {{ education.field_of_study }}</h6>
+                                    <p class="text-success mb-1">{{ education.institution }}</p>
+                                    {% if education.grade %}
+                                    <p class="text-muted small mb-2">Grade: {{ education.grade }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">
+                                        {{ education.start_date|date:"M Y" }} - 
+                                        {% if education.is_current %}Present{% else %}{{ education.end_date|date:"M Y" }}{% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                            {% if education.description %}
+                            <p class="text-muted">{{ education.description }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Skills Section -->
+        {% if skills %}
+        <div class="row mt-4">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="400">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-code me-2"></i>Skills & Technologies</h5>
+                    </div>
+                    <div class="card-body">
+                        {% regroup skills by category as skill_groups %}
+                        {% for group in skill_groups %}
+                        <div class="skill-category mb-4">
+                            <h6 class="text-info mb-3">{{ group.grouper|title }}</h6>
+                            <div class="row">
+                                {% for skill in group.list %}
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="skill-item">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span>{{ skill.name }}</span>
+                                            <small class="text-muted">{{ skill.proficiency }}%</small>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 style="width: {{ skill.proficiency }}%" 
+                                                 aria-valuenow="{{ skill.proficiency }}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

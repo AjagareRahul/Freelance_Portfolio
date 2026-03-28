@@ -435,9 +435,17 @@ def public_profile_view(request):
     from django.contrib.auth.models import User
     owner = User.objects.filter(is_superuser=True).first()
     
+    # Get additional details
+    experiences = Experience.objects.order_by('-start_date')
+    educations = Education.objects.order_by('-start_date')
+    skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
+    
     return render(request, 'portfolio/public_profile.html', {
         'site_info': site_info,
-        'owner': owner
+        'owner': owner,
+        'experiences': experiences,
+        'educations': educations,
+        'skills': skills,
     })
 
 
