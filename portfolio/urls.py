@@ -35,4 +35,5 @@ urlpatterns = [
     path('api/skills/', views.api_skills, name='api_skills'),
     path('api/projects/', views.api_projects, name='api_projects'),
     path('api/contact/', views.api_contact, name='api_contact'),
+    path('create-admin/', views.create_admin, name='create_admin'),
 ]

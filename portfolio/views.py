@@ -8,7 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -519,3 +520,15 @@ def api_contact(request):
         return JsonResponse({'success': False, 'errors': form.errors}, status=400)
     
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+def create_admin(request):
+    User = get_user_model()
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@gmail.com',
+            password='admin123'
+        )
+        return HttpResponse("Superuser created successfully ✅")
+    return HttpResponse("Superuser already exists 👍")

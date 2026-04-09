@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-development-key-chang
 # DEBUG MODE - Disable in production
 # =============================================================================
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
+DEBUG = True
 
 # =============================================================================
 # ALLOWED_HOSTS - Configure for Render deployment
