@@ -383,8 +383,18 @@ a:hover {
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     transition: var(--transition);
-    color: #fff;
+    color: #fff !important;
     font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.social-btn i {
+    color: #fff !important;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    text-align: center;
 }
 
 .social-btn:hover {
