@@ -329,3 +329,81 @@ class Gallery(models.Model):
 
     def __str__(self):
         return self.title if self.title else f"Gallery Image {self.id}"
+
+
+class UpcomingProject(models.Model):
+    """
+    Store upcoming/planned projects to showcase future work
+    """
+    title = models.CharField(max_length=200, help_text="Title of the upcoming project")
+    slug = models.SlugField(unique=True, help_text="URL-friendly slug for the project")
+    description = models.TextField(help_text="Brief description of the project")
+    short_description = models.CharField(max_length=200, help_text="Short description for cards/tiles")
+    expected_launch = models.DateField(null=True, blank=True, help_text="Expected launch date")
+    image = models.ImageField(upload_to='upcoming_projects/', blank=True, null=True, help_text="Preview or concept image")
+    technologies = models.CharField(max_length=500, blank=True, help_text="Comma-separated list of technologies to be used")
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('planned', 'Planned'),
+            ('in_development', 'In Development'),
+            ('testing', 'Testing'),
+            ('launching_soon', 'Launching Soon'),
+        ],
+        default='planned',
+        help_text="Current status of the project"
+    )
+    featured = models.BooleanField(default=False, help_text="Show in featured section on homepage")
+    order = models.IntegerField(default=0, help_text="Display order (lower = first)")
+    is_active = models.BooleanField(default=True, help_text="Show on website")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', 'expected_launch', '-created_at']
+        verbose_name = 'Upcoming Project'
+        verbose_name_plural = 'Upcoming Projects'
+        indexes = [
+            models.Index(fields=['status', 'is_active', 'expected_launch']),
+            models.Index(fields=['featured', 'is_active']),
+        ]
+
+    def __str__(self):
+        status_badge = " 🚀" if self.status == 'launching_soon' else ""
+        return f"{self.title}{status_badge}"
+
+    def get_technology_list(self):
+        """Parse comma-separated technologies into a list"""
+        if not self.technologies:
+            return []
+        return [tech.strip() for tech in self.technologies.split(',') if tech.strip()]
+
+    @property
+    def days_until_launch(self):
+        """Calculate days until expected launch"""
+        if not self.expected_launch:
+            return None
+        from django.utils import timezone
+        delta = self.expected_launch - timezone.now().date()
+        return delta.days
+
+    @property
+    def launch_status_display(self):
+        """Get human-readable status with emoji"""
+        status_display_map = {
+            'planned': '📋 Planned',
+            'in_development': '🔧 In Development',
+            'testing': '🧪 Testing',
+            'launching_soon': '🚀 Launching Soon!',
+        }
+        days = self.days_until_launch
+        status_text = status_display_map.get(self.status, self.get_status_display())
+        
+        if days is not None and days > 0:
+            return f"{status_text} ({days} days to go)"
+        elif days is not None and days == 0:
+            return f"{status_text} - Launching Today! 🎉"
+        elif days is not None and days < 0:
+            return f"{status_text} - {abs(days)} days past expected"
+        
+        return status_text

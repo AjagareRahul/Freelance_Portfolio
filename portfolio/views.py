@@ -532,3 +532,4 @@ def create_admin(request):
         )
         return HttpResponse("Superuser created successfully ✅")
     return HttpResponse("Superuser already exists 👍")
+

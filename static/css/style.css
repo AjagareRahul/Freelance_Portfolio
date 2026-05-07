@@ -25,6 +25,29 @@
     --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ==================== Icon Fallbacks ==================== */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
+.fa-fallback .fab,
+.fa-fallback .fas,
+.fa-fallback .far,
+.fa-fallback .fal,
+.fa-fallback .fat {
+    font-family: 'Material Icons Outlined' !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    display: inline-block;
+    line-height: 1;
+}
+
+.fallback-icon {
+    font-family: 'Material Icons Outlined' !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    display: inline-block;
+    line-height: 1;
+}
+
 /* ==================== Base Styles ==================== */
 * {
     margin: 0;

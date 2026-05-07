@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
     SiteInfo, SocialLink, Skill, Project, Experience, Education,
-    BlogPost, ContactMessage, VisitorCount, UserActivity, Testimonial, Service, Gallery
+    BlogPost, ContactMessage, VisitorCount, UserActivity, Testimonial, Service, Gallery, UpcomingProject
 )
 
 
@@ -146,3 +146,27 @@ class GalleryAdmin(admin.ModelAdmin):
     list_editable = ['is_active', 'order']
     search_fields = ['title', 'description']
     ordering = ['order', '-created_at']
+
+
+@admin.register(UpcomingProject)
+class UpcomingProjectAdmin(admin.ModelAdmin):
+    list_display = ['title', 'status', 'featured', 'is_active', 'expected_launch', 'order']
+    list_filter = ['status', 'is_active', 'featured', 'expected_launch']
+    list_editable = ['status', 'is_active', 'featured', 'order']
+    search_fields = ['title', 'description', 'technologies']
+    prepopulated_fields = {'slug': ('title',)}
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('title', 'slug', 'short_description', 'description', 'status', 'order')
+        }),
+        ('Scheduling', {
+            'fields': ('expected_launch', 'featured', 'is_active')
+        }),
+        ('Technologies', {
+            'fields': ('technologies',),
+            'description': 'Comma-separated list of technologies'
+        }),
+        ('Media', {
+            'fields': ('image',)
+        }),
+    )

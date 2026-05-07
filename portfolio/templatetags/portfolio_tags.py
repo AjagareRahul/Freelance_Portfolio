@@ -1,144 +1,10 @@
-"""
-Custom Template Tags and Filters for Portfolio Website
-"""
+
+# ==================== Custom Tags ==================== 
 
 from django import template
-from django.utils.safestring import mark_safe
-from django.template.defaultfilters import stringfilter
-import re
 
 register = template.Library()
 
-
-# ==================== Custom Filters ====================
-
-@register.filter
-@stringfilter
-def truncatewords_custom(value, arg):
-    """
-    Custom truncate words filter
-    """
-    try:
-        length = int(arg)
-    except ValueError:
-        return value
-    
-    if len(value) <= length:
-        return value
-    
-    return value[:length] + '...'
-
-
-@register.filter
-def get_item(dictionary, key):
-    """
-    Get item from dictionary by key
-    """
-    return dictionary.get(key)
-
-
-@register.filter
-def split_by_comma(value):
-    """
-    Split a string by comma and return a list
-    """
-    if not value:
-        return []
-    return [item.strip() for item in value.split(',')]
-
-
-@register.filter
-def star_rating(value):
-    """
-    Convert numeric rating to star icons
-    """
-    try:
-        rating = int(value)
-    except (ValueError, TypeError):
-        rating = 0
-    
-    stars = '★' * rating + '☆' * (5 - rating)
-    return mark_safe(f'<span class="text-warning">{stars}</span>')
-
-
-@register.filter
-def time_ago(value):
-    """
-    Convert datetime to time ago string
-    """
-    from django.utils import timezone
-    from datetime import timedelta
-    
-    if not value:
-        return ''
-    
-    now = timezone.now()
-    diff = now - value
-    
-    if diff.days > 365:
-        years = diff.days // 365
-        return f'{years} year{"s" if years > 1 else ""} ago'
-    elif diff.days > 30:
-        months = diff.days // 30
-        return f'{months} month{"s" if months > 1 else ""} ago'
-    elif diff.days > 0:
-        return f'{diff.days} day{"s" if diff.days > 1 else ""} ago'
-    elif diff.seconds > 3600:
-        hours = diff.seconds // 3600
-        return f'{hours} hour{"s" if hours > 1 else ""} ago'
-    elif diff.seconds > 60:
-        minutes = diff.seconds // 60
-        return f'{minutes} minute{"s" if minutes > 1 else ""} ago'
-    else:
-        return 'Just now'
-
-
-@register.filter
-def add_class(field, css_class):
-    """
-    Add CSS class to form field
-    """
-    return field.as_widget(attrs={"class": css_class})
-
-
-@register.filter
-def format_technology(tech_string):
-    """
-    Format technology string as badges
-    """
-    if not tech_string:
-        return ''
-    
-    technologies = [t.strip() for t in tech_string.split(',')]
-    badges = []
-    
-    tech_colors = {
-        'python': 'bg-primary',
-        'django': 'bg-success',
-        'javascript': 'bg-warning text-dark',
-        'html': 'bg-danger',
-        'css': 'bg-info text-dark',
-        'react': 'bg-primary',
-        'vue': 'bg-success',
-        'angular': 'bg-danger',
-        'node': 'bg-success',
-        'sql': 'bg-warning text-dark',
-        'postgresql': 'bg-primary',
-        'mysql': 'bg-warning text-dark',
-        'mongodb': 'bg-success',
-        'docker': 'bg-info text-dark',
-        'git': 'bg-secondary',
-    }
-    
-    for tech in technologies:
-        tech_lower = tech.lower()
-        color_class = tech_colors.get(tech_lower, 'bg-secondary')
-        badges.append(f'<span class="badge {color_class} me-1">{tech}</span>')
-    
-    return mark_safe(' '.join(badges))
-
-
-# ==================== Custom Tags ====================
 
 @register.simple_tag
 def get_social_icon(platform):
@@ -188,6 +54,20 @@ def get_skill_icon(skill_name):
     return 'fas fa-code'
 
 
+@register.simple_tag
+def get_upcoming_project_icon(status):
+    """
+    Get icon for upcoming project based on status
+    """
+    icons = {
+        'planned': 'far fa-calendar-plus',
+        'in_development': 'fas fa-code-branch',
+        'testing': 'fas fa-vial',
+        'launching_soon': 'fas fa-rocket',
+    }
+    return icons.get(status, 'far fa-calendar')
+
+
 @register.inclusion_tag('portfolio/tags/skills_progress.html')
 def render_skills_progress(skills):
     """
@@ -225,7 +105,7 @@ def get_site_version():
     """
     Get site version
     """
-    return '1.0.0'
+    return '2.1.0'
 
 
 @register.simple_tag

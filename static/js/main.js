@@ -4,6 +4,200 @@
  * Enhanced with modern animations, interactions, and features
  */
 
+// ==========================================
+// Font Awesome Icon Fallback Handler
+// ==========================================
+(function() {
+    const iconFallbacks = {
+        'fa-home': 'home',
+        'fa-user': 'person',
+        'fa-briefcase': 'work',
+        'fa-code': 'code',
+        'fa-envelope': 'email',
+        'fa-phone': 'phone',
+        'fa-map-marker-alt': 'location_on',
+        'fa-globe': 'public',
+        'fa-github': 'code',
+        'fa-github-alt': 'code',
+        'fa-linkedin': 'work',
+        'fa-linkedin-in': 'work',
+        'fa-x-twitter': 'alternate_email',
+        'fa-twitter': 'send',
+        'fa-facebook': 'public',
+        'fa-facebook-f': 'public',
+        'fa-instagram': 'photo_camera',
+        'fa-youtube': 'video',
+        'fa-stack-overflow': 'code',
+        'fa-medium': 'article',
+        'fa-blog': 'article',
+        'fa-check-circle': 'check_circle',
+        'fa-exclamation-circle': 'error',
+        'fa-exclamation-triangle': 'warning',
+        'fa-info-circle': 'info',
+        'fa-star': 'star',
+        'fa-heart': 'favorite',
+        'fa-bookmark': 'bookmark',
+        'fa-share': 'share',
+        'fa-download': 'download',
+        'fa-upload': 'upload',
+        'fa-search': 'search',
+        'fa-filter': 'filter_list',
+        'fa-sort': 'sort',
+        'fa-calendar': 'calendar_today',
+        'fa-calendar-alt': 'calendar_today',
+        'fa-calendar-times': 'event',
+        'fa-clock': 'schedule',
+        'fa-tags': 'local_offer',
+        'fa-folder': 'folder',
+        'fa-folder-open': 'folder_open',
+        'fa-file': 'description',
+        'fa-file-alt': 'description',
+        'fa-link': 'link',
+        'fa-external-link-alt': 'open_in_new',
+        'fa-chevron-left': 'chevron_left',
+        'fa-chevron-right': 'chevron_right',
+        'fa-chevron-up': 'expand_less',
+        'fa-chevron-down': 'expand_more',
+        'fa-arrow-left': 'arrow_back',
+        'fa-arrow-right': 'arrow_forward',
+        'fa-arrow-up': 'arrow_upward',
+        'fa-arrow-down': 'arrow_downward',
+        'fa-refresh': 'refresh',
+        'fa-sync': 'sync',
+        'fa-sync-alt': 'sync',
+        'fa-spinner': 'progress_activity',
+        'fa-circle': 'circle',
+        'fa-circle-o': 'circle',
+        'fa-square': 'square',
+        'fa-database': 'database',
+        'fa-server': 'dns',
+        'fa-cloud': 'cloud',
+        'fa-lock': 'lock',
+        'fa-unlock': 'lock_open',
+        'fa-shield-alt': 'shield',
+        'fa-shield': 'shield',
+        'fa-comment': 'comment',
+        'fa-comments': 'forum',
+        'fa-bell': 'notifications',
+        'fa-cog': 'settings',
+        'fa-cogs': 'settings_suggest',
+        'fa-tools': 'build',
+        'fa-wrench': 'build',
+        'fa-rocket': 'rocket_launch',
+        'fa-lightbulb': 'lightbulb',
+        'fa-chart-line': 'trending_up',
+        'fa-chart-bar': 'bar_chart',
+        'fa-chart-area': 'show_chart',
+        'fa-users': 'group',
+        'fa-user-tie': 'person',
+        'fa-graduation-cap': 'school',
+        'fa-certificate': 'workspace_premium',
+        'fa-trophy': 'emoji_events',
+        'fa-award': 'military_tech',
+        'fa-python': 'code',
+        'fa-js': 'javascript',
+        'fa-html5': 'html',
+        'fa-css3': 'css',
+        'fa-css3-alt': 'css',
+        'fa-bootstrap': 'layers',
+        'fa-react': 'react',
+        'fa-vuejs': 'view_module',
+        'fa-angular': 'angular',
+        'fa-node-js': 'nodejs',
+        'fa-docker': 'docker',
+        'fa-git': 'git',
+        'fa-git-alt': 'git',
+        'fa-linux': 'computer',
+        'fa-project-diagram': 'account_tree',
+        'fa-folder-open': 'folder_open',
+        'fa-eye': 'visibility',
+        'fa-eye-slash': 'visibility_off',
+        'fa-paper-plane': 'send',
+        'fa-tachometer-alt': 'speed',
+        'fa-tachometer': 'speed',
+        'fa-sign-out-alt': 'logout',
+        'fa-sign-in-alt': 'login',
+        'fa-id-badge': 'badge',
+        'fa-images': 'collections',
+        'fa-pen-fancy': 'edit',
+        'fa-edit': 'edit',
+        'fa-history': 'history',
+        'fa-bolt': 'flash_on',
+        'fa-plus': 'add',
+        'fa-minus': 'remove',
+        'fa-times': 'close',
+        'fa-times-circle': 'cancel',
+        'fa-check': 'check',
+        'fa-question-circle': 'help',
+        'fa-info': 'info',
+        'fa-copyright': 'copyright',
+        'fa-registered': 'copyright',
+        'fa-lightbulb': 'lightbulb',
+        'fa-flask': 'science',
+        'fa-flask-vial': 'science',
+        'fa-at': 'alternate_email',
+    };
+
+    function checkFontAwesome() {
+        const testIcon = document.createElement('i');
+        testIcon.className = 'fas fa-home';
+        testIcon.style.position = 'absolute';
+        testIcon.style.visibility = 'hidden';
+        testIcon.style.fontSize = '1px';
+        document.body.appendChild(testIcon);
+
+        const before = window.getComputedStyle(testIcon, '::before');
+        const fontFamily = before.fontFamily || '';
+        const content = before.content || '';
+        const hasValidContent = content && content !== 'none' && content !== '';
+
+        document.body.removeChild(testIcon);
+
+        if (!hasValidContent || fontFamily.indexOf('Font Awesome') === -1) {
+            document.documentElement.classList.add('fa-fallback');
+            applyFallbackIcons();
+        }
+    }
+
+    function applyFallbackIcons() {
+        const faIcons = document.querySelectorAll('[class*="fa-"]:not([class*="fab-"]):not(["fa-spinner"])');
+        faIcons.forEach(icon => {
+            const classes = Array.from(icon.classList);
+            for (const cls of classes) {
+                if (cls.startsWith('fa-') && iconFallbacks[cls]) {
+                    const materialIcon = document.createElement('span');
+                    materialIcon.className = 'material-icons-outlined fallback-icon';
+                    materialIcon.textContent = iconFallbacks[cls];
+                    materialIcon.style.fontSize = 'inherit';
+                    materialIcon.style.verticalAlign = 'middle';
+                    icon.style.display = 'none';
+                    icon.parentNode.insertBefore(materialIcon, icon.nextSibling);
+                    break;
+                }
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkFontAwesome);
+    } else {
+        checkFontAwesome();
+    }
+})();
+
+// Enhanced icon error handling for dynamic content
+function handleIconError(iconElement, iconClass) {
+    const fallbacks = iconClass.match(/fa-[a-z0-9-]+/g);
+    if (fallbacks && fallbacks.length > 0) {
+        const key = fallbacks[0];
+        if (iconClass.match(/fab/)) {
+            iconElement.className = 'fab ' + key;
+        } else {
+            iconElement.className = 'fas ' + key;
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // Initialize AOS Animation Library
@@ -419,3 +613,77 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
         }
     });
 });
+
+// ==========================================
+// UI Reliability Enhancements
+// ==========================================
+(function() {
+    // Ensure body stays visible after page load
+    document.body.style.opacity = '1';
+    
+    // Handle browser back/forward cache
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            document.body.style.opacity = '1';
+        }
+    });
+    
+    // Accessibility: Add skip link for keyboard users
+    const skipLink = document.createElement('a');
+    skipLink.href = '#main-content';
+    skipLink.className = 'skip-link btn btn-primary position-absolute';
+    skipLink.style.top = '-40px';
+    skipLink.style.left = '0';
+    skipLink.style.zIndex = '10000';
+    skipLink.textContent = 'Skip to main content';
+    skipLink.addEventListener('focus', function() {
+        this.style.top = '0';
+    });
+    skipLink.addEventListener('blur', function() {
+        this.style.top = '-40px';
+    });
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    // Add id to main content if not present
+    const mainContent = document.querySelector('main') || document.querySelector('.main-content');
+    if (mainContent && !mainContent.id) {
+        mainContent.id = 'main-content';
+    }
+    
+    // Keyboard navigation improvements
+    document.addEventListener('keydown', function(e) {
+        if (e.key === '/' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            const searchInput = document.querySelector('#search-input, input[type="search"]');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+    });
+    
+    // Handle reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.body.classList.add('reduced-motion');
+        const style = document.createElement('style');
+        style.textContent = `
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Performance monitoring
+    if ('performance' in window) {
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData && perfData.domContentLoadedEventEnd > 3000) {
+                    console.warn('Page load time exceeded 3 seconds');
+                }
+            }, 0);
+        });
+    }
+})();
