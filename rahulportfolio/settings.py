@@ -118,9 +118,20 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
     # Production/PostgreSQL - Parse DATABASE_URL (Render, Heroku, etc.)
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-    }
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        }
+    except Exception as e:
+        # If parsing fails, log warning and fallback to SQLite
+        import warnings
+        warnings.warn(f"Failed to parse DATABASE_URL: {e}. Falling back to SQLite.", RuntimeWarning)
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
     # Development - SQLite fallback (faster, no external dependency)
     DATABASES = {
@@ -192,10 +203,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # =============================================================================
 # Cloudinary Configuration (for media and static file storage)
 # =============================================================================
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 import warnings
+
+# Try importing Cloudinary SDK (optional - graceful degradation if missing)
+try:
+    import cloudinary
+    import cloudinary.uploader
+    import cloudinary.api
+    CLOUDINARY_SDK_AVAILABLE = True
+except ImportError:
+    CLOUDINARY_SDK_AVAILABLE = False
+    warnings.warn("Cloudinary SDK not installed. Install 'cloudinary' and 'django-cloudinary-storage' for CDN media storage.", RuntimeWarning)
 
 # Cloudinary credentials from environment variables
 CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
@@ -210,8 +228,8 @@ CLOUDINARY_STORAGE = {
     'SECURE': True,  # Always use HTTPS
 }
 
-# Configure Cloudinary SDK if all credentials are available
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+# Configure Cloudinary SDK if all credentials are available and SDK imported
+if CLOUDINARY_SDK_AVAILABLE and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
