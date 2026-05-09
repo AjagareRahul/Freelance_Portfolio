@@ -17,27 +17,34 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 # SECRET KEY - Load from environment variable (REQUIRED for production)
 # =============================================================================
 # SECURITY WARNING: keep the secret key used in production secret!
-# Load SECRET_KEY from environment variable - MUST be set in production!
-# For local development, use a default key
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-development-key-change-in-production')
 
 # =============================================================================
-# DEBUG MODE - Disable in production
+# DEBUG MODE - Production auto-detection
 # =============================================================================
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# If DEBUG env var is explicitly set, use it; otherwise auto-detect:
+#   - Render/Heroku: DEBUG=False by default
+#   - Local dev: DEBUG=True by default
+DEBUG_ENV = os.environ.get('DEBUG')
+if DEBUG_ENV is not None:
+    DEBUG = DEBUG_ENV.lower() == 'true'
+else:
+    # Auto-detect: if running on Render/Heroku (DATABASE_URL present), disable debug
+    DEBUG = not bool(os.environ.get('RENDER_EXTERNAL_HOSTNAME') or os.environ.get('DATABASE_URL'))
 
 # =============================================================================
-# ALLOWED_HOSTS - Configure for Render deployment
+# ALLOWED_HOSTS & CSRF - Production domains
 # =============================================================================
-# Get from environment variable or use Render's default domain
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME, 'localhost', '127.0.0.1']
+    # Trusted origins for CSRF when behind proxy
+    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}', f'http://{RENDER_EXTERNAL_HOSTNAME}']
 else:
-    # Fallback for local development - add your custom domains here
     allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
     ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',') if host.strip()]
+    CSRF_TRUSTED_ORIGINS = []
 
 # =============================================================================
 # Application definition
@@ -255,6 +262,47 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 1 week
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # =============================================================================
+# Security Settings - Production hardened
+# =============================================================================
+
+# Clickjacking protection (always enabled)
+X_FRAME_OPTIONS = 'DENY'
+
+# Auto-enable security features in production (when not DEBUG)
+if not DEBUG:
+    # Force HTTPS/SSL in production (Render provides SSL)
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # HSTS (HTTP Strict Transport Security) - 1 year
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    
+    # Secure cookies in production
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    
+    # Prevent content type sniffing
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    
+    # CSRF trusted origins for Render domain
+    if RENDER_EXTERNAL_HOSTNAME:
+        CSRF_TRUSTED_ORIGINS = [
+            f'https://{RENDER_EXTERNAL_HOSTNAME}',
+            f'http://{RENDER_EXTERNAL_HOSTNAME}'
+        ]
+else:
+    # Development: disable strict security
+    SECURE_SSL_REDIRECT = False
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    CSRF_TRUSTED_ORIGINS = []
 # SECURITY SETTINGS FOR PRODUCTION (Required by check --deploy)
 # =============================================================================
 
@@ -290,11 +338,45 @@ else:
     # Prevent content type sniffing - Disabled for local development
     SECURE_CONTENT_TYPE_NOSNIFF = False
 
-# Browser's X-Frame-Options for clickjacking protection
-X_FRAME_OPTIONS = 'DENY'
+# =============================================================================
+# Security Settings - Production hardened
+# =============================================================================
 
-# HTTPS for the entire session - Disabled for local development
-SECURE_PROXY_SSL_HEADER = None
+# Auto-enable security features in production (when not DEBUG)
+if not DEBUG:
+    # Force HTTPS/SSL in production (Render provides SSL)
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # HSTS (HTTP Strict Transport Security) - 1 year
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    
+    # Secure cookies in production
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    
+    # Prevent content type sniffing
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    
+    # CSRF trusted origins for Render domain
+    if RENDER_EXTERNAL_HOSTNAME:
+        CSRF_TRUSTED_ORIGINS = [
+            f'https://{RENDER_EXTERNAL_HOSTNAME}',
+            f'http://{RENDER_EXTERNAL_HOSTNAME}'
+        ]
+else:
+    # Development: disable strict security
+    SECURE_SSL_REDIRECT = False
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    CSRF_TRUSTED_ORIGINS = []
 
 # =============================================================================
 # Admin panel configuration
