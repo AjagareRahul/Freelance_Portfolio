@@ -19,7 +19,9 @@
                 
                 <h2 class="mb-3">{{ project.title }}</h2>
                 <div class="mb-4">
-                    {{ project.technology_used|format_technology|safe }}
+                    {% for tech in project.get_technology_list %}
+                        <span class="badge bg-primary me-1 mb-1">{{ tech }}</span>
+                    {% endfor %}
                 </div>
                 
                 <div class="card border-0 shadow-sm mb-4">
