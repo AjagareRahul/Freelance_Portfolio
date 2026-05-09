@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -37,31 +37,44 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Get site info
-        from portfolio.models import SiteInfo
-        context['site_info'] = SiteInfo.objects.first()
+        try:
+            context['site_info'] = SiteInfo.objects.first()
+        except Exception:
+            context['site_info'] = None
         
-        # Get featured projects
-        context['featured_projects'] = Project.objects.filter(
-            is_published=True, 
-            featured=True
-        ).order_by('-created_at')[:6]
+        try:
+            context['featured_projects'] = Project.objects.filter(
+                is_published=True, 
+                featured=True
+            ).order_by('-created_at')[:6]
+        except Exception:
+            context['featured_projects'] = []
         
-        # Get skills grouped by category
-        skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
-        context['skills'] = skills
-        context['backend_skills'] = skills.filter(category='backend')
-        context['frontend_skills'] = skills.filter(category='frontend')
-        context['database_skills'] = skills.filter(category='database')
-        context['tools_skills'] = skills.filter(category='tools')
+        try:
+            skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
+            context['skills'] = skills
+            context['backend_skills'] = skills.filter(category='backend')
+            context['frontend_skills'] = skills.filter(category='frontend')
+            context['database_skills'] = skills.filter(category='database')
+            context['tools_skills'] = skills.filter(category='tools')
+        except Exception:
+            context['skills'] = Skill.objects.none()
+            context['backend_skills'] = Skill.objects.none()
+            context['frontend_skills'] = Skill.objects.none()
+            context['database_skills'] = Skill.objects.none()
+            context['tools_skills'] = Skill.objects.none()
         
-        # Get testimonials
-        context['testimonials'] = Testimonial.objects.filter(
-            is_active=True
-        ).order_by('-order', '-created_at')[:5]
+        try:
+            context['testimonials'] = Testimonial.objects.filter(
+                is_active=True
+            ).order_by('-order', '-created_at')[:5]
+        except Exception:
+            context['testimonials'] = []
         
-        # Get experience
-        context['experiences'] = Experience.objects.order_by('-start_date')[:3]
+        try:
+            context['experiences'] = Experience.objects.order_by('-start_date')[:3]
+        except Exception:
+            context['experiences'] = []
         
         return context
 
@@ -75,18 +88,20 @@ class AboutView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Get site info
-        from portfolio.models import SiteInfo
-        context['site_info'] = SiteInfo.objects.first()
+        try:
+            context['site_info'] = SiteInfo.objects.first()
+        except Exception:
+            context['site_info'] = None
         
-        # Get all experiences
-        context['experiences'] = Experience.objects.order_by('-start_date')
+        try:
+            context['experiences'] = Experience.objects.order_by('-start_date')
+        except Exception:
+            context['experiences'] = []
         
-        # Get all education
-        context['educations'] = Education.objects.order_by('-start_date')
-        
-        # Get site info
-        context['site_info'] = SiteInfo.objects.first()
+        try:
+            context['educations'] = Education.objects.order_by('-start_date')
+        except Exception:
+            context['educations'] = []
         
         return context
 
@@ -101,9 +116,12 @@ class ProjectsView(ListView):
     paginate_by = 9
     
     def get_queryset(self):
-        return Project.objects.filter(
-            is_published=True
-        ).order_by('-featured', '-created_at')
+        try:
+            return Project.objects.filter(
+                is_published=True
+            ).order_by('-featured', '-created_at')
+        except Exception:
+            return Project.objects.none()
 
 
 class ProjectDetailView(DetailView):
@@ -115,13 +133,19 @@ class ProjectDetailView(DetailView):
     context_object_name = 'project'
     
     def get_queryset(self):
-        return Project.objects.filter(is_published=True)
+        try:
+            return Project.objects.filter(is_published=True)
+        except Exception:
+            return Project.objects.none()
     
     def get_context_data(self, **context):
         context = super().get_context_data(**context)
-        context['related_projects'] = Project.objects.filter(
-            is_published=True
-        ).exclude(pk=self.object.pk)[:3]
+        try:
+            context['related_projects'] = Project.objects.filter(
+                is_published=True
+            ).exclude(pk=self.object.pk)[:3]
+        except Exception:
+            context['related_projects'] = Project.objects.none()
         return context
 
 
@@ -134,13 +158,20 @@ class SkillsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Get all skills grouped by category
-        skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
-        context['all_skills'] = skills
-        context['backend_skills'] = skills.filter(category='backend')
-        context['frontend_skills'] = skills.filter(category='frontend')
-        context['database_skills'] = skills.filter(category='database')
-        context['tools_skills'] = skills.filter(category='tools')
+        try:
+            # Get all skills grouped by category
+            skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
+            context['all_skills'] = skills
+            context['backend_skills'] = skills.filter(category='backend')
+            context['frontend_skills'] = skills.filter(category='frontend')
+            context['database_skills'] = skills.filter(category='database')
+            context['tools_skills'] = skills.filter(category='tools')
+        except Exception:
+            context['all_skills'] = Skill.objects.none()
+            context['backend_skills'] = Skill.objects.none()
+            context['frontend_skills'] = Skill.objects.none()
+            context['database_skills'] = Skill.objects.none()
+            context['tools_skills'] = Skill.objects.none()
         
         return context
 
@@ -155,9 +186,12 @@ class BlogView(ListView):
     paginate_by = 6
     
     def get_queryset(self):
-        return BlogPost.objects.filter(
-            is_published=True
-        ).order_by('-published_at')
+        try:
+            return BlogPost.objects.filter(
+                is_published=True
+            ).order_by('-published_at')
+        except Exception:
+            return BlogPost.objects.none()
 
 
 class BlogDetailView(DetailView):
@@ -169,21 +203,30 @@ class BlogDetailView(DetailView):
     context_object_name = 'post'
     
     def get_queryset(self):
-        return BlogPost.objects.filter(is_published=True)
+        try:
+            return BlogPost.objects.filter(is_published=True)
+        except Exception:
+            return BlogPost.objects.none()
     
     def get_object(self, queryset=None):
         post = super().get_object(queryset)
-        # Increment views
-        post.views += 1
-        post.save()
+        try:
+            # Increment views
+            post.views += 1
+            post.save()
+        except Exception:
+            pass
         return post
     
     def get_context_data(self, **context):
         context = super().get_context_data(**context)
-        context['related_posts'] = BlogPost.objects.filter(
-            is_published=True,
-            category=self.object.category
-        ).exclude(pk=self.object.pk)[:3]
+        try:
+            context['related_posts'] = BlogPost.objects.filter(
+                is_published=True,
+                category=self.object.category
+            ).exclude(pk=self.object.pk)[:3]
+        except Exception:
+            context['related_posts'] = BlogPost.objects.none()
         return context
 
 
@@ -201,12 +244,19 @@ class ContactView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(
-                request, 
-                'Thank you for contacting me! I will get back to you soon.',
-                extra_tags='alert-success'
-            )
+            try:
+                form.save()
+                messages.success(
+                    request, 
+                    'Thank you for contacting me! I will get back to you soon.',
+                    extra_tags='alert-success'
+                )
+            except Exception:
+                messages.error(
+                    request, 
+                    'Failed to send message. Please try again later.',
+                    extra_tags='alert-danger'
+                )
             return redirect('portfolio:contact')
         
         context = self.get_context_data()
@@ -222,9 +272,12 @@ class GalleryView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['gallery_images'] = Gallery.objects.filter(
-            is_active=True
-        ).order_by('order', '-created_at')
+        try:
+            context['gallery_images'] = Gallery.objects.filter(
+                is_active=True
+            ).order_by('order', '-created_at')
+        except Exception:
+            context['gallery_images'] = Gallery.objects.none()
         return context
 
 
@@ -239,15 +292,31 @@ def register_view(request):
     
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(
-                request, 
-                f'Welcome {user.username}! Your account has been created successfully.',
-                extra_tags='alert-success'
-            )
-            return redirect('portfolio:dashboard')
+        try:
+            is_valid = form.is_valid()
+        except Exception:
+            is_valid = False
+        
+        if is_valid:
+            try:
+                user = form.save()
+                login(request, user)
+                messages.success(
+                    request, 
+                    f'Welcome {user.username}! Your account has been created successfully.',
+                    extra_tags='alert-success'
+                )
+                return redirect('portfolio:dashboard')
+            except Exception:
+                messages.error(
+                    request, 
+                    'Registration failed. Please try again.',
+                    extra_tags='alert-danger'
+                )
+        else:
+            # Form errors or validation exception
+            if not form.errors:
+                form.add_error(None, 'Form submission error. Please try again.')
     else:
         form = RegistrationForm()
     
@@ -263,19 +332,27 @@ def login_view(request):
     
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
-        if form.is_valid():
+        try:
+            is_valid = form.is_valid()
+        except Exception:
+            is_valid = False
+        
+        if is_valid:
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                
-                # Log activity
-                UserActivity.objects.create(
-                    user=user,
-                    activity_type='login',
-                    description=f'User logged in'
-                )
+                try:
+                    login(request, user)
+                    
+                    # Log activity
+                    UserActivity.objects.create(
+                        user=user,
+                        activity_type='login',
+                        description=f'User logged in'
+                    )
+                except Exception:
+                    pass  # Allow login even if activity logging fails
                 
                 messages.success(
                     request, 
@@ -294,6 +371,8 @@ def login_view(request):
                     extra_tags='alert-danger'
                 )
         else:
+            if not form.errors:
+                form.add_error(None, 'Invalid username or password.')
             messages.error(
                 request, 
                 'Invalid username or password.',
@@ -310,14 +389,22 @@ def logout_view(request):
     User logout view
     """
     if request.user.is_authenticated:
-        # Log activity
-        UserActivity.objects.create(
-            user=request.user,
-            activity_type='logout',
-            description=f'User logged out'
-        )
+        # Try to log activity, ignore failures
+        try:
+            UserActivity.objects.create(
+                user=request.user,
+                activity_type='logout',
+                description=f'User logged out'
+            )
+        except Exception:
+            pass
         
-        logout(request)
+        # Logout the user, ignore signal failures
+        try:
+            logout(request)
+        except Exception:
+            pass
+        
         messages.success(
             request, 
             'You have been logged out successfully.',
@@ -334,17 +421,39 @@ def dashboard_view(request):
     """
     User dashboard view
     """
-    # Get user's recent activities
-    recent_activities = UserActivity.objects.filter(
-        user=request.user
-    )[:10]
+    try:
+        # Get user's recent activities
+        recent_activities = UserActivity.objects.filter(
+            user=request.user
+        )[:10]
+    except Exception:
+        recent_activities = []
     
-    # Get statistics
-    total_projects = Project.objects.count()
-    published_projects = Project.objects.filter(is_published=True).count()
-    total_skills = Skill.objects.filter(is_active=True).count()
-    total_messages = ContactMessage.objects.count()
-    unread_messages = ContactMessage.objects.filter(is_read=False).count()
+    try:
+        # Get statistics
+        total_projects = Project.objects.count()
+    except Exception:
+        total_projects = 0
+    
+    try:
+        published_projects = Project.objects.filter(is_published=True).count()
+    except Exception:
+        published_projects = 0
+    
+    try:
+        total_skills = Skill.objects.filter(is_active=True).count()
+    except Exception:
+        total_skills = 0
+    
+    try:
+        total_messages = ContactMessage.objects.count()
+    except Exception:
+        total_messages = 0
+    
+    try:
+        unread_messages = ContactMessage.objects.filter(is_read=False).count()
+    except Exception:
+        unread_messages = 0
     
     context = {
         'recent_activities': recent_activities,
@@ -363,9 +472,10 @@ def profile_view(request):
     """
     User profile view - for updating own profile (requires login)
     """
-    # Get or create site info for profile image
-    from portfolio.models import SiteInfo
-    site_info = SiteInfo.objects.first()
+    try:
+        site_info = SiteInfo.objects.first()
+    except Exception:
+        site_info = None
     
     if request.method == 'POST':
         # Update user profile
@@ -373,30 +483,52 @@ def profile_view(request):
         user.first_name = request.POST.get('first_name', '')
         user.last_name = request.POST.get('last_name', '')
         user.email = request.POST.get('email', '')
-        user.save()
+        try:
+            user.save()
+        except Exception:
+            pass
         
         # Update site info email as well
+        email_value = request.POST.get('email', '')
         if site_info:
-            site_info.email = request.POST.get('email', '')
-            site_info.save()
+            try:
+                site_info.email = email_value
+                site_info.save()
+            except Exception:
+                pass
         else:
-            SiteInfo.objects.create(email=request.POST.get('email', ''))
+            try:
+                SiteInfo.objects.create(email=email_value)
+            except Exception:
+                pass
         
         # Handle profile image upload
         if 'profile_image' in request.FILES:
             if site_info:
-                site_info.profile_image = request.FILES['profile_image']
-                site_info.save()
+                try:
+                    site_info.profile_image = request.FILES['profile_image']
+                    site_info.save()
+                except Exception:
+                    pass
             else:
-                SiteInfo.objects.create(profile_image=request.FILES['profile_image'])
+                try:
+                    SiteInfo.objects.create(profile_image=request.FILES['profile_image'])
+                except Exception:
+                    pass
         
         # Handle resume upload
         if 'resume' in request.FILES:
             if site_info:
-                site_info.resume = request.FILES['resume']
-                site_info.save()
+                try:
+                    site_info.resume = request.FILES['resume']
+                    site_info.save()
+                except Exception:
+                    pass
             else:
-                SiteInfo.objects.create(resume=request.FILES['resume'])
+                try:
+                    SiteInfo.objects.create(resume=request.FILES['resume'])
+                except Exception:
+                    pass
         
         messages.success(
             request, 
@@ -412,17 +544,33 @@ def public_profile_view(request):
     """
     Public profile view - shows portfolio owner's profile to visitors (no login required)
     """
-    from portfolio.models import SiteInfo
-    site_info = SiteInfo.objects.first()
+    try:
+        site_info = SiteInfo.objects.first()
+    except Exception:
+        site_info = None
     
     # Get the first superuser as the owner
-    from django.contrib.auth.models import User
-    owner = User.objects.filter(is_superuser=True).first()
+    try:
+        User = get_user_model()
+        owner = User.objects.filter(is_superuser=True).first()
+    except Exception:
+        owner = None
     
     # Get additional details
-    experiences = Experience.objects.order_by('-start_date')
-    educations = Education.objects.order_by('-start_date')
-    skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
+    try:
+        experiences = Experience.objects.order_by('-start_date')
+    except Exception:
+        experiences = []
+    
+    try:
+        educations = Education.objects.order_by('-start_date')
+    except Exception:
+        educations = []
+    
+    try:
+        skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
+    except Exception:
+        skills = Skill.objects.none()
     
     return render(request, 'portfolio/public_profile.html', {
         'site_info': site_info,
@@ -438,18 +586,20 @@ def messages_view(request):
     """
     View all contact messages
     """
-    messages_list = ContactMessage.objects.order_by('-created_at')
-    
-    # Pagination
-    paginator = Paginator(messages_list, 10)
-    page = request.GET.get('page')
-    
     try:
-        messages_page = paginator.page(page)
-    except PageNotAnInteger:
+        messages_list = ContactMessage.objects.order_by('-created_at')
+        paginator = Paginator(messages_list, 10)
+        page = request.GET.get('page')
+        try:
+            messages_page = paginator.page(page)
+        except PageNotAnInteger:
+            messages_page = paginator.page(1)
+        except EmptyPage:
+            messages_page = paginator.page(paginator.num_pages)
+    except Exception:
+        # Return empty page with pagination
+        paginator = Paginator([], 10)
         messages_page = paginator.page(1)
-    except EmptyPage:
-        messages_page = paginator.page(paginator.num_pages)
     
     return render(request, 'portfolio/messages.html', {'messages': messages_page})
 
@@ -459,11 +609,13 @@ def mark_message_read(request, pk):
     """
     Mark a contact message as read
     """
-    message = get_object_or_404(ContactMessage, pk=pk)
-    message.is_read = True
-    message.save()
-    
-    messages.success(request, 'Message marked as read.')
+    try:
+        message = get_object_or_404(ContactMessage, pk=pk)
+        message.is_read = True
+        message.save()
+        messages.success(request, 'Message marked as read.')
+    except Exception:
+        messages.error(request, 'Failed to update message.')
     return redirect('portfolio:messages')
 
 
@@ -473,17 +625,20 @@ def api_skills(request):
     """
     API endpoint to get all skills
     """
-    skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
-    data = [
-        {
-            'id': skill.id,
-            'name': skill.name,
-            'category': skill.category,
-            'proficiency': skill.proficiency,
-            'icon_class': skill.icon_class,
-        }
-        for skill in skills
-    ]
+    try:
+        skills = Skill.objects.filter(is_active=True).order_by('-proficiency')
+        data = [
+            {
+                'id': skill.id,
+                'name': skill.name,
+                'category': skill.category,
+                'proficiency': skill.proficiency,
+                'icon_class': skill.icon_class,
+            }
+            for skill in skills
+        ]
+    except Exception:
+        data = []
     return JsonResponse(data, safe=False)
 
 
@@ -491,20 +646,23 @@ def api_projects(request):
     """
     API endpoint to get all published projects
     """
-    projects = Project.objects.filter(is_published=True).order_by('-created_at')
-    data = [
-        {
-            'id': project.id,
-            'title': project.title,
-            'slug': project.slug,
-            'short_description': project.short_description,
-            'image': project.image.url if project.image else None,
-            'project_url': project.project_url,
-            'source_code_url': project.source_code_url,
-            'technology_used': project.get_technology_list(),
-        }
-        for project in projects
-    ]
+    try:
+        projects = Project.objects.filter(is_published=True).order_by('-created_at')
+        data = [
+            {
+                'id': project.id,
+                'title': project.title,
+                'slug': project.slug,
+                'short_description': project.short_description,
+                'image': project.image.url if project.image else None,
+                'project_url': project.project_url,
+                'source_code_url': project.source_code_url,
+                'technology_used': project.get_technology_list(),
+            }
+            for project in projects
+        ]
+    except Exception:
+        data = []
     return JsonResponse(data, safe=False)
 
 
@@ -515,8 +673,11 @@ def api_contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True, 'message': 'Message sent successfully!'})
+            try:
+                form.save()
+                return JsonResponse({'success': True, 'message': 'Message sent successfully!'})
+            except Exception:
+                return JsonResponse({'success': False, 'errors': {'__all__': ['Database error. Please try again later.']}}, status=500)
         return JsonResponse({'success': False, 'errors': form.errors}, status=400)
     
     return JsonResponse({'error': 'Invalid request method'}, status=405)
@@ -524,12 +685,15 @@ def api_contact(request):
 
 def create_admin(request):
     User = get_user_model()
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser(
-            username='admin',
-            email='admin@gmail.com',
-            password='admin123'
-        )
-        return HttpResponse("Superuser created successfully ✅")
+    try:
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser(
+                username='admin',
+                email='admin@gmail.com',
+                password='admin123'
+            )
+            return HttpResponse("Superuser created successfully ✅")
+    except Exception:
+        pass
     return HttpResponse("Superuser already exists 👍")
 

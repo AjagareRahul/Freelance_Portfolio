@@ -89,6 +89,8 @@ TEMPLATES = [
                 'rahulportfolio.context_processors.site_info',
                 'rahulportfolio.context_processors.social_links',
                 'rahulportfolio.context_processors.visitor_count',
+                'rahulportfolio.context_processors.featured_skills',
+                'rahulportfolio.context_processors.recent_projects',
             ],
             'libraries': {
                 'portfolio_tags': 'portfolio.templatetags.portfolio_tags',
@@ -102,25 +104,36 @@ WSGI_APPLICATION = 'rahulportfolio.wsgi.application'
 # =============================================================================
 # Database configuration for production (PostgreSQL on Render)
 # =============================================================================
-# Uses SQLite by default for development, PostgreSQL for production on Render
 import dj_database_url
 
-# Get the DATABASE_URL from environment variable (provided by Render for PostgreSQL)
+# Primary database configuration - supports both PostgreSQL and SQLite
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
-    # PostgreSQL on Render - parse the DATABASE_URL
+    # Production/PostgreSQL - Parse DATABASE_URL (Render, Heroku, etc.)
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
 else:
-    # Fallback to SQLite for local development
+    # Development - SQLite fallback (faster, no external dependency)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    
+    # Alternative: Uncomment below to use PostgreSQL locally without DATABASE_URL
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': 'rahulportfolio',
+    #         'USER': 'postgres',
+    #         'PASSWORD': 'your_password',
+    #         'HOST': 'localhost',
+    #         'PORT': '5432',
+    #     }
+    # }
 
 # =============================================================================
 # Password validation
@@ -170,27 +183,61 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # =============================================================================
-# Cloudinary Configuration (for media file storage)
+# Cloudinary Configuration (for media and static file storage)
 # =============================================================================
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import warnings
 
+# Cloudinary credentials from environment variables
 CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
 CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY', '')
 CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
 
-# Configure Cloudinary
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY:
+# Cloudinary storage configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+    'API_KEY': CLOUDINARY_API_KEY,
+    'API_SECRET': CLOUDINARY_API_SECRET,
+    'SECURE': True,  # Always use HTTPS
+}
+
+# Configure Cloudinary SDK if all credentials are available
+if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
         api_secret=CLOUDINARY_API_SECRET,
+        secure=True
     )
+    # Production: Use Cloudinary CDN for all media files (images, videos, documents)
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    
+    # Optional: Serve static files via Cloudinary CDN (uncomment to enable)
+    # CLOUDINARY_STATICFILES = os.environ.get('CLOUDINARY_STATICFILES', '').lower() == 'true'
+    # if CLOUDINARY_STATICFILES:
+    #     STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+else:
+    # Development fallback: use local filesystem storage
+    if DEBUG:
+        pass  # Local development uses default FileSystemStorage
+    else:
+        # Production without Cloudinary - CRITICAL WARNING
+        warnings.warn(
+            "\n" + "="*70 + "\n"
+            "⚠️  CLOUDINARY NOT CONFIGURED - MEDIA UPLOADS WILL FAIL ⚠️\n"
+            "="*70 + "\n"
+            "Set environment variables:\n"
+            "  CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET\n"
+            "Get credentials from: https://cloudinary.com/console\n"
+            "="*70,
+            RuntimeWarning
+        )
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Media URL configuration (works with Cloudinary)
+MEDIA_URL = '/media/'
+
 
 # =============================================================================
 # Authentication settings

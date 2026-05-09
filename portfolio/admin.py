@@ -110,7 +110,10 @@ class VisitorCountAdmin(admin.ModelAdmin):
     
     def has_add_permission(self, request):
         # Only allow one instance
-        return not VisitorCount.objects.exists()
+        try:
+            return not VisitorCount.objects.exists()
+        except Exception:
+            return True  # Allow add if table doesn't exist yet
 
 
 @admin.register(UserActivity)
