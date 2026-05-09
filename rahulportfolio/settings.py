@@ -17,7 +17,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 # SECRET KEY - Load from environment variable (REQUIRED for production)
 # =============================================================================
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-development-key-change-in-production')
+SECRET_KEY = os.environ.get('SECRET_KEY', '80#u2)2yodb!zptyh-%^ag+)0jfyg$u&_()8#3q%4x8v^i5i4=')
 
 # =============================================================================
 # DEBUG MODE - Production auto-detection
@@ -285,80 +285,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # Clickjacking protection (always enabled)
 X_FRAME_OPTIONS = 'DENY'
-
-# Auto-enable security features in production (when not DEBUG)
-if not DEBUG:
-    # Force HTTPS/SSL in production (Render provides SSL)
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    
-    # HSTS (HTTP Strict Transport Security) - 1 year
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    
-    # Secure cookies in production
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    
-    # Prevent content type sniffing
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    
-    # CSRF trusted origins for Render domain
-    if RENDER_EXTERNAL_HOSTNAME:
-        CSRF_TRUSTED_ORIGINS = [
-            f'https://{RENDER_EXTERNAL_HOSTNAME}',
-            f'http://{RENDER_EXTERNAL_HOSTNAME}'
-        ]
-else:
-    # Development: disable strict security
-    SECURE_SSL_REDIRECT = False
-    SECURE_PROXY_SSL_HEADER = None
-    SECURE_HSTS_SECONDS = 0
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-    SECURE_HSTS_PRELOAD = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-    SECURE_CONTENT_TYPE_NOSNIFF = False
-    CSRF_TRUSTED_ORIGINS = []
-# SECURITY SETTINGS FOR PRODUCTION (Required by check --deploy)
-# =============================================================================
-
-# Only enable security settings in production (when DEBUG=False)
-if not DEBUG:
-    # Force HTTPS/SSL in production
-    SECURE_SSL_REDIRECT = True
-    
-    # HSTS (HTTP Strict Transport Security) - 1 year for production
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    
-    # Secure cookies in production
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    
-    # Prevent content type sniffing in production
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-else:
-    # Force HTTPS/SSL - Disabled for local development
-    SECURE_SSL_REDIRECT = False
-
-    # HSTS (HTTP Strict Transport Security) - Disabled for local development
-    SECURE_HSTS_SECONDS = 0
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-    SECURE_HSTS_PRELOAD = False
-
-    # Secure cookies - Disabled for local development
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-
-    # Prevent content type sniffing - Disabled for local development
-    SECURE_CONTENT_TYPE_NOSNIFF = False
-
-# =============================================================================
-# Security Settings - Production hardened
-# =============================================================================
 
 # Auto-enable security features in production (when not DEBUG)
 if not DEBUG:
