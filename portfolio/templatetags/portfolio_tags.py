@@ -108,6 +108,92 @@ def get_site_version():
     return '2.1.0'
 
 
+@register.filter
+def format_technology(value):
+    """
+    Format comma-separated technology string into Bootstrap badges
+    Usage: {{ project.technology_used|format_technology|safe }}
+    """
+    if not value:
+        return ''
+    
+    technologies = [tech.strip() for tech in str(value).split(',') if tech.strip()]
+    
+    # Technology icon mapping
+    tech_icons = {
+        'python': 'fab fa-python',
+        'django': 'fas fa-code',
+        'javascript': 'fab fa-js',
+        'js': 'fab fa-js',
+        'html': 'fab fa-html5',
+        'css': 'fab fa-css3-alt',
+        'bootstrap': 'fab fa-bootstrap',
+        'react': 'fab fa-react',
+        'vue': 'fab fa-vuejs',
+        'angular': 'fab fa-angular',
+        'node': 'fab fa-node-js',
+        'nodejs': 'fab fa-node-js',
+        'express': 'fas fa-server',
+        'postgresql': 'fas fa-database',
+        'postgres': 'fas fa-database',
+        'mysql': 'fas fa-database',
+        'mongodb': 'fas fa-leaf',
+        'redis': 'fas fa-bolt',
+        'docker': 'fab fa-docker',
+        'kubernetes': 'fab fa-docker',
+        'k8s': 'fab fa-docker',
+        'git': 'fab fa-git-alt',
+        'github': 'fab fa-github',
+        'gitlab': 'fab fa-gitlab',
+        'aws': 'fab fa-aws',
+        'amazon': 'fab fa-aws',
+        'linux': 'fab fa-linux',
+        'nginx': 'fas fa-server',
+        'api': 'fas fa-plug',
+        'rest': 'fas fa-exchange-alt',
+        'graphql': 'fas fa-project-diagram',
+        'jquery': 'fab fa-js',
+        'typescript': 'fab fa-js',
+        'php': 'fab fa-php',
+        'laravel': 'fab fa-laravel',
+        'wordpress': 'fab fa-wordpress',
+        'flutter': 'fas fa-mobile',
+        'android': 'fab fa-android',
+        'ios': 'fab fa-apple',
+        'swift': 'fab fa-swift',
+        'kotlin': 'fab fa-android',
+        'java': 'fab fa-java',
+        'spring': 'fab fa-java',
+        'dotnet': 'fas fa-code',
+        'c#': 'fas fa-code',
+        'c++': 'fas fa-code',
+        'rust': 'fas fa-cogs',
+        'go': 'fas fa-code',
+        'golang': 'fas fa-code',
+        'ruby': 'fab fa-gem',
+        'rails': 'fab fa-gem',
+    }
+    
+    badges = []
+    for tech in technologies:
+        tech_lower = tech.lower().replace(' ', '').replace('-', '').replace('.', '')
+        icon_class = None
+        
+        # Find matching icon
+        for key, icon in tech_icons.items():
+            if key in tech_lower or tech_lower in key:
+                icon_class = icon
+                break
+        
+        # Default icon if no match
+        if not icon_class:
+            icon_class = 'fas fa-code'
+        
+        badges.append(f'<span class="badge bg-primary me-1 mb-1" title="{tech}"><i class="{icon_class} me-1"></i>{tech}</span>')
+    
+    return '\n'.join(badges)
+
+
 @register.simple_tag
 def get_current_year():
     """
