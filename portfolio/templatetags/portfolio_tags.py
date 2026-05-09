@@ -109,6 +109,92 @@ def get_site_version():
 
 
 @register.filter
+def star_rating(rating):
+    """
+    Convert a numeric rating (1-5) into HTML star icons.
+    Filled stars use fas fa-star, empty stars use far fa-star.
+    Usage: {{ testimonial.rating|star_rating|safe }}
+    """
+    try:
+        rating = int(rating)
+    except (ValueError, TypeError):
+        rating = 0
+
+    if rating < 1:
+        rating = 0
+    if rating > 5:
+        rating = 5
+
+    stars = ''
+    for i in range(1, 6):
+        if i <= rating:
+            stars += '<i class="fas fa-star text-warning"></i>'
+        else:
+            stars += '<i class="far fa-star text-warning"></i>'
+    return stars
+
+
+@register.filter
+def time_ago(value):
+    """
+    Convert a datetime to a human-readable relative time string.
+    Usage: {{ post.published_at|time_ago }}
+    """
+    from datetime import datetime
+    from django.utils import timezone
+
+    if not value:
+        return ''
+
+    try:
+        if isinstance(value, str):
+            value = datetime.fromisoformat(value.replace('Z', '+00:00'))
+
+        now = timezone.now()
+        if value.tzinfo is None:
+            value = timezone.make_aware(value)
+
+        diff = now - value
+        total_seconds = int(diff.total_seconds())
+
+        if total_seconds < 0:
+            return 'just now'
+        elif total_seconds < 60:
+            return 'just now'
+        elif total_seconds < 3600:
+            minutes = total_seconds // 60
+            return f'{minutes} minute{"s" if minutes > 1 else ""} ago'
+        elif total_seconds < 86400:
+            hours = total_seconds // 3600
+            return f'{hours} hour{"s" if hours > 1 else ""} ago'
+        elif total_seconds < 604800:
+            days = total_seconds // 86400
+            return f'{days} day{"s" if days > 1 else ""} ago'
+        elif total_seconds < 2592000:
+            weeks = total_seconds // 604800
+            return f'{weeks} week{"s" if weeks > 1 else ""} ago'
+        elif total_seconds < 31536000:
+            months = total_seconds // 2592000
+            return f'{months} month{"s" if months > 1 else ""} ago'
+        else:
+            years = total_seconds // 31536000
+            return f'{years} year{"s" if years > 1 else ""} ago'
+    except Exception:
+        return str(value)
+
+
+@register.filter
+def split_by_comma(value):
+    """
+    Split a comma-separated string into a list for iteration.
+    Usage: {% for tag in post.tags|split_by_comma %}
+    """
+    if not value:
+        return []
+    return [item.strip() for item in str(value).split(',') if item.strip()]
+
+
+@register.filter
 def format_technology(value):
     """
     Format comma-separated technology string into Bootstrap badges
