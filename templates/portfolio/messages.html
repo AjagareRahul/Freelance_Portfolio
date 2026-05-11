@@ -4,92 +4,276 @@
 
 {% block title %}Messages - Ajagare Rahul{% endblock %}
 
+{% block extra_css %}
+<style>
+    .page-header {
+        padding-top: 140px;
+        padding-bottom: 80px;
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338bdf8' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .page-header h1 {
+        color: #fff;
+        font-weight: 800;
+        font-size: 3rem;
+    }
+
+    .messages-card {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .messages-table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #e2e8f0;
+        --bs-table-border-color: rgba(255, 255, 255, 0.05);
+        --bs-table-accent-bg: rgba(56, 189, 248, 0.05);
+        --bs-table-hover-bg: rgba(56, 189, 248, 0.08);
+        margin-bottom: 0;
+    }
+
+    .messages-table thead th {
+        color: #94a3b8;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 1.25rem;
+    }
+
+    .messages-table td {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        vertical-align: middle;
+        padding: 1rem 1.25rem;
+    }
+
+    .messages-table tbody tr {
+        transition: background 0.2s ease;
+    }
+
+    .messages-table tbody tr:hover {
+        background: rgba(56, 189, 248, 0.04);
+    }
+
+    .btn-modal-action {
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(14, 165, 233, 0.2));
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        color: #38bdf8;
+        font-weight: 600;
+        padding: 0.4rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-modal-action:hover {
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(14, 165, 233, 0.3));
+        border-color: #38bdf8;
+        color: #fff;
+    }
+
+    .modal-content-glass {
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        color: #e2e8f0;
+    }
+
+    .modal-header {
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-header .btn-close {
+        filter: brightness(0) invert(1);
+        opacity: 0.6;
+    }
+
+    .modal-header .btn-close:hover {
+        opacity: 1;
+    }
+
+    .pagination .page-link {
+        color: #94a3b8;
+        border-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 4px;
+        background: rgba(30, 41, 59, 0.5);
+        transition: all 0.3s ease;
+    }
+
+    .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+        border-color: #38bdf8;
+        color: #020617;
+        font-weight: 700;
+    }
+
+    .pagination .page-link:hover {
+        background: rgba(56, 189, 248, 0.15);
+        border-color: rgba(56, 189, 248, 0.3);
+        color: #38bdf8;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="py-5">
-    <div class="container py-5">
-        <h2 class="mb-4">Contact Messages</h2>
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                {% if messages %}
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Subject</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+<!-- Page Header -->
+<section class="page-header relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 20% 80%, rgba(56, 189, 248, 0.15) 0%, transparent 50%);"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <h1 class="text-5xl font-bold mb-4 text-white text-center" data-aos="fade-up">Contact Messages</h1>
+        <nav aria-label="breadcrumb" class="mt-6 flex justify-center">
+            <ol class="breadcrumb breadcrumb-dark inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'portfolio:home' %}" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">
+                        <i class="fas fa-home me-1"></i>Home
+                    </a>
+                </li>
+                <li class="text-slate-500 text-sm">/</li>
+                <li class="breadcrumb-item active text-cyan-400 text-sm">Messages</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Messages Section -->
+<section class="py-24 bg-dark-950 relative">
+    <div class="container mx-auto px-4">
+        <div class="messages-card overflow-hidden" data-aos="fade-up">
+            <div class="overflow-x-auto">
+                <table class="table table-dark-custom messages-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if messages %}
                             {% for message in messages %}
                             <tr class="{% if not message.is_read %}table-warning{% endif %}">
-                                <td>{{ message.name }}</td>
-                                <td>{{ message.email }}</td>
-                                <td>{{ message.subject }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                                            {{ message.name|first }}
+                                        </div>
+                                        <span class="font-medium">{{ message.name }}</span>
+                                    </div>
+                                </td>
+                                <td class="text-slate-400">{{ message.email }}</td>
+                                <td class="text-white font-medium">{{ message.subject }}</td>
                                 <td>
                                     {% if message.is_read %}
-                                    <span class="badge bg-success">Read</span>
+                                    <span class="badge bg-success/10 text-success border border-success/20">Read</span>
                                     {% else %}
-                                    <span class="badge bg-warning text-dark">Unread</span>
+                                    <span class="badge bg-warning/10 text-warning border border-warning/20">Unread</span>
                                     {% endif %}
                                 </td>
-                                <td><small>{{ message.created_at|time_ago }}</small></td>
+                                <td><small class="text-slate-500">{{ message.created_at|time_ago }}</small></td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#messageModal{{ message.id }}">
-                                        <i class="fas fa-eye"></i>
+                                    <button class="btn-modal-action" data-bs-toggle="modal" data-bs-target="#messageModal{{ message.id }}">
+                                        <i class="fas fa-eye me-1"></i>View
                                     </button>
                                 </td>
                             </tr>
-                            
-                            <!-- Modal -->
+
+                            <!-- Message Modal -->
                             <div class="modal fade" id="messageModal{{ message.id }}" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content modal-content-glass">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">{{ message.subject }}</h5>
+                                            <h5 class="modal-title text-white">{{ message.subject }}</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>From:</strong> {{ message.name }} ({{ message.email }})</p>
-                                            {% if message.phone %}<p><strong>Phone:</strong> {{ message.phone }}</p>{% endif %}
-                                            <hr>
-                                            <p>{{ message.message }}</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            {% if not message.is_read %}
-                                            <a href="{% url 'portfolio:mark_message_read' message.id %}" class="btn btn-success">Mark as Read</a>
+                                            <div class="d-flex align-items-center gap-2 mb-3">
+                                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                                                    {{ message.name|first }}
+                                                </div>
+                                                <div>
+                                                    <h6 class="text-white mb-0">{{ message.name }}</h6>
+                                                    <small class="text-slate-500">{{ message.email }}</small>
+                                                </div>
+                                            </div>
+                                            {% if message.phone %}
+                                            <p class="text-slate-300 mb-2">
+                                                <i class="fas fa-phone me-2 text-cyan-400"></i>{{ message.phone }}
+                                            </p>
                                             {% endif %}
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <hr class="border-white/10">
+                                            <p class="text-slate-300 mt-3">{{ message.message }}</p>
+                                        </div>
+                                        <div class="modal-footer border-top border-white/10">
+                                            {% if not message.is_read %}
+                                            <a href="{% url 'portfolio:mark_message_read' message.id %}" class="btn btn-sm btn-outline-light">
+                                                <i class="fas fa-check me-1"></i>Mark as Read
+                                            </a>
+                                            {% endif %}
+                                            <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- Pagination -->
-                {% if messages.has_other_pages %}
-                <nav class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        {% if messages.has_previous %}
-                        <li class="page-item"><a class="page-link" href="?page={{ messages.previous_page_number }}">Previous</a></li>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-8">
+                                <i class="fas fa-inbox fa-3x text-slate-600 mb-3 d-block"></i>
+                                <h4 class="text-slate-400">No messages yet</h4>
+                            </td>
+                        </tr>
                         {% endif %}
-                        <li class="page-item active"><span class="page-link">{{ messages.number }} of {{ messages.paginator.num_pages }}</span></li>
-                        {% if messages.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{ messages.next_page_number }}">Next</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-                {% endif %}
-                {% else %}
-                <p class="text-muted text-center py-5">No messages yet.</p>
-                {% endif %}
+                    </tbody>
+                </table>
             </div>
+
+            <!-- Pagination -->
+            {% if messages.has_other_pages %}
+            <nav class="mt-4 flex justify-center" aria-label="Messages pagination">
+                <ul class="pagination inline-flex items-center gap-1">
+                    {% if messages.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ messages.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="page-item active"><span class="page-link">{{ messages.number }} / {{ messages.paginator.num_pages }}</span></li>
+                    {% if messages.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ messages.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
         </div>
     </div>
 </section>

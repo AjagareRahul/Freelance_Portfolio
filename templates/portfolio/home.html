@@ -2,20 +2,22 @@
 {% load static %}
 {% load portfolio_tags %}
 
-{% block title %}Ajagare Rahul - Python & Django Developer | Home{% endblock %}
+{% block title %}{{ name|default:"Ajagare Rahul" }} - Python & Django Developer | Home{% endblock %}
 {% block meta_description %}Professional Python & Django Developer portfolio showcasing web development projects, skills, and services.{% endblock %}
 
 {% block extra_css %}
 <style>
+    /* Animated gradient background for hero */
     .hero-section {
         min-height: 100vh;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         display: flex;
         align-items: center;
         position: relative;
         overflow: hidden;
+        background: linear-gradient(135deg, #020617 0%, #0f172a 30%, #1e1b4b 60%, #020617 100%);
     }
-    
+
+    /* Animated gradient orbs */
     .hero-section::before {
         content: '';
         position: absolute;
@@ -23,12 +25,15 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: 
-            radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.05) 0%, transparent 30%);
+        background:
+            radial-gradient(ellipse 600px 600px at 15% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+            radial-gradient(ellipse 500px 500px at 85% 15%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+            radial-gradient(ellipse 400px 400px at 50% 50%, rgba(236, 72, 153, 0.04) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: 0;
     }
-    
+
+    /* Floating particles overlay */
     .hero-section::after {
         content: '';
         position: absolute;
@@ -36,283 +41,335 @@
         left: -50%;
         width: 200%;
         height: 200%;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338bdf8' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         animation: float 60s linear infinite;
+        pointer-events: none;
+        z-index: 0;
     }
-    
+
     @keyframes float {
         0% { transform: translateY(0) rotate(0deg); }
         100% { transform: translateY(-50%) rotate(5deg); }
     }
-    
+
     .hero-content {
         position: relative;
         z-index: 1;
     }
-    
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 1rem;
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        border-radius: 50px;
+        color: #38bdf8;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .hero-badge .dot {
+        width: 8px;
+        height: 8px;
+        background: #38bdf8;
+        border-radius: 50%;
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+        50% { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+    }
+
     .hero-title {
-        font-size: 3.5rem;
-        font-weight: 700;
+        font-size: 4rem;
+        font-weight: 800;
         margin-bottom: 1rem;
-        animation: fadeInUp 0.8s ease-out;
+        line-height: 1.1;
+        letter-spacing: -2px;
     }
-    
+
+    .hero-title .gradient-text {
+        background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% 200%;
+        animation: gradientMove 4s ease infinite;
+    }
+
+    @keyframes gradientMove {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
     .hero-subtitle {
-        font-size: 1.5rem;
-        color: #6c757d;
-        margin-bottom: 2rem;
-        animation: fadeInUp 0.8s ease-out 0.2s both;
+        font-size: 1.4rem;
+        color: #94a3b8;
+        margin-bottom: 1.5rem;
+        font-weight: 400;
+        line-height: 1.6;
     }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
+
     .typing-text {
-        color: #ffc107;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-weight: 600;
+        position: relative;
     }
-    
+
     .typing-text::after {
         content: '|';
         animation: blink 1s step-end infinite;
+        color: #38bdf8;
+        font-weight: 100;
     }
-    
+
     @keyframes blink {
         50% { opacity: 0; }
     }
-    
-    .feature-box {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    .hero-description {
+        font-size: 1.1rem;
+        color: #64748b;
+        max-width: 600px;
+        margin-bottom: 2rem;
+        line-height: 1.8;
     }
-    
-    .feature-box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    
-    .section-title {
+
+    /* Glassmorphism buttons */
+    .btn-hero-primary {
+        background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+        color: #020617;
+        font-weight: 700;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        border: none;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
-        display: inline-block;
-        margin-bottom: 3rem;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
     }
-    
-    .section-title::after {
+
+    .btn-hero-primary::before {
         content: '';
         position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 60px;
-        height: 4px;
-        background: #ffc107;
-    }
-    
-    .project-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    
-    .project-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    }
-    
-    .project-card .card-img-top {
-        transition: transform 0.5s ease;
-    }
-    
-    .project-card:hover .card-img-top {
-        transform: scale(1.1);
-    }
-    
-    .skill-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-    }
-    
-    .skill-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    }
-    
-    .skill-card i {
-        transition: all 0.4s ease;
-    }
-    
-    .skill-card:hover i {
-        transform: scale(1.2) rotate(360deg);
-        color: #ffc107;
-    }
-    
-    .service-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-    }
-    
-    .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    }
-    
-    .service-icon {
-        transition: all 0.4s ease;
-    }
-    
-    .service-card:hover .service-icon {
-        transform: rotate(360deg) scale(1.1);
-    }
-    
-    .progress-bar {
-        transition: width 1.5s ease;
-    }
-    
-    .testimonial-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-    }
-    
-    .testimonial-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    }
-    
-    .profile-image-container {
-        position: relative;
-        width: 300px;
-        height: 300px;
-    }
-    
-    .profile-image-container img {
+        top: 0;
+        left: -100%;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 5px solid #ffc107;
-        transition: all 0.4s ease;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
     }
-    
-    .profile-image-container::before {
+
+    .btn-hero-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+        color: #020617;
+    }
+
+    .btn-hero-primary:hover::before {
+        left: 100%;
+    }
+
+    .btn-hero-secondary {
+        background: transparent;
+        color: #e2e8f0;
+        font-weight: 600;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-hero-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(56, 189, 248, 0.4);
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-hero-glass {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e2e8f0;
+        font-weight: 600;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-hero-glass:hover {
+        background: rgba(56, 189, 248, 0.15);
+        border-color: rgba(56, 189, 248, 0.4);
+        color: #38bdf8;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
+    }
+
+    /* Social buttons in hero */
+    .hero-social-btn {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        color: #fff;
+        font-size: 1rem;
+        text-decoration: none;
+        backdrop-filter: blur(10px);
+    }
+
+    .hero-social-btn:hover {
+        background: rgba(56, 189, 248, 0.2);
+        border-color: rgba(56, 189, 248, 0.5);
+        color: #38bdf8;
+        transform: translateY(-5px) rotate(10deg);
+        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+    }
+
+    /* Profile image styles */
+    .hero-image-container {
+        position: relative;
+        width: 340px;
+        height: 340px;
+        margin: 0 auto;
+    }
+
+    .hero-image-container::before {
         content: '';
         position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        background: linear-gradient(135deg, #ffc107, #00d4ff);
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc, #38bdf8);
         border-radius: 50%;
         z-index: -1;
-        animation: rotate 4s linear infinite;
-        opacity: 0.5;
+        animation: rotate 6s linear infinite;
+        opacity: 0.4;
+        filter: blur(20px);
     }
-    
+
     @keyframes rotate {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-    
-    .profile-image-container img {
-        transition: all 0.4s ease;
+
+    .hero-image-container::after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        background: linear-gradient(135deg, #38bdf8, #818cf8);
+        border-radius: 50%;
+        z-index: -1;
     }
-    
-    .profile-image-container:hover img {
+
+    .hero-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid rgba(56, 189, 248, 0.6);
+        transition: all 0.5s ease;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-image-container:hover img {
         transform: scale(1.05);
-        box-shadow: 0 0 40px rgba(255, 193, 7, 0.5);
+        box-shadow: 0 0 50px rgba(56, 189, 248, 0.4);
     }
-    
-    .profile-placeholder {
+
+    .hero-image-placeholder {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 5px solid #ffc107;
+        border: 4px solid rgba(56, 189, 248, 0.5);
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(10px);
     }
-    
-    .profile-placeholder i {
-        font-size: 7rem;
+
+    /* Scroll indicator */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1.5rem;
     }
-    
-    .btn {
-        transition: all 0.3s ease;
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-10px); }
+        60% { transform: translateX(-50%) translateY(-5px); }
     }
-    
-    .btn:hover {
-        transform: translateY(-3px);
+
+    /* Particles container */
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
     }
-    
-    .btn-warning:hover {
-        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(56, 189, 248, 0.5);
+        border-radius: 50%;
+        animation: float-particle 15s infinite linear;
     }
-    
-    .btn-outline-light:hover {
-        background: #ffc107;
-        border-color: #ffc107;
-        color: #1a1a2e;
+
+    @keyframes float-particle {
+        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-10px) rotate(720deg); opacity: 0; }
     }
-    
-    .social-btn {
-        transition: all 0.3s ease;
-    }
-    
-    .social-btn:hover {
-        transform: translateY(-5px) rotate(360deg);
-        box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
-    }
-    
+
     @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2rem;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.1rem;
-        }
-        
-        .profile-image-container {
-            width: 200px;
-            height: 200px;
-        }
-        
-        .profile-placeholder i {
-            font-size: 5rem !important;
-        }
-        
-        .hero-content .btn-lg {
-            padding: 0.6rem 1rem;
-            font-size: 0.9rem;
-        }
-        
-        .hero-content .btn-sm {
-            width: 35px;
-            height: 35px;
-            padding: 0;
-            font-size: 0.8rem;
-        }
-        
-        .profile-image-container::before {
-            display: none;
-        }
+        .hero-title { font-size: 2.5rem; letter-spacing: -1px; }
+        .hero-subtitle { font-size: 1.15rem; }
+        .hero-image-container { width: 240px; height: 240px; }
+        .hero-description { font-size: 1rem; }
     }
-    
-    @media (min-width: 769px) and (max-width: 1200px) {
-        .hero-title {
-            font-size: 3rem;
-        }
-        
-        .profile-image-container {
-            width: 250px;
-            height: 250px;
-        }
+
+    @media (max-width: 480px) {
+        .hero-title { font-size: 2rem; }
+        .hero-subtitle { font-size: 1rem; }
+        .hero-image-container { width: 200px; height: 200px; }
     }
 </style>
 {% endblock %}
@@ -320,225 +377,239 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero-section">
-    <div class="container hero-content">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <span class="text-warning mb-3 d-block" data-aos="fade-up">Hello, I'm</span>
-                <h1 class="hero-title text-white mb-3" data-aos="fade-up" data-aos-delay="100">
-                    Ajagare Rahul
+    <!-- Animated particles -->
+    <div class="particles" aria-hidden="true">
+        <div class="particle" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 25%; animation-duration: 18s; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-duration: 14s; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 55%; animation-duration: 20s; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 70%; animation-duration: 16s; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 85%; animation-duration: 22s; animation-delay: 5s;"></div>
+    </div>
+
+    <div class="container mx-auto px-4 hero-content">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+            <!-- Left side: Text content -->
+            <div class="lg:w-1/2 text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    Available for work
+                </div>
+                
+                <h1 class="hero-title text-white mb-4">
+                    Hi, I'm <span class="gradient-text">{{ name|default:"Ajagare Rahul" }}</span>
                 </h1>
-                <h2 class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                    <span class="typing-text">Python & Django Developer</span>
+                
+                <h2 class="hero-subtitle">
+                    <span class="typing-text">{{ profession|default:"Python & Django Developer" }}</span>
                 </h2>
-                <p class="text-white-50 mb-4" data-aos="fade-up" data-aos-delay="300">
-                    I build modern, scalable, and user-friendly web applications using Python and Django. 
-                    With expertise in full-stack development, I transform ideas into reality.
+                
+                <p class="hero-description">
+                    {{ description|default:"I build modern, scalable, and user-friendly web applications using Python and Django. With expertise in full-stack development, I transform ideas into reality." }}
                 </p>
-                <div data-aos="fade-up" data-aos-delay="400" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                    <a href="{% url 'portfolio:projects' %}" class="btn btn-warning btn-lg">
+                
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-6" data-aos="fade-up" data-aos-delay="300">
+                    <a href="{% url 'portfolio:projects' %}" class="btn-hero-primary">
                         <i class="fas fa-briefcase me-2"></i>View Projects
                     </a>
-                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-light btn-lg">
+                    <a href="{% url 'portfolio:contact' %}" class="btn-hero-secondary">
                         <i class="fas fa-envelope me-2"></i>Contact Me
                     </a>
                     {% if site_info and site_info.resume %}
-                    <a href="{{ site_info.resume.url }}" class="btn btn-success btn-lg" target="_blank">
+                    <a href="{{ site_info.resume.url }}" class="btn-hero-glass" target="_blank">
                         <i class="fas fa-download me-2"></i>Download CV
                     </a>
                     {% endif %}
                 </div>
-                <!-- Social Links -->
-                <div class="mt-4" data-aos="fade-up" data-aos-delay="500" style="display: flex; flex-wrap: wrap; gap: 10px;">
+
+                <!-- Social links -->
+                <div class="flex flex-wrap gap-3 justify-center lg:justify-start mt-6" data-aos="fade-up" data-aos-delay="500">
                     {% if social_links %}
-                        {% for link in social_links|slice:":4" %}
-                            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
+                        {% for link in social_links|slice:":6" %}
+                            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="hero-social-btn" title="{{ link.platform }}">
                                 <i class="{% get_social_icon link.platform %}"></i>
                             </a>
                         {% endfor %}
                     {% else %}
-                        <a href="https://github.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
+                        <a href="https://github.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="hero-social-btn" title="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
-                            <i class="fab fa-linkedin"></i>
+                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" rel="noopener noreferrer" class="hero-social-btn" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="https://x.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
+                        <a href="https://x.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="hero-social-btn" title="X">
                             <i class="fab fa-x-twitter"></i>
                         </a>
-                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
+                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" rel="noopener noreferrer" class="hero-social-btn" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     {% endif %}
                 </div>
             </div>
-            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="300">
-                <div class="d-flex justify-content-center">
-                    <div class="profile-image-container">
-                        {% if site_info and site_info.profile_image %}
-                        <a href="{% url 'portfolio:profile' %}">
-                        <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="rounded-circle">
-                        </a>
-                        {% else %}
-                        <a href="{% url 'portfolio:profile' %}">
-                        <div class="profile-placeholder">
-                            <i class="fas fa-user fa-7x text-warning"></i>
-                        </div>
-                        </a>
-                        {% endif %}
+            
+            <!-- Right side: Hero image -->
+            <div class="lg:w-1/2 flex justify-center" data-aos="fade-left" data-aos-duration="1000">
+                <div class="hero-image-container">
+                    {% if site_info and site_info.profile_image %}
+                    <img src="{{ site_info.profile_image.url }}" 
+                         alt="{{ name|default:'Ajagare Rahul' }}" 
+                         loading="eager">
+                    {% else %}
+                    <div class="hero-image-placeholder">
+                        <i class="fas fa-user fa-7x text-cyan-400/30"></i>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-down"></i>
+    </div>
 </section>
 
-<!-- Skills Section -->
-<section class="py-5 bg-light">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">My Skills</h2>
-        <div class="row g-4">
-            {% if backend_skills %}
-                {% for skill in backend_skills|slice:":4" %}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="{% get_skill_icon skill.name %} fa-3x text-primary mb-3"></i>
-                            <h5>{{ skill.name }}</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ skill.proficiency }}%">
-                                    {{ skill.proficiency }}%
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- Featured Skills Section -->
+<section class="py-20 bg-dark-900 relative">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="section-heading text-3xl font-bold mb-4">
+                <span class="gradient-text">{{ featured_skills|length|default:0 }} Core Skills</span>
+            </h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">Technologies I specialize in, refined through years of professional experience</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {% if featured_skills %}
+                {% for skill in featured_skills %}
+                <div class="glass-card p-4 text-center cursor-default group" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <i class="{% get_skill_icon skill.name %} fa-2x mb-3 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300"></i>
+                    <h6 class="text-sm font-semibold text-white">{{ skill.name }}</h6>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fab fa-python fa-3x text-primary mb-3"></i>
-                            <h5>Python</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 95%">95%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fas fa-code fa-3x text-success mb-3"></i>
-                            <h5>Django</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 90%">90%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fab fa-js fa-3x text-warning mb-3"></i>
-                            <h5>JavaScript</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 85%">85%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fas fa-database fa-3x text-info mb-3"></i>
-                            <h5>SQL</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 80%">80%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="glass-card p-4 text-center"><i class="fab fa-python fa-2x mb-3 text-cyan-400"></i><h6 class="text-sm font-semibold text-white">Python</h6></div>
+                <div class="glass-card p-4 text-center"><i class="fas fa-code fa-2x mb-3 text-cyan-400"></i><h6 class="text-sm font-semibold text-white">Django</h6></div>
+                <div class="glass-card p-4 text-center"><i class="fab fa-js fa-2x mb-3 text-cyan-400"></i><h6 class="text-sm font-semibold text-white">JavaScript</h6></div>
+                <div class="glass-card p-4 text-center"><i class="fas fa-database fa-2x mb-3 text-cyan-400"></i><h6 class="text-sm font-semibold text-white">SQL</h6></div>
+                <div class="glass-card p-4 text-center"><i class="fab fa-react fa-2x mb-3 text-cyan-400"></i><h6 class="text-sm font-semibold text-white">React</h6></div>
+                <div class="glass-card p-4 text-center"><i class="fab fa-git-alt fa-2x mb-3 text-cyan-400"></i><h6 class="text-sm font-semibold text-white">Git</h6></div>
             {% endif %}
-        </div>
-        <div class="text-center mt-4">
-            <a href="{% url 'portfolio:skills' %}" class="btn btn-outline-dark">View All Skills</a>
         </div>
     </div>
 </section>
 
 <!-- Featured Projects Section -->
-<section class="py-5">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
-        <div class="row g-4">
+<section class="py-20 bg-dark-950 relative">
+    <!-- Background decoration -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 -left-1/4 w-96 h-96 bg-cyan-400/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="section-heading text-4xl font-bold mb-4 text-white">
+                Featured Projects
+            </h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">A selection of projects that showcase my expertise in building modern web applications</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% if featured_projects %}
                 {% for project in featured_projects %}
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="card project-card h-100 border-0 shadow-sm">
-                        {% if project.image %}
-                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
-                        {% else %}
-                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
-                            <i class="fas fa-project-diagram fa-4x text-white"></i>
-                        </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ project.title }}</h5>
-                            <p class="card-text text-muted">{{ project.short_description }}</p>
-                            <div class="mb-3">
-                                {% for tech in project.get_technology_list %}
-                                    <span class="badge bg-primary me-1 mb-1">{{ tech }}</span>
-                                {% endfor %}
+                <div class="project-card glass-card overflow-hidden group" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}150">
+                    {% if project.image %}
+                    <div class="relative overflow-hidden h-48">
+                        <img src="{{ project.image.url }}" 
+                             alt="{{ project.title }}" 
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-dark-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm bg-cyan-500/90 hover:bg-cyan-400 text-white font-semibold rounded-full px-4 py-1.5 transition-all">
+                                    <i class="fas fa-eye me-1"></i>View Details
+                                </a>
                             </div>
-                            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="h-48 bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center">
+                        <i class="fas fa-project-diagram fa-3x text-cyan-400/30"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-5">
+                        {% if project.featured %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-400/10 text-cyan-400 border border-cyan-400/20 mb-3">
+                            <i class="fas fa-star me-1"></i> Featured
+                        </span>
+                        {% endif %}
+                        <h5 class="text-lg font-bold text-white mb-2 transition-colors group-hover:text-cyan-400">{{ project.title }}</h5>
+                        <p class="text-slate-400 text-sm mb-3 line-clamp-2">{{ project.short_description }}</p>
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            {% for tech in project.get_technology_list %}
+                                <span class="px-2 py-0.5 bg-white/5 text-cyan-300/80 rounded text-xs font-medium border border-white/5">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="{% url 'portfolio:project_detail' project.slug %}" class="text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
+                                View Details →
+                            </a>
+                            {% if project.project_url %}
+                            <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-400 hover:text-white transition-colors">
+                                Live Demo
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
-                    <h4>No projects yet</h4>
-                    <p class="text-muted">Projects will be displayed here once added.</p>
+                <div class="col-span-full text-center py-20">
+                    <i class="fas fa-folder-open fa-4x text-slate-600 mb-6"></i>
+                    <h4 class="text-xl font-semibold text-slate-400 mb-2">No projects yet</h4>
+                    <p class="text-slate-500">Projects will be displayed here once added.</p>
                 </div>
             {% endif %}
         </div>
-        <div class="text-center mt-4">
-            <a href="{% url 'portfolio:projects' %}" class="btn btn-warning">View All Projects</a>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'portfolio:projects' %}" class="inline-flex items-center gap-2 px-8 py-3 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-full font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10">
+                View All Projects <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </div>
 </section>
 
 <!-- Testimonials Section -->
 {% if testimonials %}
-<section class="py-5">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">Testimonials</h2>
-        <div class="row g-4">
+<section class="py-20 bg-dark-900 relative">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="section-heading text-4xl font-bold mb-4 text-white">What Clients Say</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">Testimonials from satisfied clients I've had the pleasure of working with</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for testimonial in testimonials %}
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                <div class="card h-100 border-0 shadow-sm testimonial-card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            {{ testimonial.rating|star_rating|safe }}
-                        </div>
-                        <p class="card-text">"{{ testimonial.testimonial }}"</p>
-                        <hr>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                {% if testimonial.client_image %}
-                                <img src="{{ testimonial.client_image.url }}" alt="{{ testimonial.client_name }}" class="rounded-circle" width="50" height="50">
-                                {% else %}
-                                <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-user text-dark"></i>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0">{{ testimonial.client_name }}</h6>
-                                <small class="text-muted">{{ testimonial.client_title }}{% if testimonial.client_company %}, {{ testimonial.client_company }}{% endif %}</small>
-                            </div>
-                        </div>
+            <div class="glass-card p-6 group hover:-translate-y-2 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                <div class="flex items-center gap-1 mb-4">
+                    {{ testimonial.rating|star_rating|safe }}
+                </div>
+                <p class="text-slate-300 italic mb-5 leading-relaxed">"{{ testimonial.testimonial }}"</p>
+                <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+                    {% if testimonial.client_image %}
+                    <img src="{{ testimonial.client_image.url }}" 
+                         alt="{{ testimonial.client_name }}" 
+                         class="w-10 h-10 rounded-full object-cover">
+                    {% else %}
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white font-semibold">
+                        {{ testimonial.client_name|first }}
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h6 class="text-sm font-semibold text-white">{{ testimonial.client_name }}</h6>
+                        <p class="text-xs text-slate-500">{{ testimonial.client_title }}{% if testimonial.client_company %}, {{ testimonial.client_company }}{% endif %}</p>
                     </div>
                 </div>
             </div>
@@ -549,15 +620,18 @@
 {% endif %}
 
 <!-- Call to Action -->
-<section class="py-5 bg-warning">
-    <div class="container py-4 text-center">
-        <h2 class="text-dark mb-3" data-aos="fade-up">Let's Work Together!</h2>
-        <p class="text-dark mb-4" data-aos="fade-up" data-aos-delay="100">
-            Have a project in mind? I'd love to hear about it.
+<section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-blue-500/10"></div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" data-aos="fade-up">Let's Work Together!</h2>
+        <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="100">
+            Have a project in mind? I'd love to hear about it. Let's create something amazing.
         </p>
-        <a href="{% url 'portfolio:contact' %}" class="btn btn-dark btn-lg" data-aos="fade-up" data-aos-delay="200">
-            <i class="fas fa-envelope me-2"></i>Get In Touch
-        </a>
+        <div data-aos="fade-up" data-aos-delay="200">
+            <a href="{% url 'portfolio:contact' %}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-1">
+                <i class="fas fa-envelope me-2"></i>Get In Touch
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}
@@ -566,9 +640,10 @@
 <script>
     // Initialize AOS
     AOS.init({
-        duration: 800,
+        duration: 1000,
         once: true,
-        offset: 100
+        offset: 80,
+        easing: 'ease-out-cubic'
     });
     
     // Progress bar animation on scroll
@@ -587,4 +662,3 @@
     window.addEventListener('load', animateProgress);
 </script>
 {% endblock %}
-

@@ -2,145 +2,266 @@
 {% load static %}
 {% load portfolio_tags %}
 
-{% block title %}Projects - Ajagare Rahul{% endblock %}
+{% block title %}Projects - {{ name|default:"Ajagare Rahul" }}{% endblock %}
 {% block meta_description %}View my portfolio of web development projects built with Python, Django, and modern technologies.{% endblock %}
 
 {% block extra_css %}
 <style>
+    .page-header {
+        padding-top: 140px;
+        padding-bottom: 80px;
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338bdf8' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .page-header h1 {
+        color: #fff;
+        font-weight: 800;
+        font-size: 3rem;
+    }
+
     .project-card {
         border-radius: 20px;
         overflow: hidden;
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
-    
+
     .project-card:hover {
-        transform: translateY(-15px);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        border-color: rgba(56, 189, 248, 0.2);
     }
-    
+
     .project-card .card-img-top {
-        height: 220px;
+        height: 200px;
         object-fit: cover;
-        transition: all 0.5s ease;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     .project-card:hover .card-img-top {
         transform: scale(1.1);
     }
-    
+
     .project-card .card-body {
         padding: 1.5rem;
+        flex-grow-1;
+        display: flex;
+        flex-direction: column;
     }
-    
+
     .project-card .card-title {
         font-weight: 700;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         margin-bottom: 0.5rem;
+        color: #e2e8f0;
+        transition: color 0.3s ease;
     }
-    
+
+    .project-card:hover .card-title {
+        color: #38bdf8;
+    }
+
     .project-card .card-text {
-        color: var(--text-light);
-        font-size: 0.95rem;
+        color: #94a3b8;
+        font-size: 0.9rem;
         line-height: 1.6;
+        flex-grow: 1;
     }
-    
+
     .skill-tag {
         display: inline-block;
-        padding: 0.4rem 0.8rem;
-        background: var(--bg-light);
+        padding: 0.3rem 0.75rem;
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.2);
         border-radius: 20px;
         margin: 0.2rem;
-        font-size: 0.8rem;
-        transition: var(--transition);
+        font-size: 0.78rem;
+        color: #94a3b8;
+        transition: all 0.3s ease;
     }
-    
+
     .skill-tag:hover {
-        background: var(--primary-color);
-        color: var(--text-dark);
+        background: rgba(56, 189, 248, 0.2);
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .project-card .card-footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 0.75rem 1.5rem;
+    }
+
+    .btn-card {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-card-primary {
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(14, 165, 233, 0.2));
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        color: #38bdf8;
+    }
+
+    .btn-card-primary:hover {
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(14, 165, 233, 0.3));
+        border-color: #38bdf8;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+    }
+
+    .btn-card-outline {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #94a3b8;
+    }
+
+    .btn-card-outline:hover {
+        border-color: rgba(56, 189, 248, 0.4);
+        color: #38bdf8;
+        background: rgba(56, 189, 248, 0.05);
+    }
+
+    .pagination .page-link {
+        color: #94a3b8;
+        border-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 4px;
+        background: rgba(30, 41, 59, 0.5);
+        transition: all 0.3s ease;
+    }
+
+    .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+        border-color: #38bdf8;
+        color: #020617;
+        font-weight: 700;
+    }
+
+    .pagination .page-link:hover {
+        background: rgba(56, 189, 248, 0.15);
+        border-color: rgba(56, 189, 248, 0.3);
+        color: #38bdf8;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Page Header -->
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
-        <h1 class="display-4 fw-bold" data-aos="fade-up">My Projects</h1>
-        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Showcasing my work in web development</p>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
-                <li class="breadcrumb-item active text-warning" aria-current="page">Projects</li>
+<section class="page-header relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 20% 80%, rgba(56, 189, 248, 0.15) 0%, transparent 50%);"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <h1 class="text-5xl font-bold mb-4 text-white text-center" data-aos="fade-up">My Projects</h1>
+        <p class="text-slate-400 text-lg max-w-xl mx-auto text-center" data-aos="fade-up" data-aos-delay="100">
+            Showcasing my work in web development
+        </p>
+        <nav aria-label="breadcrumb" class="mt-6 flex justify-center">
+            <ol class="breadcrumb breadcrumb-dark inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'portfolio:home' %}" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">
+                        <i class="fas fa-home me-1"></i>Home
+                    </a>
+                </li>
+                <li class="text-slate-500 text-sm">/</li>
+                <li class="breadcrumb-item active text-cyan-400 text-sm">Projects</li>
             </ol>
         </nav>
     </div>
 </section>
 
 <!-- Projects Section -->
-<section class="py-5">
-    <div class="container py-5">
-        <div class="row g-4">
+<section class="py-24 bg-dark-950 relative">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 -left-1/4 w-96 h-96 bg-cyan-400/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl"></div>
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% if projects %}
                 {% for project in projects %}
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="card project-card h-100 border-0 shadow-sm">
-                        {% if project.image %}
-                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
-                        {% else %}
-                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 220px;">
-                            <i class="fas fa-project-diagram fa-4x text-white"></i>
-                        </div>
+                <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}150">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" 
+                         class="card-img-top" 
+                         alt="{{ project.title }}">
+                    {% else %}
+                    <div class="card-img-top bg-gradient-to-br from-dark-800 to-dark-900 d-flex align-items-center justify-content-center flex-column">
+                        <i class="fas fa-project-diagram fa-3x text-cyan-400/30 mb-2"></i>
+                        <span class="text-slate-600 text-sm">{{ project.title }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        {% if project.featured %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-400/10 text-cyan-400 border border-cyan-400/20 mb-3">
+                            <i class="fas fa-star me-1"></i> Featured
+                        </span>
                         {% endif %}
-                        <div class="card-body">
-                            {% if project.featured %}
-                            <span class="badge bg-warning text-dark mb-2">
-                                <i class="fas fa-star me-1"></i> Featured
-                            </span>
-                            {% endif %}
-                            <h5 class="card-title">{{ project.title }}</h5>
-                            <p class="card-text text-muted">{{ project.short_description }}</p>
-                            <div class="mb-3">
-                                {% for tech in project.get_technology_list %}
-                                    <span class="badge bg-primary me-1 mb-1">{{ tech }}</span>
-                                {% endfor %}
-                            </div>
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text text-muted mb-3">{{ project.short_description }}</p>
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            {% for tech in project.get_technology_list %}
+                                <span class="skill-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer pt-3">
                             <div class="d-flex flex-wrap gap-2">
-                                <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-warning">
+                                <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn-card btn-card-primary">
                                     <i class="fas fa-eye me-1"></i> View
                                 </a>
                                 {% if project.project_url %}
-                                <a href="{{ project.project_url }}" target="_blank" class="btn btn-sm btn-outline-dark">
+                                <a href="{{ project.project_url }}" target="_blank" class="btn-card btn-card-outline">
                                     <i class="fas fa-external-link-alt me-1"></i> Live
                                 </a>
                                 {% endif %}
                                 {% if project.source_code_url %}
-                                <a href="{{ project.source_code_url }}" target="_blank" class="btn btn-sm btn-outline-dark">
+                                <a href="{{ project.source_code_url }}" target="_blank" class="btn-card btn-card-outline">
                                     <i class="fab fa-github me-1"></i> Code
                                 </a>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="card-footer bg-transparent">
-                            <small class="text-muted">
-                                <i class="fas fa-calendar-alt me-1"></i> {{ project.created_at|time_ago }}
-                            </small>
-                        </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-folder-open fa-5x text-muted mb-4"></i>
-                    <h3>No projects yet</h3>
-                    <p class="text-muted">Projects will be displayed here. Check back soon!</p>
+                <div class="col-span-full text-center py-20">
+                    <i class="fas fa-folder-open fa-4x text-slate-600 mb-6"></i>
+                    <h3 class="text-xl font-semibold text-slate-400 mb-2">No projects yet</h3>
+                    <p class="text-slate-500">Projects will be displayed here. Check back soon!</p>
                 </div>
             {% endif %}
         </div>
-        
+
         <!-- Pagination -->
         {% if projects.has_other_pages %}
-        <nav class="mt-5" aria-label="Projects pagination">
-            <ul class="pagination justify-content-center">
+        <nav class="mt-12 flex justify-center" aria-label="Projects pagination">
+            <ul class="pagination inline-flex items-center gap-1">
                 {% if projects.has_previous %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ projects.previous_page_number }}" aria-label="Previous">
@@ -151,9 +272,9 @@
                 
                 {% for num in projects.paginator.page_range %}
                     {% if projects.number == num %}
-                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                     {% elif num > projects.number|add:'-3' and num < projects.number|add:'3' %}
-                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
                     {% endif %}
                 {% endfor %}
                 
@@ -170,14 +291,17 @@
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="cta-section py-5">
-    <div class="container py-5 text-center">
-        <h2 class="text-dark mb-3 fw-bold" data-aos="fade-up">Have a Project in Mind?</h2>
-        <p class="text-dark mb-4" data-aos="fade-up" data-aos-delay="100">Let's discuss how I can help bring your ideas to life.</p>
-        <a href="{% url 'portfolio:contact' %}" class="btn btn-dark btn-lg" data-aos="fade-up" data-aos-delay="200">
-            <i class="fas fa-envelope me-2"></i>Get In Touch
-        </a>
+<!-- CTA Section -->
+<section class="py-24 bg-dark-950 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-blue-500/5"></div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <div data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Have a Project in Mind?</h2>
+            <p class="text-slate-400 text-lg max-w-xl mx-auto mb-8">Let's discuss how I can help bring your ideas to life.</p>
+            <a href="{% url 'portfolio:contact' %}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:-translate-y-1">
+                <i class="fas fa-envelope me-2"></i>Get In Touch
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}

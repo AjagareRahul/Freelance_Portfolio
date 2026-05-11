@@ -2,30 +2,135 @@
 {% load static %}
 {% load portfolio_tags %}
 
-{% block title %}Dashboard - Ajagare Rahul{% endblock %}
+{% block title %}Dashboard - {{ user.username }}{% endblock %}
 
 {% block extra_css %}
 <style>
     .dashboard-sidebar {
         min-height: calc(100vh - 56px);
-        background: #f8f9fa;
-        border-right: 1px solid #dee2e6;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
     }
-    .nav-link {
-        color: #333;
-        padding: 12px 20px;
-        border-radius: 5px;
-        margin: 2px 0;
+
+    .sidebar-brand {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-    .nav-link:hover, .nav-link.active {
-        background: #ffc107;
-        color: #000;
+
+    .sidebar-brand h5 {
+        color: #38bdf8;
+        font-weight: 700;
+        font-size: 1.1rem;
     }
+
+    .sidebar-nav .nav-link {
+        color: #94a3b8;
+        padding: 0.75rem 1.25rem;
+        border-radius: 12px;
+        margin: 0.2rem 0.75rem;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .sidebar-nav .nav-link:hover {
+        color: #e2e8f0;
+        background: rgba(56, 189, 248, 0.08);
+    }
+
+    .sidebar-nav .nav-link.active {
+        color: #38bdf8;
+        background: rgba(56, 189, 248, 0.12);
+        font-weight: 600;
+    }
+
+    .sidebar-nav .nav-link i {
+        width: 20px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .sidebar-nav .nav-link .badge {
+        margin-left: auto;
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 50px;
+    }
+
     .stat-card {
-        transition: transform 0.2s;
+        border-radius: 16px;
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        transition: all 0.3s ease;
     }
+
     .stat-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        border-color: rgba(56, 189, 248, 0.15);
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        font-size: 1.25rem;
+    }
+
+    .activity-item {
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        background: rgba(30, 41, 59, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+        background: rgba(30, 41, 59, 0.7);
+        border-color: rgba(56, 189, 248, 0.1);
+    }
+
+    .table-dark-custom {
+        --bs-table-bg: transparent;
+        --bs-table-color: #e2e8f0;
+        --bs-table-border-color: rgba(255, 255, 255, 0.05);
+        --bs-table-accent-bg: rgba(56, 189, 248, 0.05);
+        --bs-table-hover-bg: rgba(56, 189, 248, 0.08);
+    }
+
+    .table-dark-custom thead th {
+        color: #94a3b8;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .table-dark-custom td {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        vertical-align: middle;
+    }
+
+    .glass-card {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+        border-color: rgba(56, 189, 248, 0.15);
     }
 </style>
 {% endblock %}
@@ -34,168 +139,207 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-3 dashboard-sidebar p-0">
-            <div class="p-3">
-                <h5 class="mb-3">Dashboard</h5>
-                <nav class="nav flex-column">
-                    <a class="nav-link active" href="{% url 'portfolio:dashboard' %}">
-                        <i class="fas fa-home me-2"></i> Home
-                    </a>
-                    <a class="nav-link" href="{% url 'portfolio:profile' %}">
-                        <i class="fas fa-user me-2"></i> Profile
-                    </a>
-                    <a class="nav-link" href="{% url 'portfolio:messages' %}">
-                        <i class="fas fa-envelope me-2"></i> Messages
-                        {% if unread_messages > 0 %}
-                        <span class="badge bg-danger">{{ unread_messages }}</span>
-                        {% endif %}
-                    </a>
-                    <a class="nav-link" href="{% url 'portfolio:home' %}">
-                        <i class="fas fa-eye me-2"></i> View Site
-                    </a>
-                    <hr>
-                    <a class="nav-link" href="{% url 'portfolio:logout' %}">
-                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                    </a>
-                </nav>
+        <div class="col-md-3 col-lg-2 d-md-block dashboard-sidebar position-fixed start-0 top-0 vh-100" style="z-index: 100;">
+            <div class="sidebar-brand">
+                <h5><i class="fas fa-code me-2"></i>Dashboard</h5>
             </div>
+            <nav class="sidebar-nav mt-3">
+                <a class="nav-link active" href="{% url 'portfolio:dashboard' %}">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a class="nav-link" href="{% url 'portfolio:profile' %}">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a class="nav-link" href="{% url 'portfolio:messages' %}">
+                    <i class="fas fa-envelope"></i> Messages
+                    {% if unread_messages > 0 %}
+                    <span class="badge bg-cyan-400 text-dark">{{ unread_messages }}</span>
+                    {% endif %}
+                </a>
+                <a class="nav-link" href="{% url 'portfolio:home' %}" target="_blank">
+                    <i class="fas fa-eye"></i> View Site
+                </a>
+                <hr style="border-color: rgba(255,255,255,0.05); margin: 1rem 0;">
+                <a class="nav-link" href="{% url 'portfolio:logout' %}">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
         </div>
-        
+
         <!-- Main Content -->
-        <div class="col-md-9 p-4">
-            <h2 class="mb-4">Welcome back, {{ user.username }}!</h2 Stats Cards>
-            
-            <!-- -->
-            <div class="row g-4 mb-4">
-                <div class="col-md-3">
-                    <div class="card stat-card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-0">Total Projects</p>
-                                    <h3 class="mb-0">{{ total_projects }}</h3>
-                                </div>
-                                <div class="stat-icon bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-project-diagram text-dark"></i>
-                                </div>
-                            </div>
+        <div class="col-md-9 ms-md-auto col-lg-10 p-4" style="margin-left: auto;">
+            <h2 class="text-white font-bold mb-2">Welcome back, {{ user.username }}!</h2>
+            <p class="text-slate-400 mb-6">Here's what's happening with your portfolio today.</p>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-cyan-400 mx-auto mb-3">
+                            <i class="fas fa-project-diagram"></i>
                         </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">{{ total_projects }}</h3>
+                        <p class="text-slate-500 text-sm">Total Projects</p>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card stat-card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-0">Published</p>
-                                    <h3 class="mb-0">{{ published_projects }}</h3>
-                                </div>
-                                <div class="stat-icon bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-check text-white"></i>
-                                </div>
-                            </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon bg-gradient-to-br from-green-400/20 to-emerald-500/20 text-green-400 mx-auto mb-3">
+                            <i class="fas fa-check-circle"></i>
                         </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">{{ published_projects }}</h3>
+                        <p class="text-slate-500 text-sm">Published</p>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card stat-card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-0">Skills</p>
-                                    <h3 class="mb-0">{{ total_skills                                </div>
- }}</h3>
-                                <div class="stat-icon bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-code text-white"></i>
-                                </div>
-                            </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon bg-gradient-to-br from-purple-400/20 to-pink-500/20 text-purple-400 mx-auto mb-3">
+                            <i class="fas fa-code"></i>
                         </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">{{ total_skills }}</h3>
+                        <p class="text-slate-500 text-sm">Skills</p>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card stat-card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-0">Messages</p>
-                                    <h3 class="mb-0">{{ total_messages }}</h3>
-                                </div>
-                                <div class="stat-icon bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-envelope text-white"></i>
-                                </div>
-                            </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon bg-gradient-to-br from-orange-400/20 to-yellow-500/20 text-orange-400 mx-auto mb-3">
+                            <i class="fas fa-envelope"></i>
                         </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">{{ total_messages }}</h3>
+                        <p class="text-slate-500 text-sm">Messages</p>
                     </div>
                 </div>
             </div>
-            
-            <!-- Recent Activity -->
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Activity</h5>
+
+            <!-- Stats Cards -->
+            <!-- <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card stat-card bg-glass border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-slate-500 mb-0">Total Projects</p>
+                                    <h3 class="text-white mb-0">{{ total_projects }}</h3>
+                                </div>
+                                <div class="stat-icon bg-cyan-400/10 rounded-xl d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                    <i class="fas fa-project-diagram text-cyan-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    {% if recent_activities %}
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Activity</th>
-                                    <th>Description</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-glass border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-slate-500 mb-0">Published</p>
+                                    <h3 class="text-white mb-0">{{ published_projects }}</h3>
+                                </div>
+                                <div class="stat-icon bg-green-400/10 rounded-xl d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                    <i class="fas fa-check text-green-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-glass border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-slate-500 mb-0">Skills</p>
+                                    <h3 class="text-white mb-0">{{ total_skills }}</h3>
+                                </div>
+                                <div class="stat-icon bg-purple-400/10 rounded-xl d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                    <i class="fas fa-code text-purple-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-glass border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-slate-500 mb-0">Messages</p>
+                                    <h3 class="text-white mb-0">{{ total_messages }}</h3>
+                                </div>
+                                <div class="stat-icon bg-orange-400/10 rounded-xl d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                    <i class="fas fa-envelope text-orange-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Recent Activity -->
+            <div class="glass-card border-0 shadow-sm mb-4">
+                <div class="px-4 py-3 border-b border-white/5">
+                    <h5 class="text-white font-bold text-lg mb-0"><i class="fas fa-history me-2 text-cyan-400"></i>Recent Activity</h5>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="table table-dark table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Description</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if recent_activities %}
                                 {% for activity in recent_activities %}
-                                <tr>
+                                <tr class="align-middle">
                                     <td>
-                                        <span class="badge bg-{% if activity.activity_type == 'login' %}success{% elif activity.activity_type == 'logout' %}warning{% else %}info{% endif %}">
+                                        <span class="badge bg-{% if activity.activity_type == 'login' %}success{% elif activity.activity_type == 'logout' %}warning{% else %}info{% endif %} rounded-pill">
                                             {{ activity.get_activity_type_display }}
                                         </span>
                                     </td>
-                                    <td>{{ activity.description }}</td>
-                                    <td><small class="text-muted">{{ activity.created_at|time_ago }}</small></td>
+                                    <td class="text-slate-300">{{ activity.description }}</td>
+                                    <td><small class="text-slate-500">{{ activity.created_at|time_ago }}</small></td>
                                 </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <p class="text-muted text-center py-4">No recent activity</p>
-                    {% endif %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center text-slate-500 py-4">No recent activity</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            
-            <!-- Quick Actions -->
+
+            <!-- Quick Actions & Site Info -->
             <div class="row g-4 mt-2">
                 <div class="col-md-6">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white">
-                            <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                    <div class="glass-card border-0 shadow-sm">
+                        <div class="px-4 py-3 border-b border-white/5">
+                            <h5 class="text-white font-bold mb-0"><i class="fas fa-bolt me-2 text-yellow-400"></i>Quick Actions</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="d-grid gap-2">
-                                <a href="/admin/portfolio/project/add/" class="btn btn-outline-primary">
-                                    <i class="fas fa-plus me-2"></i>Add New Project
-                                </a>
-                                <a href="/admin/portfolio/skill/add/" class="btn btn-outline-success">
-                                    <i class="fas fa-plus me-2"></i>Add New Skill
-                                </a>
-                                <a href="/admin/" class="btn btn-outline-dark">
-                                    <i class="fas fa-cog me-2"></i>Go to Admin Panel
-                                </a>
-                            </div>
+                        <div class="p-4 d-grid gap-2">
+                            <a href="/admin/portfolio/project/add/" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-plus me-2"></i>Add New Project
+                            </a>
+                            <a href="/admin/portfolio/skill/add/" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-plus me-2"></i>Add New Skill
+                            </a>
+                            <a href="/admin/" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-cog me-2"></i>Go to Admin Panel
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white">
-                            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Site Info</h5>
+                    <div class="glass-card border-0 shadow-sm">
+                        <div class="px-4 py-3 border-b border-white/5">
+                            <h5 class="text-white font-bold mb-0"><i class="fas fa-info-circle me-2 text-cyan-400"></i>Site Info</h5>
                         </div>
-                        <div class="card-body">
-                            <p class="mb-2"><strong>Total Visitors:</strong> {{ visitor_count }}</p>
-                            <p class="mb-0"><strong>Version:</strong> {% get_site_version %}</p>
+                        <div class="p-4">
+                            <p class="text-slate-400 mb-2"><strong class="text-white">Total Visitors:</strong> {{ visitor_count }}</p>
+                            <p class="text-slate-400 mb-0"><strong class="text-white">Version:</strong> {% get_site_version %}</p>
                         </div>
                     </div>
                 </div>
@@ -203,4 +347,19 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle sidebar active state
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
 {% endblock %}

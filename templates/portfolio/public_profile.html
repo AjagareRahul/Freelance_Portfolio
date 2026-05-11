@@ -3,171 +3,291 @@
 
 {% block title %}Profile - {{ site_info.owner_name|default:"Portfolio" }}{% endblock %}
 
+{% block extra_css %}
+<style>
+    .page-header {
+        padding-top: 140px;
+        padding-bottom: 80px;
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338bdf8' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .page-header h1 {
+        color: #fff;
+        font-weight: 800;
+        font-size: 3rem;
+    }
+
+    .profile-card {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+
+    .profile-card:hover {
+        border-color: rgba(56, 189, 248, 0.15);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-image-container {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        margin: 0 auto;
+    }
+
+    .profile-image-container::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        background: linear-gradient(135deg, #38bdf8, #818cf8);
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.4;
+        filter: blur(12px);
+    }
+
+    .profile-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid rgba(56, 189, 248, 0.5);
+    }
+
+    .experience-card {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .experience-card:hover {
+        border-color: rgba(56, 189, 248, 0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .skill-item {
+        padding: 0.75rem 1rem;
+        background: rgba(15, 23, 42, 0.4);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+        background: rgba(15, 23, 42, 0.7);
+        border-color: rgba(56, 189, 248, 0.15);
+    }
+
+    .progress {
+        border-radius: 50px;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-bar {
+        border-radius: 50px;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .education-card {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .education-card:hover {
+        border-color: rgba(56, 189, 248, 0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header-custom {
+        background: rgba(56, 189, 248, 0.1);
+        border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+        padding: 1rem 1.5rem;
+        border-radius: 0 !important;
+    }
+
+    .card-header-custom h5 {
+        color: #38bdf8;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
-        <h1 class="display-4" data-aos="fade-up">My Profile</h1>
+<!-- Page Header -->
+<section class="page-header relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 20% 80%, rgba(56, 189, 248, 0.15) 0%, transparent 50%);"></div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <h1 class="text-5xl font-bold mb-4 text-white" data-aos="fade-up">My Profile</h1>
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container py-5">
-        <div class="row g-4">
+<!-- Profile Section -->
+<section class="py-24 bg-dark-950 relative">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-400/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl"></div>
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="row g-5">
+            <!-- Profile Card -->
             <div class="col-md-4" data-aos="fade-up">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
+                <div class="profile-card p-5 text-center">
+                    <div class="profile-image-container mx-auto mb-4">
                         {% if site_info and site_info.profile_image %}
-                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image">
                         {% else %}
-                        <div class="profile-placeholder mx-auto mb-3" style="width: 200px; height: 200px;">
-                            <i class="fas fa-user fa-5x text-warning"></i>
+                        <div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#0f172a,#1e293b);display:flex;align-items:center;justify-content:center;border:4px solid rgba(56,189,248,0.5);">
+                            <i class="fas fa-user fa-6x text-cyan-400/20"></i>
                         </div>
                         {% endif %}
-                        <h5>{{ site_info.owner_name|default:"Portfolio Owner" }}</h5>
-                        <p class="text-muted">{{ site_info.site_title|default:"" }}</p>
-                        {% if site_info.email %}
-                        <p class="text-muted"><i class="fas fa-envelope me-2"></i>{{ site_info.email }}</p>
-                        {% endif %}
-                        {% if site_info.phone %}
-                        <p class="text-muted"><i class="fas fa-phone me-2"></i>{{ site_info.phone }}</p>
-                        {% endif %}
                     </div>
+                    <h5 class="text-white font-bold text-lg">{{ site_info.owner_name|default:"Portfolio Owner" }}</h5>
+                    <p class="text-slate-400 text-sm">{{ site_info.site_title|default:"" }}</p>
+                    {% if site_info.email %}
+                    <p class="text-slate-500 text-sm mt-2">
+                        <i class="fas fa-envelope me-1 text-cyan-400"></i>{{ site_info.email }}
+                    </p>
+                    {% endif %}
+                    {% if site_info.phone %}
+                    <p class="text-slate-500 text-sm">
+                        <i class="fas fa-phone me-1 text-cyan-400"></i>{{ site_info.phone }}
+                    </p>
+                    {% endif %}
+                    {% if site_info.resume %}
+                    <div class="mt-4">
+                        <a href="{{ site_info.resume.url }}" target="_blank" 
+                           class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold rounded-full transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:-translate-y-1">
+                            <i class="fas fa-download me-2"></i>Download Resume
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
+
+            <!-- About & Experience -->
             <div class="col-md-8" data-aos="fade-up" data-aos-delay="100">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="mb-3">About Me</h5>
-                        <p class="text-muted">{{ site_info.site_description|default:"No description available." }}</p>
-                        
-                        {% if site_info.address %}
-                        <h5 class="mt-4 mb-3">Location</h5>
-                        <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>{{ site_info.address }}</p>
+                <div class="profile-card p-5">
+                    <h5 class="text-white font-bold text-lg mb-4">
+                        <i class="fas fa-user me-2 text-cyan-400"></i>About Me
+                    </h5>
+                    <p class="text-slate-300 leading-relaxed mb-4">{{ site_info.site_description|default:"No description available." }}</p>
+
+                    {% if site_info.address %}
+                    <div class="flex items-center gap-2 text-slate-400 mb-4">
+                        <i class="fas fa-map-marker-alt text-cyan-400"></i>
+                        <span>{{ site_info.address }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Experience -->
+                {% if experiences %}
+                <div class="profile-card p-5 mt-4">
+                    <h5 class="text-white font-bold text-lg mb-4">
+                        <i class="fas fa-briefcase me-2 text-cyan-400"></i>Work Experience
+                    </h5>
+                    {% for experience in experiences %}
+                    <div class="experience-card mb-3">
+                        <div class="flex flex-col sm:flex-row justify-between items-start mb-2 gap-2">
+                            <h6 class="text-white font-semibold mb-0">{{ experience.position }}</h6>
+                            <span class="text-cyan-400 text-sm whitespace-nowrap">
+                                {{ experience.start_date|date:"M Y" }} - {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                            </span>
+                        </div>
+                        <p class="text-cyan-400 text-sm mb-1">{{ experience.company_name }}</p>
+                        {% if experience.location %}
+                        <p class="text-slate-500 text-xs mb-2">
+                            <i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}
+                        </p>
                         {% endif %}
-                        
-                        {% if site_info.resume %}
-                        <div class="mt-4">
-                            <a href="{{ site_info.resume.url }}" class="btn btn-primary" target="_blank">
-                                <i class="fas fa-download me-2"></i>Download Resume
-                            </a>
+                        <p class="text-slate-400 text-sm">{{ experience.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Education -->
+                {% if educations %}
+                <div class="profile-card p-5 mt-4">
+                    <h5 class="text-white font-bold text-lg mb-4">
+                        <i class="fas fa-graduation-cap me-2 text-cyan-400"></i>Education
+                    </h5>
+                    {% for education in educations %}
+                    <div class="education-card mb-3">
+                        <div class="flex flex-col sm:flex-row justify-between items-start mb-1 gap-2">
+                            <h6 class="text-white font-semibold mb-0">{{ education.degree }} in {{ education.field_of_study }}</h6>
+                            <span class="text-cyan-400 text-sm whitespace-nowrap">
+                                {{ education.start_date|date:"Y" }} - {% if education.is_current %}Present{% else %}{{ education.end_date|date:"Y" }}{% endif %}
+                            </span>
                         </div>
+                        <p class="text-cyan-400 text-sm mb-1">{{ education.institution }}</p>
+                        {% if education.grade %}
+                        <p class="text-slate-500 text-xs">
+                            <strong>Grade:</strong> {{ education.grade }}
+                        </p>
+                        {% endif %}
+                        {% if education.description %}
+                        <p class="text-slate-400 text-sm mt-1">{{ education.description }}</p>
                         {% endif %}
                     </div>
+                    {% endfor %}
                 </div>
-            </div>
-        </div>
-        
-        <!-- Experience Section -->
-        {% if experiences %}
-        <div class="row mt-5">
-            <div class="col-12" data-aos="fade-up" data-aos-delay="200">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Work Experience</h5>
-                    </div>
-                    <div class="card-body">
-                        {% for experience in experiences %}
-                        <div class="experience-item mb-4 pb-3 border-bottom">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">{{ experience.position }}</h6>
-                                    <p class="text-primary mb-1">{{ experience.company_name }}</p>
-                                    {% if experience.location %}
-                                    <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}</p>
-                                    {% endif %}
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">
-                                        {{ experience.start_date|date:"M Y" }} - 
-                                        {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
-                                    </small>
-                                </div>
+                {% endif %}
+
+                <!-- Skills -->
+                {% if skills %}
+                <div class="profile-card p-5 mt-4">
+                    <h5 class="text-white font-bold text-lg mb-4">
+                        <i class="fas fa-code me-2 text-cyan-400"></i>Skills & Technologies
+                    </h5>
+                    {% regroup skills by category as skill_groups %}
+                    {% for group in skill_groups %}
+                    <div class="mb-4">
+                        <h6 class="text-cyan-400 text-sm font-semibold mb-3">{{ group.grouper|title }}</h6>
+                        {% for skill in group.list %}
+                        <div class="skill-item mb-2">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="text-slate-300 text-sm">{{ skill.name }}</span>
+                                <small class="text-cyan-400 text-xs font-semibold">{{ skill.proficiency }}%</small>
                             </div>
-                            <p class="text-muted">{{ experience.description }}</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        
-        <!-- Education Section -->
-        {% if educations %}
-        <div class="row mt-4">
-            <div class="col-12" data-aos="fade-up" data-aos-delay="300">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Education</h5>
-                    </div>
-                    <div class="card-body">
-                        {% for education in educations %}
-                        <div class="education-item mb-4 pb-3 border-bottom">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">{{ education.degree }} in {{ education.field_of_study }}</h6>
-                                    <p class="text-success mb-1">{{ education.institution }}</p>
-                                    {% if education.grade %}
-                                    <p class="text-muted small mb-2">Grade: {{ education.grade }}</p>
-                                    {% endif %}
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">
-                                        {{ education.start_date|date:"M Y" }} - 
-                                        {% if education.is_current %}Present{% else %}{{ education.end_date|date:"M Y" }}{% endif %}
-                                    </small>
-                                </div>
-                            </div>
-                            {% if education.description %}
-                            <p class="text-muted">{{ education.description }}</p>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        
-        <!-- Skills Section -->
-        {% if skills %}
-        <div class="row mt-4">
-            <div class="col-12" data-aos="fade-up" data-aos-delay="400">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0"><i class="fas fa-code me-2"></i>Skills & Technologies</h5>
-                    </div>
-                    <div class="card-body">
-                        {% regroup skills by category as skill_groups %}
-                        {% for group in skill_groups %}
-                        <div class="skill-category mb-4">
-                            <h6 class="text-info mb-3">{{ group.grouper|title }}</h6>
-                            <div class="row">
-                                {% for skill in group.list %}
-                                <div class="col-md-6 col-lg-4 mb-3">
-                                    <div class="skill-item">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <span>{{ skill.name }}</span>
-                                            <small class="text-muted">{{ skill.proficiency }}%</small>
-                                        </div>
-                                        <div class="progress" style="height: 6px;">
-                                            <div class="progress-bar bg-info" role="progressbar" 
-                                                 style="width: {{ skill.proficiency }}%" 
-                                                 aria-valuenow="{{ skill.proficiency }}" 
-                                                 aria-valuemin="0" 
-                                                 aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
+                            <div class="progress">
+                                <div class="progress-bar" style="width: {{ skill.proficiency }}%"
+                                     aria-valuenow="{{ skill.proficiency }}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
+                {% endif %}
             </div>
         </div>
-        {% endif %}
     </div>
 </section>
 {% endblock %}
