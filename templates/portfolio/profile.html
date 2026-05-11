@@ -1,292 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Profile - {{ user.username }}{% endblock %}
-
-{% block extra_css %}
-<style>
-    .profile-hero {
-        min-height: 300px;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .profile-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(ellipse at 20% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
-    }
-
-    .profile-image-container {
-        width: 160px;
-        height: 160px;
-        position: relative;
-    }
-
-    .profile-image-container::before {
-        content: '';
-        position: absolute;
-        inset: -6px;
-        background: linear-gradient(135deg, #38bdf8, #818cf8);
-        border-radius: 50%;
-        z-index: -1;
-        opacity: 0.5;
-        filter: blur(10px);
-    }
-
-    .profile-image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid rgba(56, 189, 248, 0.5);
-        transition: transform 0.4s ease;
-    }
-
-    .profile-image-container:hover img {
-        transform: scale(1.05);
-    }
-
-    .profile-card {
-        background: rgba(30, 41, 59, 0.6);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
-    }
-
-    .form-floating-custom label {
-        color: #64748b;
-        padding-left: 1rem;
-    }
-
-    .form-control-custom {
-        padding: 0.85rem 1rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1.5px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        color: #e2e8f0;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        font-family: inherit;
-    }
-
-    .form-control-custom:focus {
-        background: rgba(15, 23, 42, 0.8);
-        border-color: #38bdf8;
-        color: #e2e8f0;
-        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.08);
-        outline: none;
-    }
-
-    .form-control-custom::placeholder {
-        color: #475569;
-    }
-
-    .form-control-custom:-webkit-autofill,
-    .form-control-custom:-webkit-autofill:hover,
-    .form-control-custom:-webkit-autofill:focus {
-        -webkit-text-fill-color: #e2e8f0;
-        -webkit-box-shadow: 0 0 0px 1000px rgba(15, 23, 42, 0.8) inset;
-        transition: background-color 5000s ease-in-out 0s;
-        border-color: #38bdf8;
-    }
-
-    .form-floating-custom > .form-control-custom:not(:placeholder-shown) ~ label,
-    .form-floating-custom > .form-control:focus ~ label {
-        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-        color: #38bdf8;
-    }
-
-    .btn-profile {
-        background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-        color: #020617;
-        font-weight: 700;
-        padding: 0.7rem 2rem;
-        border-radius: 50px;
-        border: none;
-        font-size: 0.95rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-    }
-
-    .btn-profile:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
-        color: #020617;
-    }
-
-    .file-input-wrapper {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
-
-    .file-input-wrapper input[type="file"] {
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-    }
-
-    .file-input-label {
-        display: block;
-        padding: 0.85rem 1rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1.5px dashed rgba(56, 189, 248, 0.3);
-        border-radius: 12px;
-        color: #64748b;
-        font-size: 0.9rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .file-input-label:hover {
-        border-color: #38bdf8;
-        color: #38bdf8;
-        background: rgba(56, 189, 248, 0.05);
-    }
-</style>
-{% endblock %}
+{% block title %}Profile - Ajagare Rahul{% endblock %}
 
 {% block content %}
-<!-- Profile Header -->
-<section class="profile-hero d-flex align-items-center">
-    <div class="container px-4 position-relative z-10">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <div class="profile-image-container">
-                    {% if site_info and site_info.profile_image %}
-                    <img src="{{ site_info.profile_image.url }}" alt="Profile Image">
-                    {% else %}
-                    <div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#0f172a,#1e293b);display:flex;align-items:center;justify-content:center;border:3px solid rgba(56,189,248,0.5);">
-                        <i class="fas fa-user fa-5x text-cyan-400/20"></i>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col ms-4">
-                <h1 class="text-white font-bold text-3xl mb-1">{{ user.username }}</h1>
-                <p class="text-slate-400">{{ site_info.site_title|default:"Python & Django Developer" }}</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Profile Content -->
-<section class="py-24 bg-dark-950 relative">
-    <div class="container mx-auto px-4">
-        <div class="row g-5">
-            <!-- Account Info Card -->
+<section class="py-5">
+    <div class="container py-5">
+        <h2 class="mb-4">My Profile</h2>
+        <div class="row g-4">
             <div class="col-md-4">
-                <div class="profile-card p-4 p-lg-5 text-center mb-4 mb-md-0">
-                    <div class="profile-image-container mx-auto mb-4" style="width: 120px; height: 120px;">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
                         {% if site_info and site_info.profile_image %}
-                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image">
+                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                         {% else %}
-                        <div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#0f172a,#1e293b);display:flex;align-items:center;justify-content:center;border:3px solid rgba(56,189,248,0.5);">
-                            <i class="fas fa-user fa-3x text-cyan-400/20"></i>
+                        <div class="profile-placeholder mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <i class="fas fa-user fa-5x text-warning"></i>
                         </div>
                         {% endif %}
+                        <h5>{{ user.username }}</h5>
+                        <p class="text-muted">{{ user.email }}</p>
+                        {% if site_info and site_info.resume %}
+                        <a href="{{ site_info.resume.url }}" class="btn btn-warning mt-2" target="_blank">
+                            <i class="fas fa-download me-2"></i>View Resume
+                        </a>
+                        {% endif %}
                     </div>
-                    <h5 class="text-white font-bold mb-1">{{ user.username }}</h5>
-                    <p class="text-slate-500 text-sm">{{ user.email }}</p>
-                    {% if site_info and site_info.resume %}
-                    <a href="{{ site_info.resume.url }}" target="_blank" class="btn btn-sm btn-outline-light mt-3">
-                        <i class="fas fa-download me-1"></i> Download Resume
-                    </a>
-                    {% endif %}
                 </div>
             </div>
-
-            <!-- Edit Form -->
             <div class="col-md-8">
-                <div class="profile-card p-4 p-lg-5">
-                    <h4 class="text-white font-bold mb-4">
-                        <i class="fas fa-edit me-2 text-cyan-400"></i>Personal Information
-                    </h4>
-                    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <div class="form-floating-custom">
-                                    <input type="text" class="form-control form-control-custom" value="{{ user.username }}" readonly style="background: rgba(15,23,42,0.4);">
-                                    <label>Username</label>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h5 class="mb-3">Personal Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Username</label>
+                                    <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating-custom">
-                                    {{ form.email }}
-                                    <label for="{{ form.email.id_for_label }}">Email</label>
+                            
+                            <h5 class="mt-4 mb-3">Profile Image</h5>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <input type="file" name="profile_image" class="form-control" accept="image/*">
+                                    <small class="text-muted">Recommended size: 400x400 pixels</small>
+                                    {% if site_info and site_info.profile_image %}
+                                    <br><small class="text-success">Current: {{ site_info.profile_image.url }}</small>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating-custom">
-                                    {{ form.first_name }}
-                                    <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                            
+                            <h5 class="mt-4 mb-3">Resume</h5>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx">
+                                    <small class="text-muted">Upload PDF or Word document</small>
+                                    {% if site_info and site_info.resume %}
+                                    <br><small class="text-success">Current: <a href="{{ site_info.resume.url }}" target="_blank">{{ site_info.resume.name }}</a></small>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating-custom">
-                                    {{ form.last_name }}
-                                    <label for="{{ form.last_name.id_for_label }}">Last Name</label>
-                                </div>
+                            
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-warning">Update Profile</button>
                             </div>
-                        </div>
-
-                        <h4 class="text-white font-bold mt-5 mb-4">
-                            <i class="fas fa-image me-2 text-cyan-400"></i>Profile Image
-                        </h4>
-                        <div class="row g-4">
-                            <div class="col-md-12">
-                                <div class="file-input-wrapper mb-3">
-                                    {{ form.profile_image }}
-                                    <div class="file-input-label">
-                                        <i class="fas fa-cloud-upload-alt me-2"></i>
-                                        {% if site_info and site_info.profile_image %}
-                                            Current image uploaded — Click to change
-                                        {% else %}
-                                            Click to upload profile image
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <small class="text-slate-500">Recommended size: 400x400 pixels</small>
-                            </div>
-                        </div>
-
-                        <h4 class="text-white font-bold mt-5 mb-4">
-                            <i class="fas fa-file-alt me-2 text-cyan-400"></i>Resume
-                        </h4>
-                        <div class="row g-4">
-                            <div class="col-md-12">
-                                <div class="file-input-wrapper mb-3">
-                                    {{ form.resume }}
-                                    <div class="file-input-label">
-                                        <i class="fas fa-cloud-upload-alt me-2"></i>
-                                        {% if site_info and site_info.resume %}
-                                            Current resume uploaded — Click to change
-                                        {% else %}
-                                            Upload resume (PDF, DOC, DOCX)
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-5">
-                            <button type="submit" class="btn btn-profile">
-                                <i class="fas fa-save me-2"></i>Update Profile
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

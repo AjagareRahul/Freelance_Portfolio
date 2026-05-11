@@ -2,302 +2,82 @@
 {% load static %}
 {% load portfolio_tags %}
 
-{% block title %}{{ project.title }} - {{ name|default:"Ajagare Rahul" }}{% endblock %}
-
-{% block extra_css %}
-<style>
-    .project-hero {
-        min-height: 400px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
-    }
-
-    .project-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
-        pointer-events: none;
-    }
-
-    .project-hero img {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-        position: relative;
-        z-index: 1;
-    }
-
-    .project-hero .placeholder {
-        width: 100%;
-        height: 400px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #0f172a, #1e293b);
-        position: relative;
-        z-index: 1;
-    }
-
-    .project-hero .placeholder i {
-        font-size: 5rem;
-        color: rgba(56, 189, 248, 0.2);
-    }
-
-    .project-hero .hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(2, 6, 23, 0.3) 0%, rgba(2, 6, 23, 0.8) 100%);
-        z-index: 2;
-    }
-
-    .project-hero .hero-content {
-        position: relative;
-        z-index: 3;
-        text-align: center;
-        padding: 0 1.5rem;
-    }
-
-    .project-info-card {
-        background: rgba(30, 41, 59, 0.6);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
-        padding: 2rem;
-        transition: all 0.4s ease;
-    }
-
-    .project-info-card:hover {
-        border-color: rgba(56, 189, 248, 0.15);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .tech-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.4rem 0.9rem;
-        background: rgba(56, 189, 248, 0.1);
-        border: 1px solid rgba(56, 189, 248, 0.2);
-        border-radius: 50px;
-        color: #38bdf8;
-        font-size: 0.85rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-
-    .tech-tag:hover {
-        background: rgba(56, 189, 248, 0.2);
-        border-color: rgba(56, 189, 248, 0.4);
-        transform: translateY(-2px);
-    }
-
-    .btn-project {
-        padding: 0.7rem 1.5rem;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .btn-project-primary {
-        background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-        color: #020617;
-        border: none;
-        box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-    }
-
-    .btn-project-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
-        color: #020617;
-    }
-
-    .btn-project-outline {
-        background: transparent;
-        color: #94a3b8;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .btn-project-outline:hover {
-        border-color: rgba(56, 189, 248, 0.4);
-        color: #38bdf8;
-        background: rgba(56, 189, 248, 0.05);
-        transform: translateY(-3px);
-    }
-
-    .related-card {
-        background: rgba(30, 41, 59, 0.6);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        padding: 1.5rem;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: block;
-    }
-
-    .related-card:hover {
-        border-color: rgba(56, 189, 248, 0.2);
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .related-card h6 {
-        color: #e2e8f0;
-        font-weight: 600;
-        transition: color 0.3s ease;
-    }
-
-    .related-card:hover h6 {
-        color: #38bdf8;
-    }
-
-    .related-card small {
-        color: #64748b;
-    }
-</style>
-{% endblock %}
+{% block title %}{{ project.title }} - Ajagare Rahul{% endblock %}
 
 {% block content %}
-<!-- Project Hero Banner -->
-<section class="project-hero">
-    <div class="hero-overlay"></div>
-    {% if project.image %}
-    <img src="{{ project.image.url }}" alt="{{ project.title }}">
-    {% else %}
-    <div class="placeholder">
-        <i class="fas fa-project-diagram"></i>
-    </div>
-    {% endif %}
-    <div class="hero-content">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">{{ project.title }}</h1>
-        <div class="flex flex-wrap justify-center gap-2 mt-4">
-            {% for tech in project.get_technology_list %}
-                <span class="tech-tag">{{ tech }}</span>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- Project Detail Section -->
-<section class="py-24 bg-dark-950 relative">
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-400/5 rounded-full blur-3xl"></div>
-    </div>
-    <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-8">
-                <!-- Description Card -->
-                <div class="project-info-card">
-                    <h4 class="text-xl font-bold text-white mb-4">
-                        <i class="fas fa-info-circle text-cyan-400 me-2"></i>Description
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed">{{ project.description }}</p>
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid rounded mb-4" style="width: 100%;">
+                {% else %}
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-center mb-4" style="height: 400px;">
+                    <i class="fas fa-project-diagram fa-5x text-white"></i>
                 </div>
-
-                <!-- Project Links -->
-                <div class="flex flex-wrap gap-3">
+                {% endif %}
+                
+                <h2 class="mb-3">{{ project.title }}</h2>
+                <div class="mb-4">
+                    {% for tech in project.get_technology_list %}
+                        <span class="badge bg-primary me-1 mb-1">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h4>Description</h4>
+                        <p>{{ project.description }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex gap-2">
                     {% if project.project_url %}
-                    <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-primary inline-flex items-center gap-2">
-                        <i class="fas fa-external-link-alt"></i>View Live Project
+                    <a href="{{ project.project_url }}" target="_blank" class="btn btn-warning">
+                        <i class="fas fa-external-link-alt me-2"></i>View Live Project
                     </a>
                     {% endif %}
                     {% if project.source_code_url %}
-                    <a href="{{ project.source_code_url }}" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-outline inline-flex items-center gap-2">
-                        <i class="fab fa-github"></i>Source Code
+                    <a href="{{ project.source_code_url }}" target="_blank" class="btn btn-outline-dark">
+                        <i class="fab fa-github me-2"></i>Source Code
                     </a>
                     {% endif %}
                 </div>
             </div>
-
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <!-- Project Details Card -->
-                <div class="project-info-card">
-                    <h5 class="text-white font-bold text-lg mb-4">
-                        <i class="fas fa-clipboard-list text-cyan-400 me-2"></i>Project Details
-                    </h5>
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between items-center py-2 border-b border-white/5">
-                            <span class="text-slate-400">Created</span>
-                            <span class="text-white font-medium">{{ project.created_at|date:"M d, Y" }}</span>
+            
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="mb-3">Project Details</h5>
+                        <p><strong>Created:</strong> {{ project.created_at|date:"M d, Y" }}</p>
+                        <p><strong>Category:</strong> Web Development</p>
+                        <hr>
+                        <h5>Share This Project</h5>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-outline-primary btn-sm"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="btn btn-outline-info btn-sm"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-outline-primary btn-sm"><i class="fab fa-linkedin"></i></a>
                         </div>
-                        <div class="flex justify-between items-center py-2 border-b border-white/5">
-                            <span class="text-slate-400">Category</span>
-                            <span class="text-cyan-400 font-medium">Web Development</span>
-                        </div>
-                        {% if project.project_url %}
-                        <div class="flex justify-between items-center py-2 border-b border-white/5">
-                            <span class="text-slate-400">Live URL</span>
-                            <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline text-sm truncate">View Live →</a>
-                        </div>
-                        {% endif %}
-                        {% if project.source_code_url %}
-                        <div class="flex justify-between items-center py-2">
-                            <span class="text-slate-400">Source Code</span>
-                            <a href="{{ project.source_code_url }}" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline text-sm">GitHub →</a>
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
-
-                <!-- Tech Stack Card -->
-                <div class="project-info-card">
-                    <h5 class="text-white font-bold text-lg mb-4">
-                        <i class="fas fa-layer-group text-cyan-400 me-2"></i>Tech Stack
-                    </h5>
-                    <div class="flex flex-wrap gap-2">
-                        {% for tech in project.get_technology_list %}
-                        <span class="tech-tag">{{ tech }}</span>
+                
+                {% if related_projects %}
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body">
+                        <h5 class="mb-3">Related Projects</h5>
+                        {% for related in related_projects %}
+                        <div class="mb-3">
+                            <a href="{% url 'portfolio:project_detail' related.slug %}" class="text-decoration-none">
+                                <h6 class="mb-0">{{ related.title }}</h6>
+                            </a>
+                            <small class="text-muted">{{ related.short_description|truncatewords:10 }}</small>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>
-
-                <!-- Share Card -->
-                <div class="project-info-card">
-                    <h5 class="text-white font-bold text-lg mb-4">
-                        <i class="fas fa-share-alt text-cyan-400 me-2"></i>Share This Project
-                    </h5>
-                    <div class="flex gap-2">
-                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-blue-400 hover:border-blue-400/30 hover:bg-blue-400/10 transition-all" title="Facebook">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-blue-400 hover:border-blue-400/30 hover:bg-blue-400/10 transition-all" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-blue-500 hover:border-blue-500/30 hover:bg-blue-500/10 transition-all" title="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
+                {% endif %}
             </div>
         </div>
-
-        <!-- Related Projects -->
-        {% if related_projects %}
-        <div class="mt-16 pt-8 border-t border-white/5">
-            <h3 class="text-xl font-bold text-white mb-6">
-                <i class="fas fa-link me-2 text-cyan-400"></i>Related Projects
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {% for related in related_projects %}
-                <a href="{% url 'portfolio:project_detail' related.slug %}" class="related-card">
-                    <h6>{{ related.title }}</h6>
-                    <small>{{ related.short_description|truncatewords:10 }}</small>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
     </div>
 </section>
 {% endblock %}
