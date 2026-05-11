@@ -19,11 +19,9 @@ urlpatterns = [
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 ]
 
-# Serve media files in development
+# Serve media and static files in development only
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-else:
-    # In production, serve media files using Django's static view
-    from django.views.static import serve
-    urlpatterns += [path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT})]
+# NOTE: In production, media files are served by Cloudinary CDN
+# Static files are served by WhiteNoise (configured in settings.py)

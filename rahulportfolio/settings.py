@@ -38,7 +38,7 @@ else:
 # =============================================================================
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME, 'localhost', '127.0.0.1']
+    ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME, 'localhost', '127.0.0.1', '.neon.tech']
     # Trusted origins for CSRF when behind proxy
     CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}', f'http://{RENDER_EXTERNAL_HOSTNAME}']
 else:
@@ -112,46 +112,16 @@ WSGI_APPLICATION = 'rahulportfolio.wsgi.application'
 # Database configuration for production (PostgreSQL on Render)
 # =============================================================================
 import dj_database_url
+import os
 
-# Primary database configuration - supports both PostgreSQL and SQLite
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-if DATABASE_URL:
-    # Production/PostgreSQL - Parse DATABASE_URL (Render, Heroku, etc.)
-    try:
-        DATABASES = {
-            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-        }
-    except Exception as e:
-        # If parsing fails, log warning and fallback to SQLite
-        import warnings
-        warnings.warn(f"Failed to parse DATABASE_URL: {e}. Falling back to SQLite.", RuntimeWarning)
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
-else:
-    # Development - SQLite fallback (faster, no external dependency)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-    
-    # Alternative: Uncomment below to use PostgreSQL locally without DATABASE_URL
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': 'rahulportfolio',
-    #         'USER': 'postgres',
-    #         'PASSWORD': 'your_password',
-    #         'HOST': 'localhost',
-    #         'PORT': '5432',
-    #     }
-    # }
+DATABASES = {
+    'default': dj_database_url.parse(
+        os.environ.get(
+            "DATABASE_URL",
+            "postgresql://neondb_owner:npg_uVhqzE25OdHK@ep-weathered-pine-apw3j0ig.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require"
+        )
+    )
+}
 
 # =============================================================================
 # Password validation
