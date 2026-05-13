@@ -159,7 +159,8 @@ STATICFILES_DIRS = [
 ]
 
 # WhiteNoise configuration for serving static files in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE is now handled via STORAGES setting (Django 4.2+)
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -192,6 +193,14 @@ CLOUDINARY_STORAGE = {
     'SECURE': True,  # Always use HTTPS
 }
 
+# Debug prints
+print(f"[DEBUG] CLOUDINARY_SDK_AVAILABLE: {CLOUDINARY_SDK_AVAILABLE}")
+print(f"[DEBUG] CLOUDINARY_CLOUD_NAME: {CLOUDINARY_CLOUD_NAME}")
+print(f"[DEBUG] CLOUDINARY_API_KEY: {CLOUDINARY_API_KEY}")
+print(f"[DEBUG] CLOUDINARY_API_SECRET: {CLOUDINARY_API_SECRET}")
+print(f"[DEBUG] All credentials present: {bool(CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET)}")
+print(f"[DEBUG] Condition result: {CLOUDINARY_SDK_AVAILABLE and bool(CLOUDINARY_CLOUD_NAME) and bool(CLOUDINARY_API_KEY) and bool(CLOUDINARY_API_SECRET)}")
+
 # Configure Cloudinary SDK if all credentials are available and SDK imported
 if CLOUDINARY_SDK_AVAILABLE and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     cloudinary.config(
@@ -200,22 +209,30 @@ if CLOUDINARY_SDK_AVAILABLE and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and
         api_secret=CLOUDINARY_API_SECRET,
         secure=True
     )
-    # Production: Use Cloudinary CDN for all media files (images, videos, documents)
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    
-    # Optional: Serve static files via Cloudinary CDN (uncomment to enable)
-    # CLOUDINARY_STATICFILES = os.environ.get('CLOUDINARY_STATICFILES', '').lower() == 'true'
-    # if CLOUDINARY_STATICFILES:
-    #     STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+    # Use Cloudinary for media storage and WhiteNoise for static
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
+    print("[DEBUG] Cloudinary storage backend configured")
 else:
-    # Development fallback: use local filesystem storage
-    if DEBUG:
-        pass  # Local development uses default FileSystemStorage
-    else:
-        # Production without Cloudinary - CRITICAL WARNING
+    # Fallback to local filesystem storage for media
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
+    if not DEBUG:
         warnings.warn(
             "\n" + "="*70 + "\n"
-            "⚠️  CLOUDINARY NOT CONFIGURED - MEDIA UPLOADS WILL FAIL ⚠️\n"
+            "⚠️  CLOUDINARY NOT CONFIGURED - MEDIA UPLOADS WILL USE LOCAL FILESYSTEM ⚠️\n"
             "="*70 + "\n"
             "Set environment variables:\n"
             "  CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET\n"

@@ -17,7 +17,8 @@ from django.utils import timezone
 
 from .models import (
     Project, Skill, Experience, Education, BlogPost, ContactMessage,
-    Testimonial, Service, SocialLink, SiteInfo, VisitorCount, UserActivity, Gallery
+    Testimonial, Service, SocialLink, SiteInfo, VisitorCount, UserActivity, Gallery,
+    UpcomingProject
 )
 from .forms import (
     ContactForm, RegistrationForm, LoginForm, ProjectForm, SkillForm,
@@ -75,6 +76,13 @@ class HomeView(TemplateView):
             context['experiences'] = Experience.objects.order_by('-start_date')[:3]
         except Exception:
             context['experiences'] = []
+        
+        try:
+            context['upcoming_projects'] = UpcomingProject.objects.filter(
+                is_active=True
+            ).order_by('order', 'expected_launch')[:3]
+        except Exception:
+            context['upcoming_projects'] = []
         
         return context
 

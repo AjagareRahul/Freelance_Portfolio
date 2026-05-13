@@ -509,6 +509,45 @@
     </div>
 </section>
 
+<!-- Upcoming Projects Section -->
+{% if upcoming_projects %}
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <h2 class="section-title" data-aos="fade-up">Upcoming Projects</h2>
+        <div class="row g-4">
+            {% for upcoming in upcoming_projects %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                <div class="card h-100 border-0 shadow-sm project-card">
+                    {% if upcoming.image %}
+                    <img src="{{ upcoming.image.url }}" class="card-img-top" alt="{{ upcoming.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-rocket fa-3x text-warning"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ upcoming.title }}</h5>
+                        <p class="card-text text-muted">{{ upcoming.short_description }}</p>
+                        <div class="mt-2">
+                            {% for tech in upcoming.get_technology_list %}
+                                <span class="badge bg-info me-1 mb-1">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-primary">{{ upcoming.get_status_display }}</small>
+                            {% if upcoming.expected_launch %}
+                                <small class="text-muted ms-2">{{ upcoming.expected_launch|date:"M Y" }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- Testimonials Section -->
 {% if testimonials %}
 <section class="py-5">
