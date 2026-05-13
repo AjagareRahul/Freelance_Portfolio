@@ -1,97 +1,101 @@
-"""
-Django Signals for Portfolio Website
-"""
-
-from django.db.models.signals import post_save, post_delete, pre_save
-from django.contrib.auth.models import User
+# Signals for automatic Cloudinary file cleanup
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
-from django.utils import timezone
-from .models import UserActivity, VisitorCount, ContactMessage
+from django.conf import settings
+import os
 
+from .models import Project, Gallery, UpcomingProject, SiteInfo, Testimonial
 
-@receiver(post_save, sender=User)
-def create_user_activity_on_registration(sender, instance, created, **kwargs):
-    """
-    Create user activity when a new user is registered
-    """
-    if created:
-        UserActivity.objects.create(
-            user=instance,
-            activity_type='register',
-            description=f'New user registered: {instance.username}'
-        )
-
-
-@receiver(post_save, sender=ContactMessage)
-def create_contact_activity(sender, instance, created, **kwargs):
-    """
-    Create user activity when a contact message is submitted
-    """
-    if created:
-        # Try to get user if authenticated
+def delete_file_from_storage(instance, field_name):
+    """Delete file from storage backend (Cloudinary) if it exists"""
+    field = getattr(instance, field_name)
+    if field:
+        # The storage backend's delete method will be called
         try:
-            user = instance
-        except Exception:
-            user = None
-        
-        # Log the activity (we don't have user info from contact form)
-        pass
+            field.delete(save=False)
+        except Exception as e:
+            # Log but don't raise
+            print(f"Failed to delete {field_name} for {instance}: {e}")
 
+# Project signals
+@receiver(pre_delete, sender=Project)
+def delete_project_image(sender, instance, **kwargs):
+    delete_file_from_storage(instance, 'image')
 
-def log_user_login(sender, request, user, **kwargs):
-    """
-    Log user login activity
-    """
-    UserActivity.objects.create(
-        user=user,
-        activity_type='login',
-        description=f'User logged in',
-        ip_address=get_client_ip(request),
-        user_agent=request.META.get('HTTP_USER_AGENT', '')[:300]
-    )
+@receiver(pre_save, sender=Project)
+def delete_old_project_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = Project.objects.get(pk=instance.pk)
+    except Project.DoesNotExist:
+        return
+    if old.image and old.image != instance.image:
+        delete_file_from_storage(old, 'image')
 
+# Gallery signals
+@receiver(pre_delete, sender=Gallery)
+def delete_gallery_image(sender, instance, **kwargs):
+    delete_file_from_storage(instance, 'image')
 
-def log_user_logout(sender, request, user, **kwargs):
-    """
-    Log user logout activity
-    """
-    UserActivity.objects.create(
-        user=user,
-        activity_type='logout',
-        description=f'User logged out',
-        ip_address=get_client_ip(request),
-        user_agent=request.META.get('HTTP_USER_AGENT', '')[:300]
-    )
+@receiver(pre_save, sender=Gallery)
+def delete_old_gallery_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = Gallery.objects.get(pk=instance.pk)
+    except Gallery.DoesNotExist:
+        return
+    if old.image and old.image != instance.image:
+        delete_file_from_storage(old, 'image')
 
+# UpcomingProject signals
+@receiver(pre_delete, sender=UpcomingProject)
+def delete_upcoming_image(sender, instance, **kwargs):
+    delete_file_from_storage(instance, 'image')
 
-def get_client_ip(request):
-    """
-    Get client IP address from request
-    """
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
+@receiver(pre_save, sender=UpcomingProject)
+def delete_old_upcoming_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = UpcomingProject.objects.get(pk=instance.pk)
+    except UpcomingProject.DoesNotExist:
+        return
+    if old.image and old.image != instance.image:
+        delete_file_from_storage(old, 'image')
 
+# SiteInfo signals (profile_image, resume)
+@receiver(pre_delete, sender=SiteInfo)
+def delete_siteinfo_files(sender, instance, **kwargs):
+    delete_file_from_storage(instance, 'profile_image')
+    delete_file_from_storage(instance, 'resume')
 
-@receiver(post_save, sender=VisitorCount)
-def update_visitor_count(sender, instance, created, **kwargs):
-    """
-    Update visitor count timestamp
-    """
-    if created:
-        instance.last_visitor = timezone.now()
-        instance.save()
+@receiver(pre_save, sender=SiteInfo)
+def delete_old_siteinfo_files_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = SiteInfo.objects.get(pk=instance.pk)
+    except SiteInfo.DoesNotExist:
+        return
+    if old.profile_image and old.profile_image != instance.profile_image:
+        delete_file_from_storage(old, 'profile_image')
+    if old.resume and old.resume != instance.resume:
+        delete_file_from_storage(old, 'resume')
 
+# Testimonial signals (client_image)
+@receiver(pre_delete, sender=Testimonial)
+def delete_testimonial_image(sender, instance, **kwargs):
+    delete_file_from_storage(instance, 'client_image')
 
-@receiver(pre_save, sender=ContactMessage)
-def sanitize_contact_message(sender, instance, **kwargs):
-    """
-    Sanitize contact message before saving
-    """
-    instance.name = instance.name.strip()
-    instance.email = instance.email.strip().lower()
-    instance.subject = instance.subject.strip()
-    instance.message = instance.message.strip()
+@receiver(pre_save, sender=Testimonial)
+def delete_old_testimonial_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = Testimonial.objects.get(pk=instance.pk)
+    except Testimonial.DoesNotExist:
+        return
+    if old.client_image and old.client_image != instance.client_image:
+        delete_file_from_storage(old, 'client_image')
