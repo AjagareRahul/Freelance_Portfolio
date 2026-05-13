@@ -211,10 +211,27 @@ if CLOUDINARY_SDK_AVAILABLE and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and
     )
     # Use Cloudinary for media storage
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    print("[DEBUG] Cloudinary media storage backend configured")
+    # Configure STORAGES for Django 4.2+
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+    }
+    print("[DEBUG] Cloudinary storage backend configured")
 else:
     # Fallback to local filesystem storage for media
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+    }
     if not DEBUG:
         warnings.warn(
             "\n" + "="*70 + "\n"
@@ -226,12 +243,6 @@ else:
             "="*70,
             RuntimeWarning
         )
-
-# Static files storage - use Manifest only in production
-if DEBUG:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-else:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media URL configuration (works with Cloudinary)
 MEDIA_URL = '/media/'
