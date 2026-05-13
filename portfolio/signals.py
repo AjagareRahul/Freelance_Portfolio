@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.conf import settings
 import os
 
-from .models import Project, Gallery, UpcomingProject, SiteInfo, Testimonial
+from .models import Project, Gallery, UpcomingProject, SiteInfo, Testimonial, BlogPost
 
 def delete_file_from_storage(instance, field_name):
     """Delete file from storage backend (Cloudinary) if it exists"""
@@ -99,3 +99,19 @@ def delete_old_testimonial_image_on_change(sender, instance, **kwargs):
         return
     if old.client_image and old.client_image != instance.client_image:
         delete_file_from_storage(old, 'client_image')
+
+# BlogPost signals (image)
+@receiver(pre_delete, sender=BlogPost)
+def delete_blogpost_image(sender, instance, **kwargs):
+    delete_file_from_storage(instance, 'image')
+
+@receiver(pre_save, sender=BlogPost)
+def delete_old_blogpost_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = BlogPost.objects.get(pk=instance.pk)
+    except BlogPost.DoesNotExist:
+        return
+    if old.image and old.image != instance.image:
+        delete_file_from_storage(old, 'image')
