@@ -21,7 +21,7 @@ class SiteInfo(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     address = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='profile/', blank=True, null=True)
-    resume = models.FileField(upload_to='resume/', blank=True, null=True, storage='cloudinary_storage.storage.RawMediaCloudinaryStorage')
+    resume = models.FileField(upload_to='resume/', blank=True, null=True, storage=RawMediaCloudinaryStorage())
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
