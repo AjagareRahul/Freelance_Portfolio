@@ -13,42 +13,42 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'portfolio:home' %}">
-                        <i class="fas fa-home me-1 d-lg-none"></i> Home
+                        <i class="fas fa-home me-1"></i> Home
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/about/' in request.path %}active{% endif %}" href="{% url 'portfolio:about' %}">
-                        <i class="fas fa-user me-1 d-lg-none"></i> About
+                        <i class="fas fa-user me-1"></i> About
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/projects/' in request.path %}active{% endif %}" href="{% url 'portfolio:projects' %}">
-                        <i class="fas fa-briefcase me-1 d-lg-none"></i> Projects
+                        <i class="fas fa-briefcase me-1"></i> Projects
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/skills/' in request.path %}active{% endif %}" href="{% url 'portfolio:skills' %}">
-                        <i class="fas fa-code me-1 d-lg-none"></i> Skills
+                        <i class="fas fa-code me-1"></i> Skills
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/blog/' in request.path %}active{% endif %}" href="{% url 'portfolio:blog' %}">
-                        <i class="fas fa-blog me-1 d-lg-none"></i> Blog
+                        <i class="fas fa-blog me-1"></i> Blog
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/gallery/' in request.path %}active{% endif %}" href="{% url 'portfolio:gallery' %}">
-                        <i class="fas fa-images me-1 d-lg-none"></i> Gallery
+                        <i class="fas fa-images me-1"></i> Gallery
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'portfolio:contact' %}">
-                        <i class="fas fa-envelope me-1 d-lg-none"></i> Contact
+                        <i class="fas fa-envelope me-1"></i> Contact
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/public-profile/' in request.path %}active{% endif %}" href="{% url 'portfolio:public_profile' %}">
-                        <i class="fas fa-user me-1 d-lg-none"></i> Profile
+                        <i class="fas fa-user me-1"></i> Profile
                     </a>
                 </li>
                 {% if user.is_authenticated %}

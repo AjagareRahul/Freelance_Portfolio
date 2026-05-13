@@ -109,18 +109,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'rahulportfolio.wsgi.application'
 
 # =============================================================================
-# Database configuration for production (PostgreSQL on Render)
+# Database configuration for production (PostgreSQL on Neon)
 # =============================================================================
 import dj_database_url
-import os
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get(
-            "DATABASE_URL",
-            "postgresql://neondb_owner:npg_uVhqzE25OdHK@ep-weathered-pine-apw3j0ig.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require"
-        )
-    )
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
 # =============================================================================

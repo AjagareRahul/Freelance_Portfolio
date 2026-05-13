@@ -244,13 +244,16 @@ a:hover {
     margin-bottom: 1rem;
     line-height: 1.1;
     letter-spacing: -1px;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero-subtitle {
     font-size: 1.6rem;
-    color: var(--text-muted);
+    color: #e9ecef;
     margin-bottom: 1.5rem;
     font-weight: 400;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.2);
 }
 
 .typing-text {
@@ -1240,6 +1243,41 @@ a:hover {
     .cta-section h2 {
         font-size: 2rem;
     }
+    
+    /* Mobile icon sizes */
+    .skill-card i,
+    .service-icon i,
+    .contact-icon i {
+        font-size: 2rem !important;
+    }
+    
+    .social-btn {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Smaller cards on mobile */
+    .skill-card,
+    .service-card,
+    .project-card,
+    .blog-card {
+        padding: 1.5rem !important;
+    }
+    
+    .card-img-top {
+        height: 180px !important;
+    }
+    
+    .stat-icon {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.2rem !important;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.5rem !important;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1248,8 +1286,8 @@ a:hover {
     }
     
     .btn {
-        padding: 0.7rem 1.5rem;
-        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
     }
     
     .section-title {
@@ -1258,6 +1296,39 @@ a:hover {
     
     .page-header h1 {
         font-size: 2rem;
+    }
+    
+    /* Extra small icons for 576px and below */
+    .skill-card i,
+    .service-icon i,
+    .contact-icon i {
+        font-size: 1.5rem !important;
+    }
+    
+    .social-btn {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .profile-placeholder i {
+        font-size: 4rem !important;
+    }
+    
+    /* Compact cards */
+    .skill-card,
+    .service-card,
+    .project-card,
+    .blog-card {
+        padding: 1rem !important;
+    }
+    
+    .card-img-top {
+        height: 150px !important;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.25rem !important;
     }
 }
 
