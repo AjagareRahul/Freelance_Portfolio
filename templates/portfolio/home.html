@@ -14,6 +14,7 @@
         align-items: center;
         position: relative;
         overflow: hidden;
+        background-attachment: fixed;
     }
     
     .hero-section::before {
@@ -114,43 +115,134 @@
         background: #ffc107;
     }
     
-    .project-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-        overflow: hidden;
-    }
+        .project-card {
+            transition: all 0.5s ease;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 193, 7, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .project-card .card-img-top {
+            transition: transform 0.8s ease, filter 0.5s ease;
+            height: 220px;
+            object-fit: cover;
+            filter: brightness(0.9) contrast(1.1);
+        }
+        
+        .project-card:hover .card-img-top {
+            transform: scale(1.05);
+            filter: brightness(1) contrast(1.2);
+        }
+        
+        .project-card .card-body {
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .project-card h5 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #ffc107;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .project-card p {
+            font-size: 0.95rem;
+            color: #e9ecef;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .project-card .badge {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            border-radius: 20px;
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            backdrop-filter: blur(5px);
+        }
+        
+        .project-card .btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .project-card .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+            background: rgba(255, 193, 7, 0.2);
+            color: #fff;
+        }
     
-    .project-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    }
-    
-    .project-card .card-img-top {
-        transition: transform 0.5s ease;
-    }
-    
-    .project-card:hover .card-img-top {
-        transform: scale(1.1);
-    }
-    
-    .skill-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-    }
-    
-    .skill-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    }
-    
-    .skill-card i {
-        transition: all 0.4s ease;
-    }
-    
-    .skill-card:hover i {
-        transform: scale(1.2) rotate(360deg);
-        color: #ffc107;
-    }
+        .skill-card {
+            transition: all 0.5s ease;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 193, 7, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .skill-card i {
+            transition: all 0.5s ease;
+            font-size: 3rem;
+        }
+        
+        .skill-card:hover i {
+            transform: scale(1.3) rotate(360deg);
+            color: #ffc107;
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+        }
+        
+        .skill-card h5 {
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem 0;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .skill-card .progress {
+            height: 8px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .skill-card .progress-bar {
+            border-radius: 50px;
+            transition: width 2s ease;
+            background: linear-gradient(90deg, #ffc107, #00d4ff);
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
     
     .service-card {
         transition: all 0.4s ease;
@@ -496,12 +588,14 @@
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
-                    <h4>No projects yet</h4>
-                    <p class="text-muted">Projects will be displayed here once added.</p>
-                </div>
-            {% endif %}
+                 <div class="col-12 text-center py-5">
+                     <div class="feature-box" style="border-radius: 15px; border: 2px dashed rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.02);">
+                         <i class="fas fa-folder-open fa-4x text-warning mb-4"></i>
+                         <h4 class="text-white">No projects yet</h4>
+                         <p class="text-white-50">Projects will be displayed here once added.</p>
+                     </div>
+                 </div>
+             {% endif %}
         </div>
         <div class="text-center mt-4">
             <a href="{% url 'portfolio:projects' %}" class="btn btn-warning">View All Projects</a>
