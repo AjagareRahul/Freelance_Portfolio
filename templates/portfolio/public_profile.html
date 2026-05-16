@@ -1,123 +1,364 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load portfolio_tags %}
 
 {% block title %}Profile - {{ site_info.owner_name|default:"Portfolio" }}{% endblock %}
 
+{% block extra_css %}
+/* Public Profile Page Styles */
+.public-profile-avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid var(--primary);
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+}
+
+.public-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.public-profile-avatar i {
+    font-size: 4rem;
+    color: var(--primary);
+}
+
+.public-profile-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.public-profile-card .card-header {
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-light);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.public-profile-card .card-body {
+    padding: 1.5rem;
+}
+
+.public-profile-card p {
+    font-size: 0.9375rem;
+    color: var(--text-body);
+    line-height: 1.7;
+}
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row i {
+    color: var(--primary);
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    width: 20px;
+    text-align: center;
+}
+
+.info-row .info-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    min-width: 100px;
+}
+
+.info-row .info-value {
+    color: var(--text-body);
+    font-size: 0.9rem;
+}
+
+.experience-item, .education-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.experience-item:last-child, .education-item:last-child {
+    border-bottom: none;
+}
+
+.experience-item h6, .education-item h6 {
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.125rem;
+}
+
+.experience-item .company-name, .education-item .institution {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+}
+
+.experience-item small, .education-item small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.experience-item p, .education-item p {
+    font-size: 0.875rem;
+    color: var(--text-body);
+    margin-bottom: 0;
+}
+
+.skills-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+.skill-tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    background: var(--bg-light);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-body);
+}
+
+/* Progress bar in profile */
+.skill-progress-item {
+    margin-bottom: 1.25rem;
+}
+
+.skill-progress-item .d-flex {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.375rem;
+}
+
+.skill-progress-item h6 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.skill-progress-item .percentage {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .public-profile-avatar {
+        width: 120px;
+        height: 120px;
+    }
+    .info-row {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+{% endblock %}
+
 {% block content %}
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
         <h1 class="display-4" data-aos="fade-up">My Profile</h1>
+        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Get to know me better</p>
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
+                <li class="breadcrumb-item active text-primary-light" aria-current="page">Profile</li>
+            </ol>
+        </nav>
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container py-5">
+<!-- Profile Section -->
+<section class="py-100">
+    <div class="container">
         <div class="row g-4">
-            <div class="col-md-4" data-aos="fade-up">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
+            <!-- Profile Card -->
+            <div class="col-lg-4" data-aos="fade-up">
+                <div class="public-profile-card text-center">
+                    <div class="card-body">
                         {% if site_info and site_info.profile_image %}
-                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+                        <img src="{{ site_info.profile_image.url }}" alt="Profile" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid var(--primary);">
                         {% else %}
-                        <div class="profile-placeholder mx-auto mb-3" style="width: 200px; height: 200px;">
-                            <i class="fas fa-user fa-5x text-warning"></i>
+                        <div class="public-profile-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
                         {% endif %}
-                        <h5>{{ site_info.owner_name|default:"Portfolio Owner" }}</h5>
-                        <p class="text-muted">{{ site_info.site_title|default:"" }}</p>
-                        {% if site_info.email %}
-                        <p class="text-muted"><i class="fas fa-envelope me-2"></i>{{ site_info.email }}</p>
+                        <h5 class="mb-0" style="font-weight: 700;">{{ site_info.owner_name|default:"Portfolio Owner" }}</h5>
+                        <p class="text-muted mb-1" style="font-size: 0.9375rem;">{{ site_info.site_title|default:"Developer" }}</p>
+                        {% if site_info.tagline %}
+                        <p class="text-primary" style="font-size: 0.875rem; font-style: italic;">"{{ site_info.tagline }}"</p>
                         {% endif %}
-                        {% if site_info.phone %}
-                        <p class="text-muted"><i class="fas fa-phone me-2"></i>{{ site_info.phone }}</p>
-                        {% endif %}
+
+                         <div class="info-row mt-3">
+                             <i class="fas fa-envelope"></i>
+                             <div>
+                                 <div class="info-label">Email</div>
+                                 <div class="info-value">{{ site_info.email|default:"Not available" }}</div>
+                             </div>
+                         </div>
+                         {% if site_info.phone %}
+                         <div class="info-row">
+                             <i class="fas fa-phone"></i>
+                             <div>
+                                 <div class="info-label">Phone</div>
+                                 <div class="info-value">{{ site_info.phone }}</div>
+                             </div>
+                         </div>
+                         {% endif %}
+                         {% if site_info.address %}
+                         <div class="info-row">
+                             <i class="fas fa-map-marker-alt"></i>
+                             <div>
+                                 <div class="info-label">Location</div>
+                                 <div class="info-value">{{ site_info.address }}</div>
+                             </div>
+                         </div>
+                         {% endif %}
+                         
+                         <!-- Resume Download Button -->
+                         {% if site_info and site_info.resume %}
+                         <div class="info-row mt-4">
+                             <i class="fas fa-file-pdf me-2"></i>
+                             <div>
+                                 <div class="info-label">Resume</div>
+                                 <div class="info-value">
+                                     <a href="{% url 'portfolio:download_resume' %}" 
+                                        class="btn btn-outline-primary btn-sm">
+                                         Download Resume
+                                     </a>
+                                 </div>
+                             </div>
+                         </div>
+                         {% endif %}
+
+                        <!-- Social Links -->
+                        <div class="social-links-grid mt-3">
+                            {% if social_links %}
+                                {% for link in social_links %}
+                                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="social-link-btn" title="{{ link.platform }}">
+                                    <i class="{% get_social_icon link.platform %}"></i>
+                                </a>
+                                {% endfor %}
+                            {% else %}
+                                <a href="https://github.com/AjagareRahul" target="_blank" class="social-link-btn" title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" class="social-link-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://x.com/AjagareRahul" target="_blank" class="social-link-btn" title="X"><i class="fab fa-x-twitter"></i></a>
+                                <a href="https://www.instagram.com/ajagarerahul" target="_blank" class="social-link-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8" data-aos="fade-up" data-aos-delay="100">
-                <div class="card border-0 shadow-sm">
+
+            <!-- About & Experience -->
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+                {% if site_info and site_info.site_description %}
+                <div class="public-profile-card">
+                    <div class="card-header">
+                        <i class="fas fa-user me-2"></i>About Me
+                    </div>
                     <div class="card-body">
-                        <h5 class="mb-3">About Me</h5>
-                        <p class="text-muted">{{ site_info.site_description|default:"No description available." }}</p>
-                        
-                        {% if site_info.address %}
-                        <h5 class="mt-4 mb-3">Location</h5>
-                        <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>{{ site_info.address }}</p>
-                        {% endif %}
-                        
-                        {% if site_info.resume %}
-                        <div class="mt-4">
-                            <a href="{{ site_info.resume.url }}" class="btn btn-primary" target="_blank">
-                                <i class="fas fa-download me-2"></i>Download Resume
-                            </a>
-                        </div>
-                        {% endif %}
+                        <p>{{ site_info.site_description }}</p>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Experience Section -->
-        {% if experiences %}
-        <div class="row mt-5">
-            <div class="col-12" data-aos="fade-up" data-aos-delay="200">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Work Experience</h5>
+                {% endif %}
+
+                <!-- Skills -->
+                {% if skills %}
+                <div class="public-profile-card">
+                    <div class="card-header">
+                        <i class="fas fa-code me-2"></i>Skills & Technologies
                     </div>
                     <div class="card-body">
-                        {% for experience in experiences %}
-                        <div class="experience-item mb-4 pb-3 border-bottom">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">{{ experience.position }}</h6>
-                                    <p class="text-primary mb-1">{{ experience.company_name }}</p>
-                                    {% if experience.location %}
-                                    <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}</p>
-                                    {% endif %}
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">
-                                        {{ experience.start_date|date:"M Y" }} - 
-                                        {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
-                                    </small>
-                                </div>
+                        {% regroup skills by category as skill_groups %}
+                        {% for group in skill_groups %}
+                        <h6 style="font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; margin: 1rem 0 0.75rem;">{{ group.grouper|title }}</h6>
+                        <div class="skills-tag-row mb-3">
+                            {% for skill in group.list %}
+                            <div class="skill-tag-item">
+                                <i class="{% get_skill_icon skill.name %}" style="font-size: 0.85rem;"></i>
+                                <span>{{ skill.name }}</span>
                             </div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Experience -->
+                {% if experiences %}
+                <div class="public-profile-card">
+                    <div class="card-header">
+                        <i class="fas fa-briefcase me-2"></i>Work Experience
+                    </div>
+                    <div class="card-body p-0">
+                        {% for experience in experiences %}
+                        <div class="experience-item px-4">
+                            <div class="d-flex justify-content-between flex-wrap mb-1">
+                                <h6 class="mb-0">{{ experience.position }}</h6>
+                                <small class="text-muted">
+                                    {{ experience.start_date|date:"M Y" }} - {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                                </small>
+                            </div>
+                            <p class="company-name mb-1"><i class="fas fa-building me-1"></i>{{ experience.company_name }}</p>
+                            {% if experience.location %}
+                            <p class="text-muted small mb-1"><i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}</p>
+                            {% endif %}
                             <p class="text-muted">{{ experience.description }}</p>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
-            </div>
-        </div>
-        {% endif %}
-        
-        <!-- Education Section -->
-        {% if educations %}
-        <div class="row mt-4">
-            <div class="col-12" data-aos="fade-up" data-aos-delay="300">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Education</h5>
+                {% endif %}
+
+                <!-- Education -->
+                {% if educations %}
+                <div class="public-profile-card">
+                    <div class="card-header">
+                        <i class="fas fa-graduation-cap me-2"></i>Education
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         {% for education in educations %}
-                        <div class="education-item mb-4 pb-3 border-bottom">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">{{ education.degree }} in {{ education.field_of_study }}</h6>
-                                    <p class="text-success mb-1">{{ education.institution }}</p>
-                                    {% if education.grade %}
-                                    <p class="text-muted small mb-2">Grade: {{ education.grade }}</p>
-                                    {% endif %}
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">
-                                        {{ education.start_date|date:"M Y" }} - 
-                                        {% if education.is_current %}Present{% else %}{{ education.end_date|date:"M Y" }}{% endif %}
-                                    </small>
-                                </div>
+                        <div class="education-item px-4">
+                            <div class="d-flex justify-content-between flex-wrap mb-1">
+                                <h6 class="mb-0">{{ education.degree }} in {{ education.field_of_study }}</h6>
+                                <small class="text-muted">
+                                    {{ education.start_date|date:"Y" }} - {% if education.is_current %}Present{% else %}{{ education.end_date|date:"Y" }}{% endif %}
+                                </small>
                             </div>
+                            <p class="company-name mb-1"><i class="fas fa-university me-1"></i>{{ education.institution }}</p>
+                            {% if education.grade %}
+                            <p class="text-muted small mb-1"><strong>Grade:</strong> {{ education.grade }}</p>
+                            {% endif %}
                             {% if education.description %}
                             <p class="text-muted">{{ education.description }}</p>
                             {% endif %}
@@ -125,49 +366,24 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
-        {% endif %}
-        
-        <!-- Skills Section -->
-        {% if skills %}
-        <div class="row mt-4">
-            <div class="col-12" data-aos="fade-up" data-aos-delay="400">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0"><i class="fas fa-code me-2"></i>Skills & Technologies</h5>
-                    </div>
-                    <div class="card-body">
-                        {% regroup skills by category as skill_groups %}
-                        {% for group in skill_groups %}
-                        <div class="skill-category mb-4">
-                            <h6 class="text-info mb-3">{{ group.grouper|title }}</h6>
-                            <div class="row">
-                                {% for skill in group.list %}
-                                <div class="col-md-6 col-lg-4 mb-3">
-                                    <div class="skill-item">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <span>{{ skill.name }}</span>
-                                            <small class="text-muted">{{ skill.proficiency }}%</small>
-                                        </div>
-                                        <div class="progress" style="height: 6px;">
-                                            <div class="progress-bar bg-info" role="progressbar" 
-                                                 style="width: {{ skill.proficiency }}%" 
-                                                 aria-valuenow="{{ skill.proficiency }}" 
-                                                 aria-valuemin="0" 
-                                                 aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section py-100">
+    <div class="container text-center">
+        <div class="cta-content" data-aos="fade-up">
+            <h2 class="text-dark mb-3 fw-bold">Want to Work Together?</h2>
+            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+                Let's connect and discuss your next project.
+            </p>
+            <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Get In Touch
+            </a>
         </div>
-        {% endif %}
     </div>
 </section>
 {% endblock %}

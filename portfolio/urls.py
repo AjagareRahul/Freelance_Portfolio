@@ -19,6 +19,9 @@ urlpatterns = [
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('gallery/', views.GalleryView.as_view(), name='gallery'),
     
+    # Resume download
+    path('download-resume/', views.download_resume, name='download_resume'),
+    
     # Authentication - mapped to main urls.py views
     path('accounts/login/', views.login_view, name='login'),
     path('accounts/logout/', views.logout_view, name='logout'),

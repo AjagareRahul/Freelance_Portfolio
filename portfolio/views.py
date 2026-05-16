@@ -589,6 +589,51 @@ def public_profile_view(request):
     })
 
 
+def download_resume(request):
+    """
+    Download resume view - serves the resume file for download
+    """
+    try:
+        site_info = SiteInfo.objects.first()
+        if site_info and site_info.resume:
+            # Try to serve the file - handle Cloudinary storage properly
+            try:
+                # For Cloudinary storage, we need to fetch the file from the URL
+                file_url = site_info.resume.url
+                
+                # Fetch the file from the URL (works for both local and Cloudinary)
+                import requests
+                response = requests.get(file_url, stream=True, timeout=10)
+                
+                if response.status_code == 200:
+                    # Create Django response with appropriate headers for download
+                    django_response = HttpResponse(
+                        response.content,
+                        content_type='application/pdf'
+                    )
+                    # Set filename for download
+                    filename = site_info.resume.name.split('/')[-1]  # Get just the filename part
+                    if not filename.endswith('.pdf'):
+                        filename += '.pdf'
+                    django_response['Content-Disposition'] = f'attachment; filename="{filename}"'
+                    return django_response
+                else:
+                    # If fetching fails, fall back to redirecting to the URL
+                    return redirect(file_url)
+            except Exception as fetch_error:
+                # If fetching fails, fall back to redirecting to the URL
+                return redirect(site_info.resume.url)
+        else:
+            messages.error(request, 'Resume not found.')
+            return redirect('portfolio:public_profile')
+    except Exception as e:
+        messages.error(request, f'Error downloading resume: {str(e)}')
+        return redirect('portfolio:public_profile')
+    except Exception as e:
+        messages.error(request, f'Error downloading resume: {str(e)}')
+        return redirect('portfolio:public_profile')
+
+
 @login_required
 def messages_view(request):
     """
