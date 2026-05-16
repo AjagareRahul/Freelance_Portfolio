@@ -3,80 +3,174 @@
 
 {% block title %}Profile - Ajagare Rahul{% endblock %}
 
+{% block extra_css %}
+/* Profile Page Styles */
+.profile-card-modern {
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.profile-card-modern .card-header {
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-light);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.profile-card-modern .card-body {
+    padding: 1.5rem;
+}
+
+.form-control-modern {
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.form-control-modern:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-100);
+    outline: none;
+}
+
+.form-control-modern::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label-modern {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--text-body);
+}
+
+.settings-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    color: #fff;
+    padding: 0.65rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.settings-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .profile-card-modern {
+        padding: 1.25rem;
+    }
+}
+{% endblock %}
+
 {% block content %}
-<section class="py-5">
-    <div class="container py-5">
-        <h2 class="mb-4">My Profile</h2>
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1 class="display-4" data-aos="fade-up">My Profile</h1>
+        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Manage your account and settings.</p>
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
+                <li class="breadcrumb-item active text-primary-light" aria-current="page">Profile</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Profile Section -->
+<section class="py-100">
+    <div class="container">
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
+                <div class="profile-card-modern text-center">
+                    <div class="card-body">
                         {% if site_info and site_info.profile_image %}
-                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        <img src="{{ site_info.profile_image.url }}" alt="Profile Image" class="rounded-circle mb-3 mx-auto" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid var(--primary);">
                         {% else %}
-                        <div class="profile-placeholder mx-auto mb-3" style="width: 150px; height: 150px;">
-                            <i class="fas fa-user fa-5x text-warning"></i>
+                        <div class="mx-auto mb-3" style="width: 150px; height: 150px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center; border: 4px solid var(--primary);">
+                            <i class="fas fa-user fa-4x text-muted"></i>
                         </div>
                         {% endif %}
-                        <h5>{{ user.username }}</h5>
-                        <p class="text-muted">{{ user.email }}</p>
+                        <h5 class="mt-2 mb-0">{{ user.username }}</h5>
+                        <p class="text-muted mb-1" style="font-size: 0.875rem;">{{ user.email }}</p>
                         {% if site_info and site_info.resume %}
-                        <a href="{{ site_info.resume.url }}" class="btn btn-warning mt-2" target="_blank">
-                            <i class="fas fa-download me-2"></i>View Resume
+                        <a href="{{ site_info.resume.url }}" target="_blank" class="btn btn-outline-primary btn-sm mt-2">
+                            <i class="fas fa-download me-1"></i> View Resume
                         </a>
                         {% endif %}
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="card border-0 shadow-sm">
+                <div class="profile-card-modern">
+                    <div class="card-header">
+                        <i class="fas fa-user-cog me-2"></i>Personal Information
+                    </div>
                     <div class="card-body">
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <h5 class="mb-3">Personal Information</h5>
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                                    <label class="form-label-modern">Username</label>
+                                    <input type="text" class="form-control-modern" value="{{ user.username }}" readonly style="background: var(--bg-light);">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                                    <label class="form-label-modern">Email</label>
+                                    {{ form.email }}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">First Name</label>
-                                    <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}">
+                                    <label class="form-label-modern">First Name</label>
+                                    {{ form.first_name }}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Last Name</label>
-                                    <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}">
+                                    <label class="form-label-modern">Last Name</label>
+                                    {{ form.last_name }}
                                 </div>
                             </div>
-                            
-                            <h5 class="mt-4 mb-3">Profile Image</h5>
+
+                            <h5 class="mt-4 mb-3" style="font-weight: 700;">Profile Image</h5>
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <input type="file" name="profile_image" class="form-control" accept="image/*">
+                                    {{ form.profile_image }}
                                     <small class="text-muted">Recommended size: 400x400 pixels</small>
                                     {% if site_info and site_info.profile_image %}
-                                    <br><small class="text-success">Current: {{ site_info.profile_image.url }}</small>
+                                    <div class="mt-2"><small class="text-success">Current: <a href="{{ site_info.profile_image.url }}" target="_blank">View Image</a></small></div>
                                     {% endif %}
                                 </div>
                             </div>
-                            
-                            <h5 class="mt-4 mb-3">Resume</h5>
+
+                            <h5 class="mt-4 mb-3" style="font-weight: 700;">Resume</h5>
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx">
+                                    {{ form.resume }}
                                     <small class="text-muted">Upload PDF or Word document</small>
                                     {% if site_info and site_info.resume %}
-                                    <br><small class="text-success">Current: <a href="{{ site_info.resume.url }}" target="_blank">{{ site_info.resume.name }}</a></small>
+                                    <div class="mt-2"><small class="text-success">Current: <a href="{{ site_info.resume.url }}" target="_blank">{{ site_info.resume.name }}</a></small></div>
                                     {% endif %}
                                 </div>
                             </div>
-                            
+
                             <div class="mt-4">
-                                <button type="submit" class="btn btn-warning">Update Profile</button>
+                                <button type="submit" class="settings-btn">
+                                    <i class="fas fa-save me-2"></i>Update Profile
+                                </button>
                             </div>
                         </form>
                     </div>

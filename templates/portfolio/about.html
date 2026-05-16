@@ -3,186 +3,245 @@
 {% load portfolio_tags %}
 
 {% block title %}About - Ajagare Rahul{% endblock %}
-{% block meta_description %}Learn more about Ajagare Rahul, a Python and Django developer.{% endblock %}
+{% block meta_description %}Learn more about Ajagare Rahul, a Python and Django developer specializing in building scalable web applications.{% endblock %}
 
 {% block extra_css %}
-<style>
-    .about-image-container {
-        position: relative;
+/* About Page Styles */
+.about-hero-image {
+    border-radius: var(--radius-lg);
+    transition: var(--transition-slow);
+}
+
+.about-hero-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.about-placeholder {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--bg-dark), #16213e);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--primary);
+}
+
+.about-highlight-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.about-highlight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.about-highlight-card .card-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-100);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.about-highlight-card:hover .card-icon {
+    background: var(--primary);
+}
+
+.about-highlight-card .card-icon i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.about-highlight-card:hover .card-icon i {
+    color: #fff;
+}
+
+.about-highlight-card h6 {
+    font-weight: 700;
+    margin-bottom: 0.375rem;
+    font-size: 1rem;
+}
+
+.about-highlight-card small {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.timeline-entry {
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.timeline-entry:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.education-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.education-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.certification-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-100);
+    color: var(--primary);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Stat circle */
+.stat-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin: 0 auto 0.75rem;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+@media (max-width: 768px) {
+    .about-hero-image, .about-placeholder {
+        max-width: 320px;
+        margin: 0 auto;
     }
-    
-    .about-image-container::before {
-        content: '';
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        right: -20px;
-        bottom: -20px;
-        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-        border-radius: 20px;
-        z-index: -1;
+    .stat-circle {
+        width: 64px;
+        height: 64px;
+        font-size: 1.1rem;
     }
-    
-    .about-image-container img {
-        border-radius: 20px;
-        transition: all 0.4s ease;
-    }
-    
-    .about-image-container:hover img {
-        transform: scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-    
-    .about-placeholder {
-        width: 100%;
-        aspect-ratio: 4/5;
-        background: linear-gradient(135deg, var(--secondary-color), #16213e);
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 5px solid var(--primary-color);
-    }
-    
-    .feature-item {
-        padding: 1.5rem;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s ease;
-    }
-    
-    .feature-item:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-    }
-    
-    .feature-item i {
-        font-size: 2rem;
-        color: var(--primary-color);
-        margin-bottom: 1rem;
-    }
-    
-    .feature-item h6 {
-        font-weight: 700;
-    }
-    
-    .timeline-card {
-        padding: 1.5rem;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s ease;
-        border-left: 4px solid var(--primary-color);
-    }
-    
-    .timeline-card:hover {
-        transform: translateX(10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-    }
-    
-    .education-card {
-        padding: 1.5rem;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s ease;
-    }
-    
-    .education-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-    }
-</style>
+}
 {% endblock %}
 
 {% block content %}
 <!-- Page Header -->
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
-        <h1 class="display-4 fw-bold" data-aos="fade-up">About Me</h1>
-        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Learn more about my journey</p>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+<section class="page-header">
+    <div class="container">
+        <h1 class="display-4" data-aos="fade-up">About Me</h1>
+        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">My journey, skills, and passion for development</p>
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+            <ol class="breadcrumb justify-content-center">
                 <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
-                <li class="breadcrumb-item active text-warning" aria-current="page">About</li>
+                <li class="breadcrumb-item active text-primary-light" aria-current="page">About</li>
             </ol>
         </nav>
     </div>
 </section>
 
 <!-- About Section -->
-<section class="py-5">
-    <div class="container py-5">
+<section class="py-100">
+    <div class="container">
         <div class="row g-5 align-items-center">
-            <div class="col-lg-5" data-aos="fade-right">
-                <div class="about-image-container">
+            <div class="col-lg-5" data-aos="fade-right" data-aos-duration="1000">
+                <div class="text-center text-lg-start">
                     {% if site_info and site_info.profile_image %}
                     <a href="{% url 'portfolio:profile' %}">
-                    <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="img-fluid" style="border: 5px solid #ffc107;">
+                        <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="about-hero-image img-fluid mb-4" style="border: 3px solid var(--primary);">
                     </a>
                     {% else %}
-                    <a href="{% url 'portfolio:profile' %}">
-                    <div class="about-placeholder">
-                        <i class="fas fa-user fa-8x text-warning"></i>
+                    <div class="about-placeholder mb-4">
+                        <i class="fas fa-user fa-8x text-white-50"></i>
                     </div>
-                    </a>
                     {% endif %}
+                    <div class="d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap">
+                        <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Contact Me
+                        </a>
+                        <a href="{% url 'portfolio:projects' %}" class="btn btn-outline-dark btn-lg">
+                            <i class="fas fa-briefcase me-2"></i>View Projects
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-7" data-aos="fade-left">
-                <h2 class="mb-4 fw-bold">Who Am I?</h2>
-                <p class="lead">
-                    I'm <strong class="text-warning">Ajagare Rahul</strong>, a passionate Python & Django Developer with expertise in building modern web applications.
+            <div class="col-lg-7" data-aos="fade-left" data-aos-duration="1000">
+                <h2 class="mb-3 fw-bold">Who Am I?</h2>
+                <p class="lead" style="color: var(--primary); font-weight: 600; font-size: 1.125rem;">
+                    I'm <strong>Ajagare Rahul</strong>, a Python & Django Developer.
                 </p>
-                <p class="text-muted" style="font-size: 1.05rem; line-height: 1.8;">
-                    I have experience in developing scalable web applications using Python and Django framework. 
-                    My passion lies in creating efficient, user-friendly, and maintainable code. I constantly 
-                    stay updated with the latest technologies and best practices in web development.
+                <p style="font-size: 1.0625rem; line-height: 1.8; color: var(--text-body);">
+                    I build scalable backend systems, REST APIs, and full-stack web applications using Django and modern tools. My passion lies in creating efficient, user-friendly, and maintainable code that solves real-world problems.
                 </p>
-                <p class="text-muted" style="font-size: 1.05rem; line-height: 1.8;">
-                    When I'm not coding, you can find me exploring new technologies, contributing to open-source 
-                    projects, or sharing knowledge with the developer community.
+                <p style="font-size: 1.0625rem; line-height: 1.8; color: var(--text-body);">
+                    I'm constantly learning and staying updated with the latest technologies and best practices. When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
                 </p>
-                
-                <div class="row g-3 mt-4">
+
+                <div class="row g-3 mt-2">
                     <div class="col-md-6">
-                        <div class="feature-item">
-                            <i class="fas fa-code"></i>
-                            <h6 class="mb-1">Clean Code</h6>
-                            <small class="text-muted">Maintainable & Scalable</small>
+                        <div class="about-highlight-card">
+                            <div class="card-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h6>Clean Code</h6>
+                            <small>Maintainable & Scalable</small>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="feature-item">
-                            <i class="fas fa-clock"></i>
-                            <h6 class="mb-1">On Time Delivery</h6>
-                            <small class="text-muted">Professional Approach</small>
+                        <div class="about-highlight-card">
+                            <div class="card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h6>On Time Delivery</h6>
+                            <small>Professional Approach</small>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="feature-item">
-                            <i class="fas fa-users"></i>
-                            <h6 class="mb-1">Team Player</h6>
-                            <small class="text-muted">Collaborative Skills</small>
+                        <div class="about-highlight-card">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h6>Team Player</h6>
+                            <small>Collaborative Skills</small>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="feature-item">
-                            <i class="fas fa-lightbulb"></i>
-                            <h6 class="mb-1">Problem Solver</h6>
-                            <small class="text-muted">Analytical Thinking</small>
+                        <div class="about-highlight-card">
+                            <div class="card-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h6>Problem Solver</h6>
+                            <small>Analytical Thinking</small>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mt-4">
-                    <a href="{% url 'portfolio:contact' %}" class="btn btn-warning btn-lg me-2">
-                        <i class="fas fa-envelope me-2"></i>Contact Me
-                    </a>
-                    <a href="{% url 'portfolio:projects' %}" class="btn btn-outline-dark btn-lg">
-                        <i class="fas fa-briefcase me-2"></i>View Projects
-                    </a>
                 </div>
             </div>
         </div>
@@ -190,39 +249,38 @@
 </section>
 
 <!-- Experience Section -->
-<section class="py-5 bg-light">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h2 class="section-title" data-aos="fade-up">Work Experience</h2>
-            <p class="text-muted" data-aos="fade-up" data-aos-delay="100">My professional journey</p>
+<section class="experience-section bg-light">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Experience</span>
+            <h2>Professional Journey</h2>
+            <p>A look at my work experience and professional growth.</p>
         </div>
         <div class="row g-4">
             {% if experiences %}
                 {% for experience in experiences %}
-                <div class="col-12" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="timeline-card">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
-                            <div>
-                                <h4 class="mb-1 fw-bold">{{ experience.position }}</h4>
-                                <h5 class="text-warning mb-0">{{ experience.company_name }}</h5>
-                            </div>
-                            <span class="badge bg-dark">
-                                <i class="fas fa-calendar-alt me-1"></i>
-                                {{ experience.start_date|date:"M Y" }} - {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
-                            </span>
-                        </div>
+                <div class="col-12" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <div class="timeline-entry">
+                        <span class="date-badge">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            {{ experience.start_date|date:"M Y" }} - {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                        </span>
+                        <h5>{{ experience.position }}</h5>
+                        <p class="company"><i class="fas fa-building me-1"></i> {{ experience.company_name }}</p>
                         {% if experience.location %}
-                        <p class="text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> {{ experience.location }}</p>
+                        <p class="text-muted mb-2" style="font-size: 0.875rem;"><i class="fas fa-map-marker-alt me-1"></i> {{ experience.location }}</p>
                         {% endif %}
-                        <p class="mb-0" style="line-height: 1.7;">{{ experience.description }}</p>
+                        <p style="font-size: 0.9375rem; color: var(--text-body);">{{ experience.description }}</p>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-briefcase fa-4x text-muted mb-3"></i>
-                    <h4>No experience yet</h4>
-                    <p class="text-muted">Work experience will be displayed here.</p>
+                <div class="col-12 text-center py-4">
+                    <div class="stat-circle mb-3 mx-auto">
+                        <i class="fas fa-briefcase fa-lg"></i>
+                    </div>
+                    <h4 class="text-muted">No experience yet</h4>
+                    <p class="text-muted">Work experience will be displayed here as I grow professionally.</p>
                 </div>
             {% endif %}
         </div>
@@ -230,54 +288,63 @@
 </section>
 
 <!-- Education Section -->
-<section class="py-5">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h2 class="section-title" data-aos="fade-up">Education</h2>
-            <p class="text-muted" data-aos="fade-up" data-aos-delay="100">My academic background</p>
+<section class="py-100">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Education</span>
+            <h2>My Academic Background</h2>
+            <p>Formal education and continuous learning journey.</p>
         </div>
         <div class="row g-4">
             {% if educations %}
                 {% for education in educations %}
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="education-card h-100">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <div class="education-card h-100 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
                             <div>
                                 <h4 class="mb-1 fw-bold">{{ education.degree }}</h4>
-                                <h5 class="text-warning">{{ education.institution }}</h5>
+                                <h5 class="text-primary"><i class="fas fa-graduation-cap me-1"></i> {{ education.institution }}</h5>
                             </div>
-                            <span class="badge bg-dark">
+                            <span class="certification-badge">
+                                <i class="fas fa-calendar-alt"></i>
                                 {{ education.start_date|date:"Y" }} - {% if education.is_current %}Present{% else %}{{ education.end_date|date:"Y" }}{% endif %}
                             </span>
                         </div>
-                        <p class="text-muted mb-2">{{ education.field_of_study }}</p>
+                        <p class="text-muted mb-2" style="font-size: 0.9375rem;">{{ education.field_of_study }}</p>
                         {% if education.grade %}
-                        <p class="mb-2"><strong>Grade:</strong> {{ education.grade }}</p>
+                        <p class="mb-0"><strong>Grade:</strong> {{ education.grade }}</p>
                         {% endif %}
                         {% if education.description %}
-                        <p class="mb-0 mt-2">{{ education.description }}</p>
+                        <p class="mt-2" style="font-size: 0.9375rem; color: var(--text-body);">{{ education.description }}</p>
                         {% endif %}
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-graduation-cap fa-4x text-muted mb-3"></i>
-                    <h4>Education details coming soon</h4>
+                <div class="col-12 text-center py-4">
+                    <div class="stat-circle mb-3 mx-auto">
+                        <i class="fas fa-graduation-cap fa-lg"></i>
+                    </div>
+                    <h4 class="text-muted">Education details coming soon</h4>
+                    <p class="text-muted">Academic information will be updated here.</p>
                 </div>
             {% endif %}
         </div>
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="cta-section py-5">
-    <div class="container py-5 text-center">
-        <h2 class="text-dark mb-3 fw-bold" data-aos="fade-up">Want to know more about me?</h2>
-        <p class="text-dark mb-4" data-aos="fade-up" data-aos-delay="100">Let's connect and discuss your project.</p>
-        <a href="{% url 'portfolio:contact' %}" class="btn btn-dark btn-lg" data-aos="fade-up" data-aos-delay="200">
-            <i class="fas fa-envelope me-2"></i>Get In Touch
-        </a>
+<!-- CTA Section -->
+<section class="cta-section py-100">
+    <div class="container text-center">
+        <div class="cta-content" data-aos="fade-up">
+            <h2 class="text-dark mb-3 fw-bold">Want to Know More About Me?</h2>
+            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+                Let's connect and discuss how I can help with your next project.
+            </p>
+            <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Get In Touch
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}

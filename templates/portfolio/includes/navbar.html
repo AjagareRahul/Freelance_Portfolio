@@ -77,39 +77,44 @@
 
 <style>
     .btn-nav-login {
-        background: linear-gradient(135deg, var(--primary-color), #ffdb4d);
-        color: var(--text-dark) !important;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #fff !important;
         padding: 0.5rem 1.5rem !important;
-        border-radius: 50px;
+        border-radius: var(--radius-full);
         font-weight: 600;
+        font-size: 0.875rem;
         margin-left: 0.5rem;
         transition: var(--transition);
+        border: none;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
-    
+
     .btn-nav-login:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+        color: #fff !important;
     }
-    
+
     .animate-dropdown {
         animation: slideDown 0.3s ease-out;
         border: none;
-        border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        border-radius: var(--radius-md);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
         padding: 0.5rem;
+        margin-top: 0.5rem;
     }
-    
+
     .animate-dropdown .dropdown-item {
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
         padding: 0.6rem 1rem;
         transition: var(--transition);
     }
-    
+
     .animate-dropdown .dropdown-item:hover {
-        background: var(--primary-color);
-        color: var(--text-dark);
+        background: var(--primary-100);
+        color: var(--primary);
     }
-    
+
     @keyframes slideDown {
         from {
             opacity: 0;

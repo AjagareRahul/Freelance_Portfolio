@@ -4,110 +4,125 @@
 {% block title %}Gallery - Ajagare Rahul{% endblock %}
 
 {% block extra_css %}
-<style>
-    .gallery-item {
-        position: relative;
-        overflow: hidden;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.5s ease;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/* Gallery Page Styles */
+.gallery-item-modern {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-slow);
+}
+
+.gallery-item-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(37, 99, 235, 0.25);
+}
+
+.gallery-item-modern img {
+    transition: transform 0.6s ease;
+    height: 260px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.gallery-item-modern:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-caption-modern {
+    padding: 1rem 1.25rem;
+}
+
+.gallery-caption-modern h5 {
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.gallery-caption-modern p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+@media (max-width: 576px) {
+    .gallery-item-modern img {
+        height: 200px;
     }
-    
-    .gallery-item:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        background: rgba(255, 255, 255, 0.05);
-    }
-    
-    .gallery-item img {
-        transition: transform 0.8s ease;
-        height: 260px;
-        object-fit: cover;
-        width: 100%;
-    }
-    
-    .gallery-item:hover img {
-        transform: scale(1.05);
-    }
-    
-    .gallery-caption {
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-        padding: 1rem;
-        margin-top: 1rem;
-        border-radius: 12px;
-    }
-    
-    .gallery-caption h5 {
-        color: #ffc107;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-    }
-    
-    .gallery-caption p {
-        color: #e9ecef;
-        margin-bottom: 0;
-        font-size: 0.9rem;
-    }
-    
-    @media (max-width: 768px) {
-        .gallery-item img {
-            height: 220px;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .gallery-item img {
-            height: 180px;
-        }
-    }
-</style>
+}
 {% endblock %}
 
 {% block content %}
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
         <h1 class="display-4" data-aos="fade-up">My Gallery</h1>
+        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">A visual journey through my work and experiences.</p>
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
+                <li class="breadcrumb-item active text-primary-light" aria-current="page">Gallery</li>
+            </ol>
+        </nav>
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container py-5">
-        {% if gallery_images %}
+<!-- Gallery Section -->
+<section class="py-100">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Visuals</span>
+            <h2>Gallery</h2>
+            <p>A glimpse into my projects, workspace, and journey.</p>
+        </div>
         <div class="row g-4">
-            {% for image in gallery_images %}
-            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                <div class="gallery-item">
-                    <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery Image' }}" class="img-fluid rounded">
-                    {% if image.title or image.description %}
-                    <div class="gallery-caption mt-2">
-                        {% if image.title %}
-                        <h5>{{ image.title }}</h5>
-                        {% endif %}
-                        {% if image.description %}
-                        <p class="text-muted mb-0">{{ image.description }}</p>
+            {% if gallery_images %}
+                {% for image in gallery_images %}
+                <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <div class="gallery-item-modern">
+                        <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery Image' }}" class="rounded">
+                        {% if image.title or image.description %}
+                        <div class="gallery-caption-modern">
+                            {% if image.title %}
+                            <h5>{{ image.title }}</h5>
+                            {% endif %}
+                            {% if image.description %}
+                            <p class="text-muted mb-0">{{ image.description }}</p>
+                            {% endif %}
+                        </div>
                         {% endif %}
                     </div>
-                    {% endif %}
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="row">
+                {% endfor %}
+            {% else %}
             <div class="col-12 text-center py-5">
-                <div class="feature-box" style="border-radius: 15px; border: 2px dashed rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.02);">
-                    <i class="fas fa-images fa-4x text-warning mb-4"></i>
-                    <h3 class="text-white">No Gallery Images</h3>
-                    <p class="text-white-50">Add images from the admin panel.</p>
+                <div class="stat-circle mb-3 mx-auto" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-images fa-lg text-muted"></i>
                 </div>
+                <h4 class="text-muted mt-3">No Gallery Images</h4>
+                <p class="text-muted">Images will be displayed here once added.</p>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section py-100">
+    <div class="container text-center">
+        <div class="cta-content" data-aos="fade-up">
+            <h2 class="text-dark mb-3 fw-bold">Want to See More?</h2>
+            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+                Check out my projects and get in touch for collaborations.
+            </p>
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-briefcase me-2"></i>View Projects
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}

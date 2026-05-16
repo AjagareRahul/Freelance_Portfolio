@@ -5,127 +5,292 @@
 {% block title %}Skills - Ajagare Rahul{% endblock %}
 
 {% block extra_css %}
-<style>
-    .skill-card {
-        padding: 1.5rem;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s ease;
-        border: none;
+/* Skills Page Styles */
+.skill-category-header {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.skill-category-header::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 2px;
+}
+
+.skill-card-modern {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.skill-card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.skill-card-modern .skill-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-100);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.skill-card-modern:hover .skill-icon-wrapper {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.skill-card-modern .skill-icon-wrapper i {
+    font-size: 1.75rem;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.skill-card-modern:hover .skill-icon-wrapper i {
+    color: #fff;
+}
+
+.skill-card-modern h5 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+    font-size: 1.0625rem;
+}
+
+.skill-card-modern .progress {
+    height: 8px;
+    border-radius: 50px;
+    background: var(--bg-light);
+    overflow: hidden;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.skill-card-modern .progress-bar {
+    border-radius: 50px;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+
+.skill-card-modern .skill-percentage {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.875rem;
+}
+
+.skill-pill-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-white);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-body);
+}
+
+.skill-pill-modern:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.15);
+    transform: translateY(-3px);
+    color: var(--primary);
+}
+
+.skill-pill-modern i {
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.skill-pill-modern:hover i {
+    color: var(--primary-dark);
+}
+
+.section-tag {
+    display: inline-block;
+    padding: 0.35rem 1.25rem;
+    background: var(--primary-100);
+    color: var(--primary);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.section-header-modern {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.section-header-modern h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+}
+
+.section-header-modern p {
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.skill-pill-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    cursor: default;
+}
+
+.skill-pill-grid:hover {
+    border-color: var(--primary);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, #f8faff, #fff);
+}
+
+.skill-pill-grid i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    transition: var(--transition);
+}
+
+.skill-pill-grid:hover i {
+    transform: scale(1.2);
+}
+
+.skill-pill-grid span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-body);
+}
+
+/* Bar skill */
+.skill-bar-item {
+    margin-bottom: 1.5rem;
+}
+
+.skill-bar-item .skill-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.skill-bar-item .skill-bar-header h6 {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.skill-bar-item .skill-bar-header span {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.875rem;
+}
+
+.skill-bar {
+    height: 10px;
+    background: var(--bg-light);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0;
+}
+
+@media (max-width: 576px) {
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
     }
-    
-    .skill-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    .skill-pill-grid {
+        padding: 1rem 0.75rem;
     }
-    
-    .skill-card .skill-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #ffc107, #ffdb4d);
-        border-radius: 12px;
-        margin-bottom: 1rem;
-    }
-    
-    .skill-card .skill-icon i {
-        font-size: 1.8rem;
-        color: #1a1a2e;
-    }
-    
-    .skill-card h5 {
-        font-weight: 700;
+    .skill-pill-grid i {
+        font-size: 1.5rem;
         margin-bottom: 0.5rem;
     }
-    
-    .skill-card .progress {
-        border-radius: 50px;
-        height: 12px;
-        background: #e9ecef;
-        overflow: hidden;
+    .skill-pill-grid span {
+        font-size: 0.8rem;
     }
-    
-    .skill-card .progress-bar {
-        border-radius: 50px;
-        background: linear-gradient(90deg, #ffc107, #00d4ff);
-        transition: width 1.5s ease;
-    }
-    
-    .skill-card .skill-percentage {
-        font-weight: 700;
-        color: #ffc107;
-    }
-    
-    .skill-tag {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.75rem 1.5rem;
-        background: #fff;
-        border-radius: 50px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
-        font-weight: 500;
-        margin: 0.5rem;
-    }
-    
-    .skill-tag:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        background: #ffc107;
-        color: #1a1a2e;
-    }
-    
-    .skill-tag i {
-        margin-right: 0.5rem;
-        color: #ffc107;
-    }
-    
-    .skill-tag:hover i {
-        color: #1a1a2e;
-    }
-    
-    .section-heading {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 2rem;
-        font-weight: 700;
-    }
-    
-    .section-heading::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 50px;
-        height: 4px;
-        background: linear-gradient(90deg, #ffc107, #00d4ff);
-        border-radius: 2px;
-    }
-</style>
+}
 {% endblock %}
 
 {% block content %}
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
-        <h1 class="display-4 fw-bold" data-aos="fade-up">My Skills</h1>
-        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Technologies I work with</p>
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1 class="display-4" data-aos="fade-up">My Skills</h1>
+        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Technologies and tools I work with</p>
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
+                <li class="breadcrumb-item active text-primary-light" aria-current="page">Skills</li>
+            </ol>
+        </nav>
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container py-5">
-        <!-- Backend Skills -->
-        <h3 class="section-heading mb-4" data-aos="fade-up">Backend Skills</h3>
+<!-- Skills Section -->
+<section class="py-100">
+    <div class="container">
+        <div class="section-header-modern">
+            <span class="section-tag">Technical Skills</span>
+            <h2>Core Competencies</h2>
+            <p>Technologies I've mastered through professional experience and continuous learning.</p>
+        </div>
+
+        <!-- Skill Bars (Backend) -->
+        <h3 class="skill-category-header mb-4">Backend Development</h3>
         <div class="row g-4 mb-5">
             {% if backend_skills %}
                 {% for skill in backend_skills %}
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="skill-card">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <div class="skill-card-modern">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="skill-icon me-3">
+                            <div class="skill-icon-wrapper me-3">
                                 <i class="{% get_skill_icon skill.name %}"></i>
                             </div>
                             <div class="flex-grow-1">
@@ -133,103 +298,113 @@
                             </div>
                             <span class="skill-percentage">{{ skill.proficiency }}%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ skill.proficiency }}%"></div>
+                        <div class="skill-bar">
+                            <div class="skill-bar-fill" data-width="{{ skill.proficiency }}%"></div>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
                 <div class="col-md-6" data-aos="fade-up">
-                    <div class="skill-card">
+                    <div class="skill-card-modern">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="skill-icon me-3">
-                                <i class="fab fa-python"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0">Python</h5>
-                            </div>
+                            <div class="skill-icon-wrapper me-3"><i class="fab fa-python"></i></div>
+                            <div class="flex-grow-1"><h5 class="mb-0">Python</h5></div>
                             <span class="skill-percentage">95%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 95%"></div>
-                        </div>
+                        <div class="skill-bar"><div class="skill-bar-fill" data-width="95%"></div></div>
                     </div>
                 </div>
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="skill-card">
+                    <div class="skill-card-modern">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="skill-icon me-3">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0">Django</h5>
-                            </div>
+                            <div class="skill-icon-wrapper me-3"><i class="fas fa-code"></i></div>
+                            <div class="flex-grow-1"><h5 class="mb-0">Django</h5></div>
                             <span class="skill-percentage">90%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 90%"></div>
-                        </div>
+                        <div class="skill-bar"><div class="skill-bar-fill" data-width="90%"></div></div>
                     </div>
                 </div>
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="skill-card">
+                    <div class="skill-card-modern">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="skill-icon me-3">
-                                <i class="fab fa-js"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0">JavaScript</h5>
-                            </div>
+                            <div class="skill-icon-wrapper me-3"><i class="fas fa-plug"></i></div>
+                            <div class="flex-grow-1"><h5 class="mb-0">Django REST Framework</h5></div>
                             <span class="skill-percentage">85%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 85%"></div>
-                        </div>
+                        <div class="skill-bar"><div class="skill-bar-fill" data-width="85%"></div></div>
                     </div>
                 </div>
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="skill-card">
+                    <div class="skill-card-modern">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="skill-icon me-3">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0">SQL</h5>
-                            </div>
+                            <div class="skill-icon-wrapper me-3"><i class="fas fa-database"></i></div>
+                            <div class="flex-grow-1"><h5 class="mb-0">SQL / PostgreSQL</h5></div>
                             <span class="skill-percentage">80%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 80%"></div>
-                        </div>
+                        <div class="skill-bar"><div class="skill-bar-fill" data-width="80%"></div></div>
                     </div>
                 </div>
             {% endif %}
         </div>
-        
-        <!-- Other Skills -->
-        <h3 class="section-heading mb-4" data-aos="fade-up">Other Skills</h3>
-        <div class="row g-3" data-aos="fade-up" data-aos-delay="200">
+
+        <!-- Other Skills Grid -->
+        <h3 class="skill-category-header mb-4">Other Technologies</h3>
+        <div class="skills-grid mb-5" data-aos="fade-up" data-aos-delay="200">
             {% if all_skills %}
                 {% for skill in all_skills %}
-                <div class="col-md-3 col-sm-4 col-6">
-                    <div class="skill-tag">
-                        <i class="{% get_skill_icon skill.name %}"></i>
-                        {{ skill.name }}
-                    </div>
+                <div class="skill-pill-grid">
+                    <i class="{% get_skill_icon skill.name %}"></i>
+                    <span>{{ skill.name }}</span>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-html5"></i>HTML</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-css3"></i>CSS</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-bootstrap"></i>Bootstrap</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-react"></i>React</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fas fa-database"></i>MySQL</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-git-alt"></i>Git</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-docker"></i>Docker</span></div>
-                <div class="col-md-3 col-sm-4 col-6"><span class="skill-tag"><i class="fab fa-linux"></i>Linux</span></div>
+                <div class="skill-pill-grid"><i class="fab fa-html5"></i><span>HTML5</span></div>
+                <div class="skill-pill-grid"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+                <div class="skill-pill-grid"><i class="fab fa-bootstrap"></i><span>Bootstrap</span></div>
+                <div class="skill-pill-grid"><i class="fab fa-git-alt"></i><span>Git</span></div>
+                <div class="skill-pill-grid"><i class="fas fa-docker"></i><span>Docker</span></div>
+                <div class="skill-pill-grid"><i class="fas fa-cloud"></i><span>Linux</span></div>
+                <div class="skill-pill-grid"><i class="fas fa-database"></i><span>MySQL</span></div>
+                <div class="skill-pill-grid"><i class="fab fa-react"></i><span>React</span></div>
+                <div class="skill-pill-grid"><i class="fas fa-shield-alt"></i><span>Authentication</span></div>
             {% endif %}
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Hire Me
+            </a>
         </div>
     </div>
 </section>
+
+<!-- CTA Section -->
+<section class="cta-section py-100">
+    <div class="container text-center">
+        <div class="cta-content" data-aos="fade-up">
+            <h2 class="text-dark mb-3 fw-bold">Have a Project in Mind?</h2>
+            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+                Let's discuss how I can help bring your ideas to life.
+            </p>
+            <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Get In Touch
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animate skill bars on scroll
+    const skillBars = document.querySelectorAll('.skill-bar-fill');
+    const animateBars = () => {
+        skillBars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = width;
+        });
+    };
+    window.addEventListener('load', animateBars);
+</script>
 {% endblock %}

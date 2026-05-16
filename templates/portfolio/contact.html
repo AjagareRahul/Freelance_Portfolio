@@ -5,139 +5,299 @@
 {% block title %}Contact - Ajagare Rahul{% endblock %}
 {% block meta_description %}Get in touch with Ajagare Rahul for Python & Django development projects.{% endblock %}
 
+{% block extra_css %}
+/* Contact Page Styles */
+.contact-card-modern {
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.contact-card-modern:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.contact-icon-circle {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-100), rgba(37, 99, 235, 0.05));
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.contact-icon-circle i {
+    font-size: 1.25rem;
+    color: var(--primary);
+}
+
+.contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.contact-info-item:hover {
+    background: var(--primary-50);
+}
+
+.social-links-grid {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.social-link-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-body);
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-link-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+}
+
+.form-control-modern {
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.form-control-modern:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-100);
+    outline: none;
+}
+
+.form-control-modern::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label-modern {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--text-body);
+}
+
+/* Map Placeholder */
+.map-placeholder {
+    border-radius: var(--radius-lg);
+    background: var(--bg-light);
+    border: 2px dashed var(--border-color);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: var(--transition);
+}
+
+.map-placeholder:hover {
+    border-color: var(--primary);
+    background: var(--primary-50);
+}
+
+.map-placeholder i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .contact-card-modern {
+        padding: 1.5rem;
+    }
+    .map-placeholder {
+        height: 160px;
+    }
+}
+{% endblock %}
+
 {% block content %}
 <!-- Page Header -->
-<section class="page-header bg-dark text-white py-5">
-    <div class="container py-5">
-        <h1 class="display-4" data-aos="fade-up">Contact Me</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+<section class="page-header">
+    <div class="container">
+        <h1 class="display-4" data-aos="fade-up">Get In Touch</h1>
+        <p class="lead text-white-50" data-aos="fade-up" data-aos-delay="100">Have a project? Let's work together.</p>
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+            <ol class="breadcrumb justify-content-center">
                 <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}" class="text-white">Home</a></li>
-                <li class="breadcrumb-item active text-warning" aria-current="page">Contact</li>
+                <li class="breadcrumb-item active text-primary-light" aria-current="page">Contact</li>
             </ol>
         </nav>
     </div>
 </section>
 
 <!-- Contact Section -->
-<section class="py-5">
-    <div class="container py-5">
+<section class="py-100">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Connect</span>
+            <h2>Let's Talk</h2>
+            <p>Have a project idea or question? I'd love to hear from you.</p>
+        </div>
         <div class="row g-5">
             <!-- Contact Info -->
             <div class="col-lg-5" data-aos="fade-right">
-                <h2 class="mb-4">Get In Touch</h2>
-                <p class="text-muted mb-4">
-                    Have a question or want to work together? Feel free to reach out to me using the form or contact information below.
-                </p>
-                
-                <div class="contact-info">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="contact-icon bg-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                            <i class="fas fa-envelope text-dark"></i>
+                <div class="contact-card-modern">
+                    <h5 class="mb-4" style="font-weight: 700; font-size: 1.25rem;">
+                        <i class="fas fa-envelope text-primary me-2"></i>Contact Information
+                    </h5>
+                    <p class="text-muted mb-4" style="font-size: 0.9rem;">
+                        Feel free to reach out through any of the channels below. I'm always open to discussing new opportunities and projects.
+                    </p>
+
+                    <div class="contact-info-item mb-3">
+                        <div class="contact-icon-circle">
+                            <i class="fas fa-envelope"></i>
                         </div>
                         <div>
-                            <h6 class="mb-0">Email</h6>
-                            <p class="mb-0 text-muted">ajagare.rahul@example.com</p>
+                            <h6 class="mb-0" style="font-weight: 600;">Email</h6>
+                            <p class="mb-0 text-muted" style="font-size: 0.875rem;">ajagarerahul@gmail.com</p>
                         </div>
                     </div>
-                    
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="contact-icon bg-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                            <i class="fas fa-phone text-dark"></i>
+
+                    <div class="contact-info-item mb-3">
+                        <div class="contact-icon-circle">
+                            <i class="fas fa-phone"></i>
                         </div>
                         <div>
-                            <h6 class="mb-0">Phone</h6>
-                            <p class="mb-0 text-muted">+91 XXXXXXXXXX</p>
+                            <h6 class="mb-0" style="font-weight: 600;">Phone</h6>
+                            <p class="mb-0 text-muted" style="font-size: 0.875rem;">+91 9011646406</p>
                         </div>
                     </div>
-                    
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="contact-icon bg-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                            <i class="fas fa-map-marker-alt text-dark"></i>
+
+                    <div class="contact-info-item mb-4">
+                        <div class="contact-icon-circle">
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
-                            <h6 class="mb-0">Location</h6>
-                            <p class="mb-0 text-muted">India</p>
+                            <h6 class="mb-0" style="font-weight: 600;">Location</h6>
+                            <p class="mb-0 text-muted" style="font-size: 0.875rem;">India</p>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Social Links -->
-                <div class="mt-4">
-                    <h5 class="mb-3">Follow Me</h5>
-                    {% if social_links %}
-                        {% for link in social_links %}
-                            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
-                                <i class="{% get_social_icon link.platform %}"></i>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <a href="https://github.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+
+                    <div class="social-links-grid">
+                        <a href="https://github.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="social-link-btn">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
-                            <i class="fab fa-linkedin"></i>
+                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" rel="noopener noreferrer" class="social-link-btn">
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="https://x.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                        <a href="https://x.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="social-link-btn">
                             <i class="fab fa-x-twitter"></i>
                         </a>
-                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm rounded-circle me-2">
+                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" rel="noopener noreferrer" class="social-link-btn">
                             <i class="fab fa-instagram"></i>
                         </a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Contact Form -->
-            <div class="col-lg-7" data-aos="fade-left">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-5">
-                        <h3 class="mb-4">Send a Message</h3>
-                        <form method="POST" action="{% url 'portfolio:contact' %}">
-                            {% csrf_token %}
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
-                                    {{ form.name }}
-                                    {% if form.name.errors %}
-                                        <div class="text-danger small">{{ form.name.errors }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
-                                    {{ form.email }}
-                                    {% if form.email.errors %}
-                                        <div class="text-danger small">{{ form.email.errors }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="{{ form.phone.id_for_label }}" class="form-label">Phone (Optional)</label>
-                                    {{ form.phone }}
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
-                                    {{ form.subject }}
-                                    {% if form.subject.errors %}
-                                        <div class="text-danger small">{{ form.subject.errors }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <label for="{{ form.message.id_for_label }}" class="form-label">Message</label>
-                                    {{ form.message }}
-                                    {% if form.message.errors %}
-                                        <div class="text-danger small">{{ form.message.errors }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-warning btn-lg">
-                                        <i class="fas fa-paper-plane me-2"></i>Send Message
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="contact-card-modern">
+                    <h5 class="mb-4" style="font-weight: 700; font-size: 1.25rem;">
+                        <i class="fas fa-paper-plane text-primary me-2"></i>Send a Message
+                    </h5>
+                    <form method="POST" action="{% url 'portfolio:contact' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label-modern">{{ form.name.label }}</label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-modern">{{ form.email.label }}</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-modern">{{ form.phone.label }}</label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-modern">{{ form.subject.label }}</label>
+                                {{ form.subject }}
+                                {% if form.subject.errors %}
+                                    <div class="text-danger small mt-1">{{ form.subject.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label-modern">{{ form.message.label }}</label>
+                                {{ form.message }}
+                                {% if form.message.errors %}
+                                    <div class="text-danger small mt-1">{{ form.message.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mt-2">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Placeholder -->
+        <div class="row mt-5">
+            <div class="col-12" data-aos="fade-up">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span style="font-weight: 600;">India</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-100">
+    <div class="container text-center">
+        <div class="cta-content" data-aos="fade-up">
+            <h2 class="text-dark mb-3 fw-bold">Interested in Working Together?</h2>
+            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+                I'm always excited about new opportunities and collaborations.
+            </p>
+            <a href="mailto:ajagarerahul@gmail.com" class="btn btn-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Send Email
+            </a>
         </div>
     </div>
 </section>
