@@ -6,719 +6,846 @@
 {% block meta_description %}Professional Python & Django Developer portfolio showcasing web development projects, skills, and services.{% endblock %}
 
 {% block extra_css %}
-<style>
-    .hero-section {
-        min-height: 100vh;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        background-attachment: fixed;
-    }
-    
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-            radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.05) 0%, transparent 30%);
-    }
-    
-    .hero-section::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        animation: float 60s linear infinite;
-    }
-    
-    @keyframes float {
-        0% { transform: translateY(0) rotate(0deg); }
-        100% { transform: translateY(-50%) rotate(5deg); }
-    }
-    
-    .hero-content {
-        position: relative;
-        z-index: 1;
-    }
-    
+/* ==================== HERO SECTION ==================== */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #111827 0%, #0f172a 50%, #111827 100%);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    animation: floatPattern 80s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes floatPattern {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(5deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(37, 99, 235, 0.12);
+    border: 1px solid rgba(37, 99, 235, 0.25);
+    border-radius: 50px;
+    color: #60a5fa;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero-badge .dot {
+    width: 8px;
+    height: 8px;
+    background: #2563eb;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    margin-bottom: 1.25rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.hero-title .gradient-text {
+    background: linear-gradient(135deg, #60a5fa, #a78bfa, #2563eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+}
+
+.hero-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+/* Hero Profile Image */
+.profile-image-container-modern {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.profile-image-container-modern img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid rgba(37, 99, 235, 0.5);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.profile-image-container-modern:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 20px 50px rgba(37, 99, 235, 0.4);
+}
+
+.profile-placeholder-modern {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgba(37, 99, 235, 0.5);
+}
+
+.profile-placeholder-modern i {
+    font-size: 6rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Hero Social Buttons */
+.btn-social-hero {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-social-hero:hover {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+    transform: translateY(-4px) rotate(15deg);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Hero Stats */
+.hero-stats {
+    display: flex;
+    gap: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-stat {
+    text-align: left;
+}
+
+.hero-stat-number {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+}
+
+.hero-stat-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tech Stack Tags */
+.tech-stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.tech-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    border-radius: 50px;
+    color: #93c5fd;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.tech-tag:hover {
+    background: rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* ==================== FEATURES / SERVICES SECTION ==================== */
+.features-section {
+    padding: 100px 0;
+    background: #f3f4f6;
+}
+
+.feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 14px;
+    margin-bottom: 1rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.feature-card:hover .feature-icon-wrapper {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.feature-icon-wrapper i {
+    font-size: 1.4rem;
+    color: #2563eb;
+    transition: all 0.4s ease;
+}
+
+.feature-card:hover .feature-icon-wrapper i {
+    color: #ffffff;
+}
+
+.feature-card {
+    padding: 2.5rem 2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e5e7eb;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.feature-card h5 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.75rem;
+}
+
+.feature-card p {
+    font-size: 0.9375rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==================== SECTION HEADER ==================== */
+.section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.section-tag {
+    display: inline-block;
+    padding: 0.35rem 1.25rem;
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.section-header h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+}
+
+.section-header p {
+    font-size: 1.0625rem;
+    color: #6b7280;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ==================== FEATURED PROJECT SECTION ==================== */
+.featured-project-section {
+    padding: 100px 0;
+}
+
+.featured-project-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e5e7eb;
+    height: 100%;
+}
+
+.featured-project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(37, 99, 235, 0.12);
+}
+
+.featured-project-card .project-image {
+    height: 320px;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.featured-project-card:hover .project-image {
+    transform: scale(1.05);
+}
+
+.featured-project-card .project-image-placeholder {
+    height: 320px;
+    background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.featured-project-content {
+    padding: 2.5rem;
+}
+
+.featured-project-content .project-tag {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.featured-project-content h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.featured-project-content p {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+.featured-project-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.featured-project-highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.375rem 0;
+    font-size: 0.9375rem;
+    color: #374151;
+}
+
+.featured-project-highlights li i {
+    color: #2563eb;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+}
+
+.featured-project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+}
+
+.featured-project-tech .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.35rem 0.875rem;
+    background: #f3f4f6;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.featured-project-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+/* ==================== PROJECTS GRID ==================== */
+.projects-section {
+    padding: 100px 0;
+    background: #f3f4f6;
+}
+
+.project-card-modern {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e5e7eb;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.25);
+}
+
+.project-card-modern .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.project-card-modern:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.project-card-modern .card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card-modern .card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.project-card-modern .card-text {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.project-card-modern .badge {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-right: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.project-links .btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.875rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+/* ==================== SKILLS HIGHLIGHTS ==================== */
+.skills-section {
+    padding: 100px 0;
+    background: #f3f4f6;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.skill-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+}
+
+.skill-pill:hover {
+    border-color: #2563eb;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, #f8faff, #ffffff);
+}
+
+.skill-pill i {
+    font-size: 2rem;
+    color: #2563eb;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.skill-pill:hover i {
+    transform: scale(1.2);
+    color: #1d4ed8;
+}
+
+.skill-pill span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* ==================== EXPERIENCE TIMELINE ==================== */
+.experience-section {
+    padding: 100px 0;
+    background: #ffffff;
+}
+
+.experience-timeline {
+    position: relative;
+    padding-left: 3rem;
+}
+
+.experience-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #2563eb, #a78bfa, transparent);
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem 2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.timeline-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.25);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 1.75rem;
+    width: 16px;
+    height: 16px;
+    background: #2563eb;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+.timeline-item h5 {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.25rem;
+    font-size: 1.0625rem;
+}
+
+.timeline-item .company {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-item .date-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: #f3f4f6;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+}
+
+.timeline-item p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==================== CTA SECTION ==================== */
+.cta-section-modern {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.cta-section-modern::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 992px) {
     .hero-title {
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        animation: fadeInUp 0.8s ease-out;
+        font-size: 3rem;
     }
-    
-    .hero-subtitle {
-        font-size: 1.5rem;
-        color: #6c757d;
-        margin-bottom: 2rem;
-        animation: fadeInUp 0.8s ease-out 0.2s both;
+    .hero-description {
+        font-size: 1.125rem;
     }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .profile-image-container-modern {
+        width: 250px;
+        height: 250px;
     }
-    
-    .typing-text {
-        color: #ffc107;
-        font-weight: 600;
+    .page-header h1 {
+        font-size: 2.25rem;
     }
-    
-    .typing-text::after {
-        content: '|';
-        animation: blink 1s step-end infinite;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+        text-align: center;
     }
-    
-    @keyframes blink {
-        50% { opacity: 0; }
+    .hero-description {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
     }
-    
-    .feature-box {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .feature-box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    
-    .section-title {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 3rem;
-    }
-    
-    .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 60px;
-        height: 4px;
-        background: #ffc107;
-    }
-    
-        .project-card {
-            transition: all 0.5s ease;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 193, 7, 0.4);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
-        .project-card .card-img-top {
-            transition: transform 0.8s ease, filter 0.5s ease;
-            height: 220px;
-            object-fit: cover;
-            filter: brightness(0.9) contrast(1.1);
-        }
-        
-        .project-card:hover .card-img-top {
-            transform: scale(1.05);
-            filter: brightness(1) contrast(1.2);
-        }
-        
-        .project-card .card-body {
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.2);
-        }
-        
-        .project-card h5 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #ffc107;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-        
-        .project-card p {
-            font-size: 0.95rem;
-            color: #e9ecef;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-        
-        .project-card .badge {
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            display: inline-block;
-            border-radius: 20px;
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-            backdrop-filter: blur(5px);
-        }
-        
-        .project-card .btn {
-            padding: 0.75rem 1.5rem;
-            font-size: 0.9rem;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            background: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
-        }
-        
-        .project-card .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
-            border: 1px solid rgba(255, 193, 7, 0.5);
-            background: rgba(255, 193, 7, 0.2);
-            color: #fff;
-        }
-    
-        .skill-card {
-            transition: all 0.5s ease;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .skill-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 193, 7, 0.4);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
-        .skill-card i {
-            transition: all 0.5s ease;
-            font-size: 3rem;
-        }
-        
-        .skill-card:hover i {
-            transform: scale(1.3) rotate(360deg);
-            color: #ffc107;
-            text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
-        }
-        
-        .skill-card h5 {
-            font-size: 1.2rem;
-            margin: 1rem 0 0.5rem 0;
-            color: #fff;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .skill-card .progress {
-            height: 8px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        
-        .skill-card .progress-bar {
-            border-radius: 50px;
-            transition: width 2s ease;
-            background: linear-gradient(90deg, #ffc107, #00d4ff);
-            box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-        }
-    
-    .service-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-    }
-    
-    .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    }
-    
-    .service-icon {
-        transition: all 0.4s ease;
-    }
-    
-    .service-card:hover .service-icon {
-        transform: rotate(360deg) scale(1.1);
-    }
-    
-    .progress-bar {
-        transition: width 1.5s ease;
-    }
-    
-    .testimonial-card {
-        transition: all 0.4s ease;
-        border-radius: 10px;
-    }
-    
-    .testimonial-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    }
-    
-    .profile-image-container {
-        position: relative;
-        width: 300px;
-        height: 300px;
-    }
-    
-    .profile-image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 5px solid #ffc107;
-        transition: all 0.4s ease;
-    }
-    
-    .profile-image-container::before {
-        content: '';
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        background: linear-gradient(135deg, #ffc107, #00d4ff);
-        border-radius: 50%;
-        z-index: -1;
-        animation: rotate 4s linear infinite;
-        opacity: 0.5;
-    }
-    
-    @keyframes rotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    .profile-image-container img {
-        transition: all 0.4s ease;
-    }
-    
-    .profile-image-container:hover img {
-        transform: scale(1.05);
-        box-shadow: 0 0 40px rgba(255, 193, 7, 0.5);
-    }
-    
-    .profile-placeholder {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        display: flex;
-        align-items: center;
+    .hero-cta-group {
         justify-content: center;
-        border: 5px solid #ffc107;
     }
-    
-    .profile-placeholder i {
-        font-size: 7rem;
+    .hero-stats {
+        justify-content: center;
+        gap: 2rem;
     }
-    
-    .btn {
-        transition: all 0.3s ease;
+    .tech-stack-tags {
+        justify-content: center;
     }
-    
-    .btn:hover {
-        transform: translateY(-3px);
+    .section-header h2 {
+        font-size: 1.875rem;
     }
-    
-    .btn-warning:hover {
-        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+    .hero-stat {
+        text-align: center;
     }
-    
-    .btn-outline-light:hover {
-        background: #ffc107;
-        border-color: #ffc107;
-        color: #1a1a2e;
+    .profile-image-container-modern {
+        width: 220px;
+        height: 220px;
     }
-    
-    .social-btn {
-        transition: all 0.3s ease;
+    .profile-placeholder-modern {
+        width: 220px;
+        height: 220px;
     }
-    
-    .social-btn:hover {
-        transform: translateY(-5px) rotate(360deg);
-        box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
+    .profile-placeholder-modern i {
+        font-size: 4rem;
     }
-    
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2rem;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.1rem;
-        }
-        
-        .profile-image-container {
-            width: 200px;
-            height: 200px;
-        }
-        
-        .profile-placeholder i {
-            font-size: 5rem !important;
-        }
-        
-        .hero-content .btn-lg {
-            padding: 0.6rem 1rem;
-            font-size: 0.9rem;
-        }
-        
-        .hero-content .btn-sm {
-            width: 35px;
-            height: 35px;
-            padding: 0;
-            font-size: 0.8rem;
-        }
-        
-        .profile-image-container::before {
-            display: none;
-        }
+    .featured-project-card .project-image,
+    .featured-project-card .project-image-placeholder {
+        height: 240px;
     }
-    
-    @media (min-width: 769px) and (max-width: 1200px) {
-        .hero-title {
-            font-size: 3rem;
-        }
-        
-        .profile-image-container {
-            width: 250px;
-            height: 250px;
-        }
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     }
-</style>
+    .feature-icon-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+    .feature-icon-wrapper i {
+        font-size: 1.2rem;
+    }
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+    .hero-stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.25rem;
+        align-items: center;
+    }
+    .hero-stat {
+        text-align: center;
+    }
+    .featured-project-content {
+        padding: 1.5rem;
+    }
+    .featured-project-content h3 {
+        font-size: 1.375rem;
+    }
+    .section-header h2 {
+        font-size: 1.625rem;
+    }
+    .experience-timeline {
+        padding-left: 2rem;
+    }
+    .timeline-item {
+        padding: 1.25rem 1.5rem;
+    }
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+    .skill-pill {
+        padding: 1rem 0.75rem;
+    }
+    .skill-pill i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .skill-pill span {
+        font-size: 0.8rem;
+    }
+    .profile-image-container-modern {
+        width: 180px;
+        height: 180px;
+    }
+    .profile-placeholder-modern {
+        width: 180px;
+        height: 180px;
+    }
+    .profile-placeholder-modern i {
+        font-size: 3.5rem;
+    }
+    .btn-social-hero {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
 {% endblock %}
-
-{% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container hero-content">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <span class="text-warning mb-3 d-block" data-aos="fade-up">Hello, I'm</span>
-                <h1 class="hero-title text-white mb-3" data-aos="fade-up" data-aos-delay="100">
-                    Ajagare Rahul
-                </h1>
-                <h2 class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                    <span class="typing-text">Python & Django Developer</span>
-                </h2>
-                <p class="text-white-50 mb-4" data-aos="fade-up" data-aos-delay="300">
-                    I build modern, scalable, and user-friendly web applications using Python and Django. 
-                    With expertise in full-stack development, I transform ideas into reality.
-                </p>
-                <div data-aos="fade-up" data-aos-delay="400" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                    <a href="{% url 'portfolio:projects' %}" class="btn btn-warning btn-lg">
-                        <i class="fas fa-briefcase me-2"></i>View Projects
-                    </a>
-                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-envelope me-2"></i>Contact Me
-                    </a>
-                    {% if site_info and site_info.resume %}
-                    <a href="{{ site_info.resume.url }}" class="btn btn-success btn-lg" target="_blank">
-                        <i class="fas fa-download me-2"></i>Download CV
-                    </a>
-                    {% endif %}
-                </div>
-                <!-- Social Links -->
-                <div class="mt-4" data-aos="fade-up" data-aos-delay="500" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                    {% if social_links %}
-                        {% for link in social_links|slice:":4" %}
-                            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
-                                <i class="{% get_social_icon link.platform %}"></i>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <a href="https://github.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://x.com/AjagareRahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle social-btn" style="width: 40px; height: 40px; padding: 0;">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="300">
-                <div class="d-flex justify-content-center">
-                    <div class="profile-image-container">
-                        {% if site_info and site_info.profile_image %}
-                        <a href="{% url 'portfolio:profile' %}">
-                        <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="rounded-circle">
-                        </a>
-                        {% else %}
-                        <a href="{% url 'portfolio:profile' %}">
-                        <div class="profile-placeholder">
-                            <i class="fas fa-user fa-7x text-warning"></i>
-                        </div>
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Skills Section -->
-<section class="py-5 bg-light">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">My Skills</h2>
-        <div class="row g-4">
-            {% if backend_skills %}
-                {% for skill in backend_skills|slice:":4" %}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="{% get_skill_icon skill.name %} fa-3x text-primary mb-3"></i>
-                            <h5>{{ skill.name }}</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ skill.proficiency }}%">
-                                    {{ skill.proficiency }}%
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            {% else %}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fab fa-python fa-3x text-primary mb-3"></i>
-                            <h5>Python</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 95%">95%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fas fa-code fa-3x text-success mb-3"></i>
-                            <h5>Django</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 90%">90%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fab fa-js fa-3x text-warning mb-3"></i>
-                            <h5>JavaScript</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 85%">85%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card feature-box h-100 border-0 shadow-sm skill-card">
-                        <div class="card-body text-center">
-                            <i class="fas fa-database fa-3x text-info mb-3"></i>
-                            <h5>SQL</h5>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 80%">80%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-        <div class="text-center mt-4">
-            <a href="{% url 'portfolio:skills' %}" class="btn btn-outline-dark">View All Skills</a>
-        </div>
-    </div>
-</section>
-
-<!-- Featured Projects Section -->
-<section class="py-5">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
-        <div class="row g-4">
-            {% if featured_projects %}
-                {% for project in featured_projects %}
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="card project-card h-100 border-0 shadow-sm">
-                        {% if project.image %}
-                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
-                        {% else %}
-                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
-                            <i class="fas fa-project-diagram fa-4x text-white"></i>
-                        </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ project.title }}</h5>
-                            <p class="card-text text-muted">{{ project.short_description }}</p>
-                            <div class="mb-3">
-                                {% for tech in project.get_technology_list %}
-                                    <span class="badge bg-primary me-1 mb-1">{{ tech }}</span>
-                                {% endfor %}
-                            </div>
-                            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-outline-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            {% else %}
-                 <div class="col-12 text-center py-5">
-                     <div class="feature-box" style="border-radius: 15px; border: 2px dashed rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.02);">
-                         <i class="fas fa-folder-open fa-4x text-warning mb-4"></i>
-                         <h4 class="text-white">No projects yet</h4>
-                         <p class="text-white-50">Projects will be displayed here once added.</p>
-                     </div>
-                 </div>
-             {% endif %}
-        </div>
-        <div class="text-center mt-4">
-            <a href="{% url 'portfolio:projects' %}" class="btn btn-warning">View All Projects</a>
-        </div>
-    </div>
-</section>
-
-<!-- Upcoming Projects Section -->
-{% if upcoming_projects %}
-<section class="py-5 bg-light">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">Upcoming Projects</h2>
-        <div class="row g-4">
-            {% for upcoming in upcoming_projects %}
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                <div class="card h-100 border-0 shadow-sm project-card">
-                    {% if upcoming.image %}
-                    <img src="{{ upcoming.image.url }}" class="card-img-top" alt="{{ upcoming.title }}" style="height: 200px; object-fit: cover;">
-                    {% else %}
-                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
-                        <i class="fas fa-rocket fa-3x text-warning"></i>
-                    </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ upcoming.title }}</h5>
-                        <p class="card-text text-muted">{{ upcoming.short_description }}</p>
-                        <div class="mt-2">
-                            {% for tech in upcoming.get_technology_list %}
-                                <span class="badge bg-info me-1 mb-1">{{ tech }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="mt-2">
-                            <small class="text-primary">{{ upcoming.get_status_display }}</small>
-                            {% if upcoming.expected_launch %}
-                                <small class="text-muted ms-2">{{ upcoming.expected_launch|date:"M Y" }}</small>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- Testimonials Section -->
-{% if testimonials %}
-<section class="py-5">
-    <div class="container py-5">
-        <h2 class="section-title" data-aos="fade-up">Testimonials</h2>
-        <div class="row g-4">
-            {% for testimonial in testimonials %}
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                <div class="card h-100 border-0 shadow-sm testimonial-card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            {{ testimonial.rating|star_rating|safe }}
-                        </div>
-                        <p class="card-text">"{{ testimonial.testimonial }}"</p>
-                        <hr>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                {% if testimonial.client_image %}
-                                <img src="{{ testimonial.client_image.url }}" alt="{{ testimonial.client_name }}" class="rounded-circle" width="50" height="50">
-                                {% else %}
-                                <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-user text-dark"></i>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0">{{ testimonial.client_name }}</h6>
-                                <small class="text-muted">{{ testimonial.client_title }}{% if testimonial.client_company %}, {{ testimonial.client_company }}{% endif %}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- Call to Action -->
-<section class="py-5 bg-warning">
-    <div class="container py-4 text-center">
-        <h2 class="text-dark mb-3" data-aos="fade-up">Let's Work Together!</h2>
-        <p class="text-dark mb-4" data-aos="fade-up" data-aos-delay="100">
-            Have a project in mind? I'd love to hear about it.
-        </p>
-        <a href="{% url 'portfolio:contact' %}" class="btn btn-dark btn-lg" data-aos="fade-up" data-aos-delay="200">
-            <i class="fas fa-envelope me-2"></i>Get In Touch
-        </a>
-    </div>
-</section>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Initialize AOS
-    AOS.init({
-        duration: 800,
-        once: true,
-        offset: 100
-    });
-    
-    // Progress bar animation on scroll
-    const progressBars = document.querySelectorAll('.progress-bar');
-    const animateProgress = () => {
-        progressBars.forEach(bar => {
-            const width = bar.style.width;
-            bar.style.width = '0';
-            setTimeout(() => {
-                bar.style.width = width;
-            }, 100);
-        });
-    };
-    
-    // Run on load
-    window.addEventListener('load', animateProgress);
-</script>
-{% endblock %}
-
