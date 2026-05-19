@@ -7,49 +7,25 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Load environment variables from .env file
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-# =============================================================================
-# SECRET KEY - Load from environment variable (REQUIRED for production)
-# =============================================================================
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '80#u2)2yodb!zptyh-%^ag+)0jfyg$u&_()8#3q%4x8v^i5i4=')
+# Security
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY environment variable must be set in production")
 
-# =============================================================================
-# DEBUG MODE - Production auto-detection
-# =============================================================================
-# SECURITY WARNING: don't run with debug turned on in production!
-# If DEBUG env var is explicitly set, use it; otherwise auto-detect:
-#   - Render/Heroku: DEBUG=False by default
-#   - Local dev: DEBUG=True by default
-DEBUG_ENV = os.environ.get('DEBUG')
-if DEBUG_ENV is not None:
-    DEBUG = DEBUG_ENV.lower() == 'true'
-else:
-    # Auto-detect: if running on Render/Heroku (DATABASE_URL present), disable debug
-    DEBUG = not bool(os.environ.get('RENDER_EXTERNAL_HOSTNAME') or os.environ.get('DATABASE_URL'))
+DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true' if os.environ.get('DEBUG') else not bool(os.environ.get('RENDER_EXTERNAL_HOSTNAME') or os.environ.get('DATABASE_URL'))
 
-# =============================================================================
-# ALLOWED_HOSTS & CSRF - Production domains
-# =============================================================================
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME, 'localhost', '127.0.0.1', '.neon.tech']
-    # Trusted origins for CSRF when behind proxy
-    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}', f'http://{RENDER_EXTERNAL_HOSTNAME}']
+    ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME, 'localhost', '127.0.0.1']
 else:
-    allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
-    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',') if host.strip()]
-    CSRF_TRUSTED_ORIGINS = []
+    ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',') if host.strip()]
+CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}'] if RENDER_EXTERNAL_HOSTNAME else []
 
-# =============================================================================
-# Application definition
-# =============================================================================
-
+# Application
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,244 +34,116 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    # Third party apps
     'cloudinary',
     'cloudinary_storage',
-    # Local apps
     'portfolio',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static file serving
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Custom middleware
     'rahulportfolio.middleware.VisitorCountMiddleware',
     'rahulportfolio.middleware.LastVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'rahulportfolio.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                # Custom context processors
-                'rahulportfolio.context_processors.site_info',
-                'rahulportfolio.context_processors.social_links',
-                'rahulportfolio.context_processors.visitor_count',
-                'rahulportfolio.context_processors.featured_skills',
-                'rahulportfolio.context_processors.recent_projects',
-            ],
-            'libraries': {
-                'portfolio_tags': 'portfolio.templatetags.portfolio_tags',
-            },
-        },
-    },
-]
-
 WSGI_APPLICATION = 'rahulportfolio.wsgi.application'
 
-# =============================================================================
-# Database configuration for production (PostgreSQL on Neon)
-# =============================================================================
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': [BASE_DIR / 'templates'],
+    'APP_DIRS': True,
+    'OPTIONS': {
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+            'rahulportfolio.context_processors.site_info',
+            'rahulportfolio.context_processors.social_links',
+            'rahulportfolio.context_processors.visitor_count',
+            'rahulportfolio.context_processors.featured_skills',
+            'rahulportfolio.context_processors.recent_projects',
+        ],
+        'libraries': {'portfolio_tags': 'portfolio.templatetags.portfolio_tags'},
+    },
+}]
+
+# Database
 import dj_database_url
+DATABASES = {'default': dj_database_url.config(conn_max_age=600, ssl_require=True)}
 
-DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
-}
-
-# =============================================================================
 # Password validation
-# =============================================================================
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# =============================================================================
 # Internationalization
-# =============================================================================
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Kolkata'
-
 USE_I18N = True
-
 USE_TZ = True
 
-# =============================================================================
-# Static files (CSS, JavaScript, Images)
-# =============================================================================
-
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# WhiteNoise configuration for serving static files in production
-# STATICFILES_STORAGE is now handled via STORAGES setting (Django 4.2+)
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# =============================================================================
-# Cloudinary Configuration (for media and static file storage)
-# =============================================================================
-import warnings
-
-# Try importing Cloudinary SDK (optional - graceful degradation if missing)
+# Cloudinary
 try:
     import cloudinary
-    import cloudinary.uploader
-    import cloudinary.api
-    CLOUDINARY_SDK_AVAILABLE = True
-except ImportError:
-    CLOUDINARY_SDK_AVAILABLE = False
-    warnings.warn("Cloudinary SDK not installed. Install 'cloudinary' and 'django-cloudinary-storage' for CDN media storage.", RuntimeWarning)
-
-# Cloudinary credentials from environment variables
-CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
-CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY', '')
-CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
-
-# Cloudinary storage configuration
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
-    'API_KEY': CLOUDINARY_API_KEY,
-    'API_SECRET': CLOUDINARY_API_SECRET,
-    'SECURE': True,  # Always use HTTPS
-}
-
-# Debug prints
-print(f"[DEBUG] CLOUDINARY_SDK_AVAILABLE: {CLOUDINARY_SDK_AVAILABLE}")
-print(f"[DEBUG] CLOUDINARY_CLOUD_NAME: {CLOUDINARY_CLOUD_NAME}")
-print(f"[DEBUG] CLOUDINARY_API_KEY: {CLOUDINARY_API_KEY}")
-print(f"[DEBUG] CLOUDINARY_API_SECRET: {CLOUDINARY_API_SECRET}")
-print(f"[DEBUG] All credentials present: {bool(CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET)}")
-print(f"[DEBUG] Condition result: {CLOUDINARY_SDK_AVAILABLE and bool(CLOUDINARY_CLOUD_NAME) and bool(CLOUDINARY_API_KEY) and bool(CLOUDINARY_API_SECRET)}")
-
-# Configure Cloudinary SDK if all credentials are available and SDK imported
-if CLOUDINARY_SDK_AVAILABLE and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     cloudinary.config(
-        cloud_name=CLOUDINARY_CLOUD_NAME,
-        api_key=CLOUDINARY_API_KEY,
-        api_secret=CLOUDINARY_API_SECRET,
+        cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
+        api_key=os.environ.get('CLOUDINARY_API_KEY', ''),
+        api_secret=os.environ.get('CLOUDINARY_API_SECRET', ''),
         secure=True
     )
-    # Use Cloudinary for media storage
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    # Configure STORAGES for Django 4.2+
-    STORAGES = {
-        'default': {
-            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage',
-        },
-    }
-    print("[DEBUG] Cloudinary storage backend configured")
-else:
-    # Fallback to local filesystem storage for media
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-    STORAGES = {
-        'default': {
-            'BACKEND': 'django.core.files.storage.FileSystemStorage',
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage',
-        },
-    }
-    if not DEBUG:
-        warnings.warn(
-            "\n" + "="*70 + "\n"
-            "⚠️  CLOUDINARY NOT CONFIGURED - MEDIA UPLOADS WILL USE LOCAL FILESYSTEM ⚠️\n"
-            "="*70 + "\n"
-            "Set environment variables:\n"
-            "  CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET\n"
-            "Get credentials from: https://cloudinary.com/console\n"
-            "="*70,
-            RuntimeWarning
-        )
+    CLOUDINARY_AVAILABLE = True
+except ImportError:
+    CLOUDINARY_AVAILABLE = False
 
-# Media URL configuration (works with Cloudinary)
-MEDIA_URL = '/media/'
+# Storage backends
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage' if CLOUDINARY_AVAILABLE else 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
-
-# =============================================================================
-# Authentication settings
-# =============================================================================
-
+# Auth
 LOGIN_URL = 'portfolio:login'
 LOGIN_REDIRECT_URL = 'portfolio:dashboard'
 LOGOUT_REDIRECT_URL = 'portfolio:home'
-
-# =============================================================================
-# Session settings
-# =============================================================================
-
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 1 week
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-# =============================================================================
-# Security Settings - Production hardened
-# =============================================================================
-
-# Clickjacking protection (always enabled)
+# Security headers
 X_FRAME_OPTIONS = 'DENY'
-
-# Auto-enable security features in production (when not DEBUG)
 if not DEBUG:
-    # Force HTTPS/SSL in production (Render provides SSL)
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    
-    # HSTS (HTTP Strict Transport Security) - 1 year
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-    
-    # Secure cookies in production
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    
-    # Prevent content type sniffing
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    
-    # CSRF trusted origins for Render domain
-    if RENDER_EXTERNAL_HOSTNAME:
-        CSRF_TRUSTED_ORIGINS = [
-            f'https://{RENDER_EXTERNAL_HOSTNAME}',
-            f'http://{RENDER_EXTERNAL_HOSTNAME}'
-        ]
 else:
-    # Development: disable strict security
     SECURE_SSL_REDIRECT = False
     SECURE_PROXY_SSL_HEADER = None
     SECURE_HSTS_SECONDS = 0
@@ -304,38 +152,17 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
     SECURE_CONTENT_TYPE_NOSNIFF = False
-    CSRF_TRUSTED_ORIGINS = []
 
-# =============================================================================
-# Admin panel configuration
-# =============================================================================
-
-# Django admin panel site header
+# Admin
 ADMIN_SITE_HEADER = "Rahul's Portfolio Admin"
 ADMIN_SITE_TITLE = "Portfolio Admin"
 ADMIN_INDEX_TITLE = "Welcome to Portfolio Admin"
 
-# =============================================================================
-# Logging configuration for production
-# =============================================================================
-
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
+    'handlers': {'console': {'class': 'logging.StreamHandler'}},
+    'root': {'handlers': ['console'], 'level': 'INFO'},
+    'loggers': {'django': {'handlers': ['console'], 'level': 'INFO', 'propagate': False}},
 }
