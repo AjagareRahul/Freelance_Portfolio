@@ -175,9 +175,9 @@
             <div class="col-lg-5" data-aos="fade-right" data-aos-duration="1000">
                 <div class="text-center text-lg-start">
                     {% if site_info and site_info.profile_image %}
-                    <a href="{% url 'portfolio:profile' %}">
-                        <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="about-hero-image img-fluid mb-4" style="border: 3px solid var(--primary);">
-                    </a>
+                     <a href="{% url 'portfolio:profile' %}">
+                         <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="about-hero-image img-fluid mb-4 border-primary-4">
+                     </a>
                     {% else %}
                     <div class="about-placeholder mb-4">
                         <i class="fas fa-user fa-8x text-white-50"></i>
@@ -195,15 +195,15 @@
             </div>
             <div class="col-lg-7" data-aos="fade-left" data-aos-duration="1000">
                 <h2 class="mb-3 fw-bold">Who Am I?</h2>
-                <p class="lead" style="color: var(--primary); font-weight: 600; font-size: 1.125rem;">
-                    I'm <strong>Ajagare Rahul</strong>, a Python & Django Developer.
-                </p>
-                <p style="font-size: 1.0625rem; line-height: 1.8; color: var(--text-body);">
-                    I build scalable backend systems, REST APIs, and full-stack web applications using Django and modern tools. My passion lies in creating efficient, user-friendly, and maintainable code that solves real-world problems.
-                </p>
-                <p style="font-size: 1.0625rem; line-height: 1.8; color: var(--text-body);">
-                    I'm constantly learning and staying updated with the latest technologies and best practices. When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
-                </p>
+                 <p class="lead text-primary fw-600 fs-lg">
+                     I'm <strong>Ajagare Rahul</strong>, a Python & Django Developer.
+                 </p>
+                 <p class="fs-base lh-copy text-body">
+                     I build scalable backend systems, REST APIs, and full-stack web applications using Django and modern tools. My passion lies in creating efficient, user-friendly, and maintainable code that solves real-world problems.
+                 </p>
+                 <p class="fs-base lh-copy text-body">
+                     I'm constantly learning and staying updated with the latest technologies and best practices. When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
+                 </p>
 
                 <div class="row g-3 mt-2">
                     <div class="col-md-6">
@@ -268,9 +268,9 @@
                         <h5>{{ experience.position }}</h5>
                         <p class="company"><i class="fas fa-building me-1"></i> {{ experience.company_name }}</p>
                         {% if experience.location %}
-                        <p class="text-muted mb-2" style="font-size: 0.875rem;"><i class="fas fa-map-marker-alt me-1"></i> {{ experience.location }}</p>
+                         <p class="text-muted mb-2 fs-xs"><i class="fas fa-map-marker-alt me-1"></i> {{ experience.location }}</p>
                         {% endif %}
-                        <p style="font-size: 0.9375rem; color: var(--text-body);">{{ experience.description }}</p>
+                         <p class="mt-2 fs-sm text-body">{{ experience.description }}</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -310,12 +310,12 @@
                                 {{ education.start_date|date:"Y" }} - {% if education.is_current %}Present{% else %}{{ education.end_date|date:"Y" }}{% endif %}
                             </span>
                         </div>
-                        <p class="text-muted mb-2" style="font-size: 0.9375rem;">{{ education.field_of_study }}</p>
+                         <p class="text-muted mb-2 fs-sm">{{ education.field_of_study }}</p>
                         {% if education.grade %}
                         <p class="mb-0"><strong>Grade:</strong> {{ education.grade }}</p>
                         {% endif %}
                         {% if education.description %}
-                        <p class="mt-2" style="font-size: 0.9375rem; color: var(--text-body);">{{ education.description }}</p>
+                         <p class="mt-2 fs-sm text-body">{{ education.description }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -338,7 +338,7 @@
     <div class="container text-center">
         <div class="cta-content" data-aos="fade-up">
             <h2 class="text-dark mb-3 fw-bold">Want to Know More About Me?</h2>
-            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+             <p class="text-dark mb-4 content-box">
                 Let's connect and discuss how I can help with your next project.
             </p>
             <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">

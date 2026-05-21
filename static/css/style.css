@@ -1091,6 +1091,165 @@ a:hover {
     overflow: hidden;
 }
 
+/* Additional utility classes for inline CSS replacements */
+.content-box {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img-150 {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.img-100 {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.border-primary {
+    border: 3px solid var(--primary);
+}
+
+.border-primary-4 {
+    border: 4px solid var(--primary);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-body {
+    color: var(--text-body);
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fs-lg {
+    font-size: 1.125rem;
+}
+
+.fs-base {
+    font-size: 1.0625rem;
+}
+
+.fs-sm {
+    font-size: 0.9375rem;
+}
+
+.fs-xs {
+    font-size: 0.875rem;
+}
+
+.fs-xxs {
+    font-size: 0.8rem;
+}
+
+.lh-copy {
+    line-height: 1.8;
+}
+
+.lh-base {
+    line-height: 1.7;
+}
+
+.stat-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-circle-sm {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-circle-xs {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-img-fixed {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-light);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.fs-italic {
+    font-style: italic;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.letter-spacing-0-5 {
+    letter-spacing: 0.5px;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-primary-light {
+    background: var(--primary-light);
+}
+
+.bg-primary-100 {
+    background: var(--primary-100);
+}
+
+.rounded-full {
+    border-radius: 50%;
+}
+
+.rounded-lg {
+    border-radius: var(--radius-lg);
+}
+
+.rounded-md {
+    border-radius: var(--radius-md);
+}
+
 /* ==================== Animations ==================== */
 @keyframes fadeInUp {
     from {
@@ -1355,6 +1514,89 @@ a:hover {
     background: var(--primary-color);
     color: var(--text-dark);
 }
+
+/* ==================== Inline CSS Replacements ==================== */
+.content-box {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+}
+
+.profile-image-sm {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-body {
+    color: var(--text-body);
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.fs-lg {
+    font-size: 1.125rem;
+}
+
+.fs-base {
+    font-size: 1.0625rem;
+}
+
+.fs-sm {
+    font-size: 0.9375rem;
+}
+
+.lh-copy {
+    line-height: 1.8;
+}
+
+.border-primary {
+    border: 3px solid var(--primary);
+}
+
+.stat-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-circle-sm {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-img-fixed {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-light);
+}
+
+/* ==================== Utilities ==================== */
 
 /* ==================== Pagination ==================== */
 .pagination .page-link {

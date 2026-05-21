@@ -188,7 +188,7 @@
                         {% if project.image %}
                         <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
                         {% else %}
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center card-img-fixed">
                             <i class="fas fa-project-diagram fa-3x text-muted"></i>
                         </div>
                         {% endif %}
@@ -231,7 +231,7 @@
                 {% endfor %}
             {% else %}
                 <div class="col-12 text-center py-5">
-                    <div class="stat-circle mb-3 mx-auto mx-auto" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center;">
+                     <div class="stat-circle mb-3 mx-auto mx-auto">
                         <i class="fas fa-folder-open fa-2x text-muted"></i>
                     </div>
                     <h4 class="text-muted mt-3">No projects yet</h4>
