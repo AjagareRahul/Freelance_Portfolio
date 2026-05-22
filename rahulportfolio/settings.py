@@ -9,14 +9,17 @@ from dotenv import load_dotenv
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+# Load .env file only in development (when not on Render)
+if not os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+    load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Security
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY environment variable must be set in production")
 
-DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true' if os.environ.get('DEBUG') else not bool(os.environ.get('RENDER_EXTERNAL_HOSTNAME') or os.environ.get('DATABASE_URL'))
+# Simplified DEBUG setting
+DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
