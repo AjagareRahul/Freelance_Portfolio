@@ -83,6 +83,13 @@ class HomeView(TemplateView):
             ).order_by('order', 'expected_launch')[:3]
         except Exception:
             context['upcoming_projects'] = []
+            
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         
         return context
 
@@ -110,6 +117,13 @@ class AboutView(TemplateView):
             context['educations'] = Education.objects.order_by('-start_date')
         except Exception:
             context['educations'] = []
+            
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         
         return context
 
@@ -130,6 +144,16 @@ class ProjectsView(ListView):
             ).order_by('-featured', '-created_at')
         except Exception:
             return Project.objects.none()
+            
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
+        return context
 
 
 class ProjectDetailView(DetailView):
@@ -145,7 +169,7 @@ class ProjectDetailView(DetailView):
             return Project.objects.filter(is_published=True)
         except Exception:
             return Project.objects.none()
-    
+     
     def get_context_data(self, **context):
         context = super().get_context_data(**context)
         try:
@@ -154,6 +178,13 @@ class ProjectDetailView(DetailView):
             ).exclude(pk=self.object.pk)[:3]
         except Exception:
             context['related_projects'] = Project.objects.none()
+            
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         return context
 
 
@@ -180,6 +211,13 @@ class SkillsView(TemplateView):
             context['frontend_skills'] = Skill.objects.none()
             context['database_skills'] = Skill.objects.none()
             context['tools_skills'] = Skill.objects.none()
+            
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         
         return context
 
@@ -200,6 +238,16 @@ class BlogView(ListView):
             ).order_by('-published_at')
         except Exception:
             return BlogPost.objects.none()
+            
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
+        return context
 
 
 class BlogDetailView(DetailView):
@@ -215,7 +263,7 @@ class BlogDetailView(DetailView):
             return BlogPost.objects.filter(is_published=True)
         except Exception:
             return BlogPost.objects.none()
-    
+     
     def get_object(self, queryset=None):
         post = super().get_object(queryset)
         try:
@@ -225,7 +273,7 @@ class BlogDetailView(DetailView):
         except Exception:
             pass
         return post
-    
+     
     def get_context_data(self, **context):
         context = super().get_context_data(**context)
         try:
@@ -235,6 +283,13 @@ class BlogDetailView(DetailView):
             ).exclude(pk=self.object.pk)[:3]
         except Exception:
             context['related_posts'] = BlogPost.objects.none()
+            
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         return context
 
 
@@ -247,8 +302,14 @@ class ContactView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = ContactForm()
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         return context
-    
+     
     def post(self, request, *args, **kwargs):
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -266,7 +327,7 @@ class ContactView(TemplateView):
                     extra_tags='alert-danger'
                 )
             return redirect('portfolio:contact')
-        
+         
         context = self.get_context_data()
         context['form'] = form
         return render(request, self.template_name, context)
@@ -286,6 +347,13 @@ class GalleryView(TemplateView):
             ).order_by('order', '-created_at')
         except Exception:
             context['gallery_images'] = Gallery.objects.none()
+            
+        # Add visitor count to context
+        try:
+            visitor_count_obj = VisitorCount.objects.first()
+            context['visitor_count'] = visitor_count_obj.count if visitor_count_obj else 0
+        except Exception:
+            context['visitor_count'] = 0
         return context
 
 
@@ -389,7 +457,14 @@ def login_view(request):
     else:
         form = LoginForm()
     
-    return render(request, 'portfolio/login.html', {'form': form})
+    # Add visitor count to context
+    try:
+        visitor_count_obj = VisitorCount.objects.first()
+        visitor_count = visitor_count_obj.count if visitor_count_obj else 0
+    except Exception:
+        visitor_count = 0
+        
+    return render(request, 'portfolio/login.html', {'form': form, 'visitor_count': visitor_count})
 
 
 def logout_view(request):
@@ -419,6 +494,13 @@ def logout_view(request):
             extra_tags='alert-info'
         )
     
+    # Add visitor count to context for redirect
+    try:
+        visitor_count_obj = VisitorCount.objects.first()
+        visitor_count = visitor_count_obj.count if visitor_count_obj else 0
+    except Exception:
+        visitor_count = 0
+        
     return redirect('portfolio:home')
 
 
@@ -463,6 +545,13 @@ def dashboard_view(request):
     except Exception:
         unread_messages = 0
     
+    # Add visitor count to context
+    try:
+        visitor_count_obj = VisitorCount.objects.first()
+        visitor_count = visitor_count_obj.count if visitor_count_obj else 0
+    except Exception:
+        visitor_count = 0
+    
     context = {
         'recent_activities': recent_activities,
         'total_projects': total_projects,
@@ -470,6 +559,7 @@ def dashboard_view(request):
         'total_skills': total_skills,
         'total_messages': total_messages,
         'unread_messages': unread_messages,
+        'visitor_count': visitor_count,
     }
     
     return render(request, 'portfolio/dashboard.html', context)
@@ -545,7 +635,14 @@ def profile_view(request):
         )
         return redirect('portfolio:profile')
     
-    return render(request, 'portfolio/profile.html', {'user': request.user, 'site_info': site_info})
+    # Add visitor count to context
+    try:
+        visitor_count_obj = VisitorCount.objects.first()
+        visitor_count = visitor_count_obj.count if visitor_count_obj else 0
+    except Exception:
+        visitor_count = 0
+    
+    return render(request, 'portfolio/profile.html', {'user': request.user, 'site_info': site_info, 'visitor_count': visitor_count})
 
 
 def public_profile_view(request):
@@ -580,12 +677,20 @@ def public_profile_view(request):
     except Exception:
         skills = Skill.objects.none()
     
+    # Add visitor count to context
+    try:
+        visitor_count_obj = VisitorCount.objects.first()
+        visitor_count = visitor_count_obj.count if visitor_count_obj else 0
+    except Exception:
+        visitor_count = 0
+    
     return render(request, 'portfolio/public_profile.html', {
         'site_info': site_info,
         'owner': owner,
         'experiences': experiences,
         'educations': educations,
         'skills': skills,
+        'visitor_count': visitor_count,
     })
 
 
@@ -629,9 +734,6 @@ def download_resume(request):
     except Exception as e:
         messages.error(request, f'Error downloading resume: {str(e)}')
         return redirect('portfolio:public_profile')
-    except Exception as e:
-        messages.error(request, f'Error downloading resume: {str(e)}')
-        return redirect('portfolio:public_profile')
 
 
 @login_required
@@ -654,7 +756,14 @@ def messages_view(request):
         paginator = Paginator([], 10)
         messages_page = paginator.page(1)
     
-    return render(request, 'portfolio/messages.html', {'messages': messages_page})
+    # Add visitor count to context
+    try:
+        visitor_count_obj = VisitorCount.objects.first()
+        visitor_count = visitor_count_obj.count if visitor_count_obj else 0
+    except Exception:
+        visitor_count = 0
+    
+    return render(request, 'portfolio/messages.html', {'messages': messages_page, 'visitor_count': visitor_count})
 
 
 @login_required

@@ -5,4 +5,459 @@
 {% block title %}Ajagare Rahul - Python & Django Developer | Home{% endblock %}
 {% block meta_description %}Professional Python & Django Developer portfolio showcasing web development projects, skills, and services.{% endblock %}
 
-{% block extra_css %}{% endblock %}
+{% block extra_css %}
+/* Home Page Styles */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f23 50%, #1a1a2e 100%);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.05) 0%, transparent 30%);
+    pointer-events: none;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffc107' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    animation: float 60s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(5deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.6rem;
+    color: #e9ecef;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+}
+
+.typing-text {
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    position: relative;
+}
+
+.typing-text::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    color: var(--primary-color);
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, var(--primary-color), #ffdb4d);
+    border: none;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+    transition: var(--transition);
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    color: var(--text-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+}
+
+.stat-card-home {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.stat-card-home:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.section-title-home {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+}
+
+.section-title-home::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+}
+
+.preview-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: var(--transition-slow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.preview-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.preview-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.preview-body {
+    flex-grow: 1;
+    padding: 1.5rem;
+}
+
+.preview-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    .section-title-home {
+        font-size: 2rem;
+    }
+}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title" data-aos="fade-up">
+                Hi, I'm <span class="gradient-text">Ajagare Rahul</span>
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">
+                Python & Django Developer | Building Scalable Web Applications
+            </p>
+            <div class="d-flex justify-content-center gap-3" data-aos="fade-up" data-aos-delay="200">
+                <a href="{% url 'portfolio:about' %}" class="btn btn-gradient btn-lg px-4">
+                    <i class="fas fa-user me-2"></i>About Me
+                </a>
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-outline-light btn-lg px-4">
+                    <i class="fas fa-briefcase me-2"></i>View Projects
+                </a>
+            </div>
+            <div class="typing-text mt-5" data-aos="fade-up" data-aos-delay="300">
+                Full-Stack Developer · Problem Solver · Continuous Learner
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-100 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card-home">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Years of Experience</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card-home">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card-home">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Technologies Mastered</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card-home">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Preview -->
+<section class="py-100">
+    <div class="container">
+        <div class="section-title-home text-center mb-5" data-aos="fade-up">
+            About Me
+        </div>
+        <div class="row g-4 align-items-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-5">
+                <div class="preview-card">
+                    {% if site_info and site_info.profile_image %}
+                    <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="img-fluid w-100 rounded-top" style="height: 300px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center w-100" style="height: 300px;">
+                        <i class="fas fa-user fa-4x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="preview-body">
+                        <h3 class="preview-title">Who Am I?</h3>
+                        <p class="mb-3">
+                            I'm Ajagare Rahul, a passionate Python & Django Developer specializing in building scalable backend systems, REST APIs, and full-stack web applications. My expertise lies in creating efficient, maintainable, and secure solutions that solve real-world problems.
+                        </p>
+                        <p class="mb-0">
+                            When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
+                        </p>
+                    </div>
+                    <div class="preview-footer">
+                        <a href="{% url 'portfolio:about' %}" class="btn btn-outline-primary">
+                            Learn More <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="preview-card h-100 d-flex flex-column">
+                            <div class="preview-body d-flex flex-column">
+                                <h5 class="preview-title mb-3"><i class="fas fa-code me-2 text-primary"></i>Clean Code</h5>
+                                <p class="flex-grow-1 text-muted">
+                                    I believe in writing code that's not just functional, but also readable, maintainable, and follows industry best practices.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="preview-card h-100 d-flex flex-column">
+                            <div class="preview-body d-flex flex-column">
+                                <h5 class="preview-title mb-3"><i class="fas fa-rocket me-2 text-primary"></i>Innovative Solutions</h5>
+                                <p class="flex-grow-1 text-muted">
+                                    I stay updated with the latest technologies and apply innovative approaches to solve complex problems efficiently.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="preview-card h-100 d-flex flex-column">
+                            <div class="preview-body d-flex flex-column">
+                                <h5 class="preview-title mb-3"><i class="fas fa-users me-2 text-primary"></i>Team Collaboration</h5>
+                                <p class="flex-grow-1 text-muted">
+                                    I thrive in collaborative environments and believe that the best solutions come from diverse perspectives working together.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
+                        <div class="preview-card h-100 d-flex flex-column">
+                            <div class="preview-body d-flex flex-column">
+                                <h5 class="preview-title mb-3"><i class="fas fa-chart-line me-2 text-primary"></i>Results Driven</h5>
+                                <p class="flex-grow-1 text-muted">
+                                    I focus on delivering measurable results that exceed expectations and provide real value to clients and users.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Preview -->
+<section class="py-100 bg-light">
+    <div class="container">
+        <div class="section-title-home text-center mb-5" data-aos="fade-up">
+            Technical Skills
+        </div>
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-md-3 col-sm-6">
+                <div class="preview-card text-center">
+                    <div class="preview-body">
+                        <i class="fas fa-laptop-code fa-3x mb-3 text-primary"></i>
+                        <h5 class="preview-title">Python/Django</h5>
+                        <p class="text-muted">Expert in backend development with Django framework</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="preview-card text-center">
+                    <div class="preview-body">
+                        <i class="fas fa-mobile-alt fa-3x mb-3 text-primary"></i>
+                        <h5 class="preview-title">Frontend</h5>
+                        <p class="text-muted">HTML5, CSS3, JavaScript, React, Bootstrap</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="preview-card text-center">
+                    <div class="preview-body">
+                        <i class="fas fa-database fa-3x mb-3 text-primary"></i>
+                        <h5 class="preview-title">Databases</h5>
+                        <p class="text-muted">PostgreSQL, MySQL, SQLite, MongoDB</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="preview-card text-center">
+                    <div class="preview-body">
+                        <i class="fas fa-cloud fa-3x mb-3 text-primary"></i>
+                        <h5 class="preview-title">DevOps & Cloud</h5>
+                        <p class="text-muted">AWS, Docker, CI/CD, Linux</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Preview -->
+<section class="py-100">
+    <div class="container">
+        <div class="section-title-home text-center mb-5" data-aos="fade-up">
+            Featured Projects
+        </div>
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+            {% if projects %}
+                {% for project in projects|slice:":3" %}
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <div class="preview-card h-100 d-flex flex-column">
+                        {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center w-100" style="height: 200px;">
+                            <i class="fas fa-project-diagram fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        <div class="preview-body d-flex flex-column">
+                            <h5 class="preview-title">{{ project.title }}</h5>
+                            <p class="flex-grow-1 text-muted mb-3">{{ project.short_description|truncatewords:15 }}</p>
+                            <div class="mb-2">
+                                {% for tech in project.get_technology_list|slice:":3" %}
+                                <span class="badge bg-light text-dark me-1 mb-1">{{ tech }}</span>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary mt-auto">
+                                View Details <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <div class="preview-card">
+                    <div class="preview-body py-5">
+                        <i class="fas fa-folder-open fa-4x mb-3 text-muted"></i>
+                        <h5 class="preview-title">No Projects Yet</h5>
+                        <p class="text-muted">Check back soon for updates!</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section py-100">
+    <div class="container text-center">
+        <div class="cta-content" data-aos="fade-up">
+            <h2 class="text-dark mb-3 fw-bold">Ready to Work Together?</h2>
+            <p class="text-dark mb-4 content-box">
+                Let's discuss your project idea and how I can help bring it to life with clean, scalable code.
+            </p>
+            <a href="{% url 'portfolio:contact' %}" class="btn btn-gradient btn-lg px-5">
+                <i class="fas fa-envelope me-2"></i>Get In Touch
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
