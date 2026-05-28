@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
 /**
  * Portfolio Website Styles - Modern Digital Edition
  * For Ajagare Rahul - Python & Django Developer
@@ -26,8 +28,6 @@
 }
 
 /* ==================== Icon Fallbacks ==================== */
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
-
 .fa-fallback .fab,
 .fa-fallback .fas,
 .fa-fallback .far,

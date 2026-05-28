@@ -19,7 +19,7 @@ if not SECRET_KEY:
     raise ValueError("SECRET_KEY environment variable must be set in production")
 
 # Simplified DEBUG setting
-DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
+DEBUG = False
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
