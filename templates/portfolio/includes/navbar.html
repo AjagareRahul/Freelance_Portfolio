@@ -4,125 +4,38 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
     <div class="container">
         <a class="navbar-brand" href="{% url 'portfolio:home' %}">
-            <span class="brand-text">Ajagare Rahul</span>
+            <span class="brand-text">Rahul<span class="text-warning">.</span></span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'portfolio:home' %}">
-                        <i class="fas fa-home me-1"></i> Home
-                    </a>
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'portfolio:home' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/about/' in request.path %}active{% endif %}" href="{% url 'portfolio:about' %}">
-                        <i class="fas fa-user me-1"></i> About
-                    </a>
+                    <a class="nav-link {% if '/about/' in request.path %}active{% endif %}" href="{% url 'portfolio:about' %}">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/projects/' in request.path %}active{% endif %}" href="{% url 'portfolio:projects' %}">
-                        <i class="fas fa-briefcase me-1"></i> Projects
-                    </a>
+                    <a class="nav-link {% if '/skills/' in request.path %}active{% endif %}" href="{% url 'portfolio:skills' %}">Skills</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/skills/' in request.path %}active{% endif %}" href="{% url 'portfolio:skills' %}">
-                        <i class="fas fa-code me-1"></i> Skills
-                    </a>
+                    <a class="nav-link {% if '/projects/' in request.path %}active{% endif %}" href="{% url 'portfolio:projects' %}">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/blog/' in request.path %}active{% endif %}" href="{% url 'portfolio:blog' %}">
-                        <i class="fas fa-blog me-1"></i> Blog
-                    </a>
+                    <a class="nav-link {% if '/experience/' in request.path or '/about/' in request.path %}active{% endif %}" href="{% url 'portfolio:about' %}">Experience</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/gallery/' in request.path %}active{% endif %}" href="{% url 'portfolio:gallery' %}">
-                        <i class="fas fa-images me-1"></i> Gallery
-                    </a>
+                    <a class="nav-link {% if '/testimonials/' in request.path %}active{% endif %}" href="{% url 'portfolio:home' %}#testimonials">Testimonials</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'portfolio:contact' %}">
-                        <i class="fas fa-envelope me-1"></i> Contact
-                    </a>
+                    <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'portfolio:contact' %}">Contact</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if '/public-profile/' in request.path %}active{% endif %}" href="{% url 'portfolio:public_profile' %}">
-                        <i class="fas fa-user me-1"></i> Profile
-                    </a>
-                </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle me-1"></i> {{ user.username }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end animate-dropdown" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{% url 'portfolio:dashboard' %}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                        <li><a class="dropdown-item" href="{% url 'portfolio:profile' %}"><i class="fas fa-user me-2"></i>Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'portfolio:logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link btn-nav-login" href="{% url 'portfolio:login' %}">
-                        <i class="fas fa-sign-in-alt me-1"></i> Login
-                    </a>
-                </li>
-                {% endif %}
             </ul>
+            <a href="{% url 'portfolio:contact' %}" class="btn-hire-me ms-lg-auto">
+                Hire Me <i class="fas fa-paper-plane ms-2"></i>
+            </a>
         </div>
     </div>
 </nav>
-
-<style>
-    .btn-nav-login {
-        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-        color: #fff !important;
-        padding: 0.5rem 1.5rem !important;
-        border-radius: var(--radius-full);
-        font-weight: 600;
-        font-size: 0.875rem;
-        margin-left: 0.5rem;
-        transition: var(--transition);
-        border: none;
-        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-    }
-
-    .btn-nav-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
-        color: #fff !important;
-    }
-
-    .animate-dropdown {
-        animation: slideDown 0.3s ease-out;
-        border: none;
-        border-radius: var(--radius-md);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-        padding: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    .animate-dropdown .dropdown-item {
-        border-radius: var(--radius-sm);
-        padding: 0.6rem 1rem;
-        transition: var(--transition);
-    }
-
-    .animate-dropdown .dropdown-item:hover {
-        background: var(--primary-100);
-        color: var(--primary);
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-</style>
