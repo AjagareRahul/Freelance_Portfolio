@@ -1,0 +1,353 @@
+/* ==================== New UI Design System ==================== */
+/* Theme colors and variables */
+:root {
+  /* Background gradient */
+  --bg-dark: #0B0F19;
+  --bg-dark-gradient: #111827;
+  /* Primary Accent */
+  --primary-color: #FFC107;
+  --primary-dark: #e0a800;
+  --primary-light: #fff3cd;
+  /* Secondary Glow */
+  --secondary-accent: #7C3AED;
+  /* Card Background */
+  --glass-bg: rgba(17, 24, 39, 0.7);
+  /* Text colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #9CA3AF;
+  /* Radii */
+  --radius: 16px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Glow shadows */
+  --glow-shadow: 0 0 15px rgba(255, 193, 7, 0.4), 0 0 25px rgba(124, 58, 237, 0.4);
+  --glow-shadow-hover: 0 0 25px rgba(255, 193, 7, 0.6), 0 0 35px rgba(124, 58, 237, 0.6);
+  /* Borders */
+  --border-color: rgba(255, 255, 255, 0.1);
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+  /* Primary tints */
+  --primary-100: rgba(255,193,7,0.2);
+  --primary-200: rgba(255,193,7,0.1);
+  /* Misc */
+  --text-white-50: rgba(255,255,255,0.5);
+}
+
+/* Base overrides */
+body {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-gradient) 100%) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  box-shadow: var(--glow-shadow);
+  transition: var(--transition);
+}
+
+.glass-card:hover {
+  box-shadow: var(--glow-shadow-hover);
+  transform: translateY(-5px);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button styles */
+.btn-primary-solid {
+  background: var(--primary-color);
+  color: var(--bg-dark);
+  border: none;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  box-shadow: var(--glow-shadow);
+}
+
+.btn-primary-solid:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: var(--glow-shadow-hover);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: var(--transition);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  color: var(--bg-dark);
+  transform: translateY(-3px);
+  box-shadow: var(--glow-shadow-hover);
+}
+
+/* Navbar overrides */
+.navbar {
+  background: rgba(11, 15, 25, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.navbar-nav .nav-link {
+  color: var(--text-secondary) !important;
+  margin: 0 0.5rem;
+  position: relative;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--text-primary) !important;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: var(--transition);
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: 60%;
+}
+
+.btn-hire-me {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.btn-hire-me:hover {
+  background: var(--primary-color);
+  color: var(--bg-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+}
+
+/* Section title */
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-accent));
+  border-radius: 2px;
+}
+
+/* Social icons */
+.social-icon {
+  width: 45px;
+  height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-right: 0.75rem;
+  transition: var(--transition);
+}
+
+.social-icon:hover {
+  background: var(--primary-color);
+  color: var(--bg-dark);
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+}
+
+/* Progress bar */
+.progress {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-accent));
+  border-radius: 10px;
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Skill icon for home page skills grid */
+.glass-card .skill-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.glass-card .skill-icon i {
+  font-size: 1.4rem;
+  color: var(--bg-dark);
+}
+
+.glass-card .skill-info h5 {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.glass-card .skill-info p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Skill icon wrapper for skills page */
+.glass-card .skill-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-100);
+  border-radius: var(--radius-md);
+  margin-right: 1rem;
+  transition: var(--transition);
+}
+
+.glass-card:hover .skill-icon-wrapper {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+.glass-card .skill-icon-wrapper i {
+  font-size: 1.75rem;
+  color: var(--primary-color);
+}
+
+.glass-card .skill-percentage {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.875rem;
+}
+
+/* Skill Pill Grid */
+.glass-card.skill-pill-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--glow-shadow);
+  transition: var(--transition);
+}
+
+.glass-card.skill-pill-grid:hover {
+  box-shadow: var(--glow-shadow-hover);
+  transform: translateY(-5px);
+}
+
+.glass-card.skill-pill-grid i {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  transition: var(--transition);
+}
+
+.glass-card.skill-pill-grid:hover i {
+  transform: scale(1.2);
+}
+
+.glass-card.skill-pill-grid span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Skills grid layout */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+/* Skill card grid for home page */
+.skill-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .glass-card.skill-pill-grid {
+    padding: 1rem 0.75rem;
+  }
+  .glass-card.skill-pill-grid i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .glass-card.skill-pill-grid span {
+    font-size: 0.8rem;
+  }
+  .skill-card-grid {
+    grid-template-columns: 1fr;
+  }
+}

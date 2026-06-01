@@ -6,37 +6,37 @@
 {% block meta_description %}Get in touch with Ajagare Rahul for Python & Django development projects.{% endblock %}
 
 {% block extra_css %}
-/* Contact Page Styles */
-.contact-card-modern {
+<style>
+/* Contact Page Styles - New UI */
+.py-100 {
+    padding: 100px 0;
+}
+.glass-card.contact-card-modern {
     padding: 2.5rem;
-    border-radius: var(--radius-lg);
-    background: var(--bg-white);
-    box-shadow: var(--shadow-md);
+    border-radius: var(--radius);
+    background: var(--glass-bg);
+    box-shadow: var(--glow-shadow);
     transition: var(--transition);
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.contact-card-modern:hover {
-    box-shadow: var(--shadow-lg);
+.glass-card.contact-card-modern:hover {
+    box-shadow: var(--glow-shadow-hover);
 }
-
 .contact-icon-circle {
     width: 60px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-100), rgba(37, 99, 235, 0.05));
+    background: var(--primary-100);
     border-radius: var(--radius-md);
     transition: var(--transition);
     flex-shrink: 0;
 }
-
 .contact-icon-circle i {
     font-size: 1.25rem;
-    color: var(--primary);
+    color: var(--primary-color);
 }
-
 .contact-info-item {
     display: flex;
     align-items: flex-start;
@@ -45,17 +45,14 @@
     border-radius: var(--radius-md);
     transition: var(--transition);
 }
-
 .contact-info-item:hover {
-    background: var(--primary-50);
+    background: var(--primary-200);
 }
-
 .social-links-grid {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
 }
-
 .social-link-btn {
     width: 44px;
     height: 44px;
@@ -63,83 +60,74 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: var(--bg-light);
-    border: 1px solid var(--border-color);
-    color: var(--text-body);
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
     font-size: 1.1rem;
     text-decoration: none;
     transition: var(--transition);
 }
-
 .social-link-btn:hover {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border-color: var(--primary-color);
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 6px 15px rgba(255, 193, 7, 0.3);
 }
-
 .form-control-modern {
     padding: 0.85rem 1.1rem;
     border-radius: var(--radius-md);
-    border: 2px solid var(--border-color);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     transition: var(--transition);
     font-size: 0.9375rem;
     font-family: inherit;
-    background: var(--bg-white);
-    color: var(--text-dark);
+    background: var(--glass-bg);
+    color: var(--text-primary);
 }
-
 .form-control-modern:focus {
-    border-color: var(--primary);
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 4px var(--primary-100);
     outline: none;
 }
-
 .form-control-modern::placeholder {
-    color: var(--text-muted);
+    color: var(--text-secondary);
 }
-
 .form-label-modern {
     font-weight: 600;
     margin-bottom: 0.4rem;
     font-size: 0.875rem;
-    color: var(--text-body);
+    color: var(--text-secondary);
 }
-
-/* Map Placeholder */
 .map-placeholder {
-    border-radius: var(--radius-lg);
-    background: var(--bg-light);
-    border: 2px dashed var(--border-color);
+    border-radius: var(--radius);
+    background: var(--glass-bg);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
     height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     transition: var(--transition);
 }
-
 .map-placeholder:hover {
-    border-color: var(--primary);
-    background: var(--primary-50);
+    border-color: var(--primary-color);
+    background: var(--primary-200);
 }
-
 .map-placeholder i {
     font-size: 2.5rem;
-    color: var(--primary);
+    color: var(--primary-color);
     margin-bottom: 0.5rem;
 }
-
 @media (max-width: 768px) {
-    .contact-card-modern {
+    .glass-card.contact-card-modern {
         padding: 1.5rem;
     }
     .map-placeholder {
         height: 160px;
     }
 }
+</style>
 {% endblock %}
 
 {% block content %}
