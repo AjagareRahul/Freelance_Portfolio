@@ -5,6 +5,7 @@
 {% block title %}Profile - {{ site_info.owner_name|default:"Portfolio" }}{% endblock %}
 
 {% block extra_css %}
+<style>
 /* Public Profile Page Styles */
 .public-profile-avatar {
     width: 160px;
@@ -179,6 +180,7 @@
         gap: 0.25rem;
     }
 }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -242,7 +244,7 @@
                              </div>
                          </div>
                          {% endif %}
-                         
+                        
                          <!-- Resume Download Button -->
                          {% if site_info and site_info.resume %}
                          <div class="info-row mt-4">
@@ -251,8 +253,8 @@
                                  <div class="info-label">Resume</div>
                                  <div class="info-value">
                                      <a href="{% url 'portfolio:download_resume' %}" 
-                                        class="btn btn-outline-primary btn-sm">
-                                         Download Resume
+                                         class="btn btn-outline-primary btn-sm">
+                                          Download Resume
                                      </a>
                                  </div>
                              </div>
