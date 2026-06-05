@@ -16,15 +16,18 @@
     --accent-color: #00d4ff;
     --accent-secondary: #7c3aed;
     --text-dark: #212529;
-    --text-light: #6c757d;
+    --text-light: #9CA3AF;
     --text-muted: #adb5bd;
+    --text-white-50: rgba(255,255,255,0.5);
+    --text-body: #6c757d;
     --bg-light: #f8f9fa;
-    --bg-dark: #0a0a0a;
+    --bg-dark: #0B0F19;
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --primary: var(--primary-color);
 }
 
 /* ==================== Icon Fallbacks ==================== */
@@ -805,6 +808,69 @@ a:hover {
     background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f23 100%);
     position: relative;
     overflow: hidden;
+}
+
+.page-header h1 {
+    color: #fff;
+    font-weight: 800;
+    font-size: 3rem;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ==================== Section Header ==================== */
+.section-header-modern {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-header-modern .section-tag {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    background: var(--primary-100);
+    color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.section-header-modern h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+/* ==================== CTA Section ==================== */
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-color), #ffdb4d);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section .text-dark {
+    color: #212529 !important;
+}
+
+.cta-section .btn-primary {
+    background: var(--secondary-color);
+    border: none;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+}
+
+.cta-section .btn-primary:hover {
+    background: var(--secondary-dark);
+    transform: translateY(-3px);
+}
+
+/* Page header styling */
+.page-header {
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-gradient) 100%) !important;
 }
 
 .page-header::before {
