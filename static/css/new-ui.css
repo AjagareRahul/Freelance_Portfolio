@@ -1,4 +1,15 @@
-/* ==================== New UI Design System ==================== */
+
+/* Global broken image fallback */
+img:not([src]) {
+    display: none;
+}
+img[src=""],
+img.broken-image {
+    display: none;
+}
+img.error {
+    display: none;
+}/* ==================== New UI Design System ==================== */
 /* Theme colors and variables */
 :root {
   /* Background gradient */
