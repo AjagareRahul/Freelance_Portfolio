@@ -160,7 +160,7 @@
     }
 
     function applyFallbackIcons() {
-        const faIcons = document.querySelectorAll('[class*="fa-"]:not([class*="fab-"]):not(["fa-spinner"])');
+        const faIcons = document.querySelectorAll('[class*="fa-"]:not([class*="fab-"]):not(.fa-spinner)');
         faIcons.forEach(icon => {
             const classes = Array.from(icon.classList);
             for (const cls of classes) {
@@ -687,3 +687,4 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
         });
     }
 })();
+
