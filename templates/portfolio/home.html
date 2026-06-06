@@ -2,13 +2,121 @@
 {% load static %}
 {% load portfolio_tags %}
 
-{% block title %}Rahul - Python Full Stack Developer | Portfolio{% endblock %}
-{% block meta_description %}Modern dark-themed developer portfolio showcasing Python, Django, and full-stack development skills.{% endblock %}
+{% block title %}Ajagare Rahul - Python/Django Backend Developer | Portfolio{% endblock %}
+{% block meta_description %}Python/Django backend developer specializing in REST APIs, scalable web applications, and database-driven systems.{% endblock %}
 
 {% block extra_css %}
 <style>
-    .py-100 {
-        padding: 100px 0;
+    .py-100 { padding: 100px 0; }
+
+    .typing-cursor::after {
+        content: '|';
+        animation: blink 1s steps(1) infinite;
+        color: var(--primary-color);
+        font-weight: 300;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .profile-nav-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid var(--primary-color);
+        box-shadow: 0 0 12px rgba(255, 193, 7, 0.35);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--glass-bg);
+        flex-shrink: 0;
+    }
+    .profile-nav-icon:hover {
+        box-shadow: 0 0 22px rgba(255, 193, 7, 0.7);
+        transform: scale(1.08);
+    }
+    .profile-nav-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .profile-nav-icon i { color: var(--primary-color); font-size: 1rem; }
+
+    .upcoming-section { background: rgba(255,255,255,0.02); }
+    .upcoming-card {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .upcoming-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+        border-color: rgba(255,193,7,0.35);
+        background: rgba(255,255,255,0.08);
+    }
+    .upcoming-card .status-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.3rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    .status-coming { background: rgba(37,99,235,0.2); color: #60a5fa; border: 1px solid rgba(37,99,235,0.3); }
+    .status-progress { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
+
+    .portfolio-footer {
+        background: rgba(10,10,26,0.95);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding: 3rem 0 1.5rem;
+        backdrop-filter: blur(20px);
+    }
+    .portfolio-footer .footer-brand { color: #fff; font-weight: 700; font-size: 1.1rem; }
+    .portfolio-footer .footer-link {
+        color: rgba(255,255,255,0.65);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .portfolio-footer .footer-link:hover { color: var(--primary-color); }
+    .portfolio-footer .footer-social a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px; height: 38px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.8);
+        margin-right: 0.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .portfolio-footer .footer-social a:hover {
+        background: var(--primary-color);
+        color: #000;
+        border-color: var(--primary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255,193,7,0.3);
+    }
+    .portfolio-footer .copyright {
+        color: rgba(255,255,255,0.45);
+        font-size: 0.875rem;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        padding-top: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .profile-nav-icon { width: 32px; height: 32px; }
     }
 </style>
 {% endblock %}
@@ -18,22 +126,23 @@
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center g-5">
-            <!-- Left Content -->
             <div class="col-lg-6 order-2 order-lg-1">
                 <div class="hero-content">
                     <p class="hero-small-text" data-aos="fade-up">Hello, I'm</p>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">Rahul</h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Python Full Stack Developer</p>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                        <span id="typing-name" class="typing-cursor">Ajagare Rahul</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Python/Django Backend Developer</p>
                     <p class="hero-description" data-aos="fade-up" data-aos-delay="300">
-                        I build scalable, efficient web applications using Python, Django, and modern JavaScript frameworks. 
-                        Passionate about creating clean code and intuitive user experiences that solve real-world problems.
+                        I build scalable REST APIs, database-driven web applications, and production-grade Django systems.
+                        Passionate about clean architecture, security, and writing maintainable backend code.
                     </p>
                     <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start" data-aos="fade-up" data-aos-delay="400">
                         <a href="{% url 'portfolio:projects' %}" class="btn-primary-solid">
-                            <i class="fas fa-briefcase me-2"></i>View My Work
+                            <i class="fas fa-briefcase me-2"></i>View Projects
                         </a>
                         <a href="{% static 'documents/cv.pdf' %}" class="btn-outline-primary" download>
-                            <i class="fas fa-download me-2"></i>Download CV
+                            <i class="fas fa-download me-2"></i>Download Resume
                         </a>
                     </div>
                     <div class="hero-social d-flex justify-content-center justify-content-lg-start" data-aos="fade-up" data-aos-delay="500">
@@ -44,11 +153,9 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Right Profile Image -->
             <div class="col-lg-6 order-1 order-lg-2">
                 <div class="profile-image-wrapper">
-                    <img src="{% static 'images/profile.jpg' %}" alt="Rahul" onerror="this.style.display='none'; document.querySelector('.profile-placeholder').style.display='flex';">
+                    <img src="{% static 'images/profile.jpg' %}" alt="Ajagare Rahul" onerror="this.style.display='none'; document.querySelector('.profile-placeholder').style.display='flex';">
                     <div class="profile-placeholder d-none">
                         <i class="fas fa-user"></i>
                     </div>
@@ -58,83 +165,29 @@
     </div>
 </section>
 
-<!-- About + Skills Section -->
-<section class="about-skills-section py-100">
+<!-- Upcoming Projects Section (replaces fake stats) -->
+<section class="upcoming-section py-100">
     <div class="container">
-        <div class="row g-5">
-            <!-- Left - About Info Card -->
-            <div class="col-lg-5" data-aos="fade-right">
-                <div class="glass-card">
-                    <div class="info-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h4>Rahul</h4>
-                    <p>rahul@example.com</p>
-                    <p>India</p>
-                    <div class="status-badge">
-                        <span class="dot"></span>
-                        <span>Available for Work</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right - Skills Grid -->
-            <div class="col-lg-7" data-aos="fade-left">
-                <h3 class="section-title">Skills</h3>
-                <div class="skill-card-grid">
-                    <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="skill-icon">
-                            <i class="fab fa-python"></i>
-                        </div>
-                        <div class="skill-info flex-grow-1">
-                            <h5>Python</h5>
-                            <p>Advanced</p>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 95%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card" data-aos="fade-up" data-aos-delay="150">
-                        <div class="skill-icon">
-                            <i class="fab fa-django"></i>
-                        </div>
-                        <div class="skill-info flex-grow-1">
-                            <h5>Django</h5>
-                            <p>Expert</p>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="skill-icon">
-                            <i class="fab fa-js"></i>
-                        </div>
-                        <div class="skill-info flex-grow-1">
-                            <h5>JavaScript</h5>
-                            <p>Intermediate</p>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card" data-aos="fade-up" data-aos-delay="250">
-                        <div class="skill-icon">
-                            <i class="fab fa-react"></i>
-                        </div>
-                        <div class="skill-info flex-grow-1">
-                            <h5>React</h5>
-                            <p>Intermediate</p>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 70%"></div>
-                            </div>
-                        </div>
+        <h3 class="section-title text-center mb-5" data-aos="fade-up">Upcoming Projects</h3>
+        <div class="row g-4">
+            {% for project in upcoming_projects %}
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                <div class="upcoming-card">
+                    <span class="status-badge status-{{ project.status }}">{{ project.get_status_display }}</span>
+                    <h5 class="mt-3">{{ project.title }}</h5>
+                    <p class="text-muted small">{{ project.short_description|default:project.description|truncatewords:18 }}</p>
+                    <div class="project-tags mt-3">
+                        {% for tech in project.get_technology_list %}
+                        <span class="badge bg-dark">{{ tech }}</span>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted">
+                <p>No upcoming projects yet. Add them from the admin panel.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -142,181 +195,124 @@
 <!-- Projects Section -->
 <section class="projects-section py-100">
     <div class="container">
-        <h3 class="section-title text-center" data-aos="fade-up">Projects</h3>
-        <div class="row g-4">
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="glass-card project-card">
-                    <img src="{% static 'images/project1.jpg' %}" alt="Project 1" class="card-img-top" onerror="this.style.display='none';">
-                    <div class="project-placeholder d-none">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">E-commerce Platform</h5>
-                        <p class="card-text">A full-featured e-commerce platform built with Django, React, and PostgreSQL with Stripe integration.</p>
-                        <div class="project-tags">
-                            <span class="badge">Django</span>
-                            <span class="badge">React</span>
-                            <span class="badge">PostgreSQL</span>
+        <h3 class="section-title text-center" data-aos="fade-up">Featured Projects</h3>
+        {% if featured_projects %}
+        <div class="row g-4 mt-3">
+            {% for project in featured_projects %}
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                <div class="glass-card project-card h-100">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-img-top" onerror="this.style.display='none';">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text text-muted small">{{ project.short_description|default:project.description|truncatewords:15 }}</p>
+                        <div class="project-tags mt-auto mb-2">
+                            {% for tech in project.get_technology_list %}
+                            <span class="badge">{{ tech }}</span>
+                            {% endfor %}
                         </div>
-                        <div class="project-actions d-flex gap-2 flex-wrap mt-3">
-                            <a href="#" class="btn-primary-solid btn-sm">Live Demo</a>
-                            <a href="#" class="btn-outline-primary btn-sm"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="glass-card project-card">
-                    <img src="{% static 'images/project2.jpg' %}" alt="Project 2" class="card-img-top" onerror="this.style.display='none';">
-                    <div class="project-placeholder d-none">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Task Management App</h5>
-                        <p class="card-text">A React-based task management application with real-time updates and team collaboration features.</p>
-                        <div class="project-tags">
-                            <span class="badge">React</span>
-                            <span class="badge">Node.js</span>
-                            <span class="badge">MongoDB</span>
-                        </div>
-                        <div class="project-actions d-flex gap-2 flex-wrap mt-3">
-                            <a href="#" class="btn-primary-solid btn-sm">Live Demo</a>
-                            <a href="#" class="btn-outline-primary btn-sm"><i class="fab fa-github"></i></a>
+                        <div class="project-actions d-flex gap-2 flex-wrap">
+                            {% if project.project_url %}
+                            <a href="{{ project.project_url }}" target="_blank" class="btn-primary-solid btn-sm">Live Demo</a>
+                            {% endif %}
+                            {% if project.source_code_url %}
+                            <a href="{{ project.source_code_url }}" target="_blank" class="btn-outline-primary btn-sm"><i class="fab fa-github me-1"></i>Code</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="glass-card project-card">
-                    <img src="{% static 'images/project3.jpg' %}" alt="Project 3" class="card-img-top" onerror="this.style.display='none';">
-                    <div class="project-placeholder d-none">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Blog Platform</h5>
-                        <p class="card-text">A modern blog platform with markdown support, SEO optimization, and admin dashboard.</p>
-                        <div class="project-tags">
-                            <span class="badge">Django</span>
-                            <span class="badge">Tailwind</span>
-                            <span class="badge">Docker</span>
-                        </div>
-                        <div class="project-actions d-flex gap-2 flex-wrap mt-3">
-                            <a href="#" class="btn-primary-solid btn-sm">Live Demo</a>
-                            <a href="#" class="btn-outline-primary btn-sm"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
-    </div>
-</section>
-
-<!-- Stats Section -->
-<section class="stats-section py-100">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
-                <div class="glass-card stat-item">
-                    <div class="stat-icon">
-                        <i class="fas fa-smile"></i>
-                    </div>
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">Happy Clients</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
-                <div class="glass-card stat-item">
-                    <div class="stat-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Projects Completed</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
-                <div class="glass-card stat-item">
-                    <div class="stat-icon">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label">Years Experience</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="400">
-                <div class="glass-card stat-item">
-                    <div class="stat-icon">
-                        <i class="fas fa-coffee"></i>
-                    </div>
-                    <div class="stat-number">1000+</div>
-                    <div class="stat-label">Cups of Coffee</div>
-                </div>
-            </div>
+        {% else %}
+        <p class="text-center text-muted mt-4">Projects coming soon. Add them from the admin panel.</p>
+        {% endif %}
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:projects' %}" class="btn-outline-primary">View All Projects</a>
         </div>
     </div>
 </section>
 
 <!-- Testimonials + Contact Section -->
-<section class="testimonials-section py-100" id="testimonials">
+<section class="testimonials-section py-100">
     <div class="container">
         <div class="row g-5">
-            <!-- Left - Testimonial -->
             <div class="col-lg-6" data-aos="fade-right">
                 <div class="glass-card testimonial-content h-100">
+                    <h3 class="section-title">What People Say</h3>
                     <p class="testimonial-text">
-                        Working with Rahul was an exceptional experience. His attention to detail, problem-solving abilities, 
-                        and clean code practices exceeded our expectations. The project was delivered on time and perfectly 
-                        aligned with our requirements.
+                        Rahul delivered a robust backend API ahead of schedule. His understanding of Django ORM and query optimization significantly improved our application performance.
                     </p>
                     <div class="testimonial-author">
-                        <img src="{% static 'images/client.jpg' %}" alt="Client" onerror="this.style.display='none';">
                         <div class="testimonial-author-info">
-                            <h5>John Smith</h5>
-                            <p>CEO, TechCorp</p>
+                            <h5>Project Mentor</h5>
+                            <p>Senior Developer, Open Source Contributor</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Right - Contact -->
             <div class="col-lg-6" data-aos="fade-left">
                 <div class="glass-card contact-card-wrapper h-100">
-                    <h3 class="section-title">Contact</h3>
+                    <h3 class="section-title">Get In Touch</h3>
                     <div class="contact-info-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                         <div class="contact-text">
                             <h6>Email</h6>
-                            <p>rahul@example.com</p>
+                            <p>ajagarerahul@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-info-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
                         <div class="contact-text">
                             <h6>Phone</h6>
                             <p>+91 9011646406</p>
                         </div>
                     </div>
                     <div class="contact-info-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div class="contact-text">
                             <h6>Location</h6>
                             <p>India</p>
                         </div>
                     </div>
-                    <a href="{% url 'portfolio:contact' %}" class="btn-send-message mt-4">
-                        Send Message <i class="fas fa-paper-plane ms-2"></i>
-                    </a>
+                    <a href="{% url 'portfolio:contact' %}" class="btn-send-message mt-4">Send Message <i class="fas fa-paper-plane ms-2"></i></a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
 
+<!-- Footer -->
+<footer class="portfolio-footer mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="footer-brand">Ajagare Rahul</div>
+                <p class="text-muted small mt-2">Python/Django Backend Developer building scalable web applications and REST APIs.</p>
+            </div>
+            <div class="col-md-4 text-md-center">
+                <h6 class="text-white mb-3">Quick Links</h6>
+                <div class="d-flex flex-column gap-2">
+                    <a href="{% url 'portfolio:home' %}" class="footer-link">Home</a>
+                    <a href="{% url 'portfolio:projects' %}" class="footer-link">Projects</a>
+                    <a href="{% url 'portfolio:skills' %}" class="footer-link">Skills</a>
+                    <a href="{% url 'portfolio:contact' %}" class="footer-link">Contact</a>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <h6 class="text-white mb-3">Connect</h6>
+                <div class="footer-social mb-2">
+                    <a href="https://github.com/AjagareRahul" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://x.com/AjagareRahul" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a>
+                </div>
+                <p class="text-muted small mb-0">ajagarerahul@gmail.com</p>
+            </div>
+        </div>
+        <div class="copyright text-center">
+            &copy; {% now 'Y' %} Ajagare Rahul. All rights reserved. Built with Django.
+        </div>
+    </div>
+</footer>
+{% endblock %}

@@ -616,7 +616,30 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
 
 // ==========================================
 // UI Reliability Enhancements
+
 // ==========================================
+// Typing Animation for Hero Name
+// ==========================================
+(function() {
+    var typingEl = document.getElementById("typing-name");
+    if (!typingEl) return;
+    var text = typingEl.textContent.trim();
+    typingEl.textContent = "";
+    var i = 0;
+    var cursorDelay = 180;
+    function type() {
+        if (i < text.length) {
+            typingEl.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, cursorDelay);
+        }
+    }
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", type);
+    } else {
+        type();
+    }
+})();// ==========================================
 (function() {
     // Ensure body stays visible after page load
     document.body.style.opacity = '1';
@@ -687,5 +710,6 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
         });
     }
 })();
+
 
 

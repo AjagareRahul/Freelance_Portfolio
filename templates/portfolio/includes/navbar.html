@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
     <div class="container">
         <a class="navbar-brand" href="{% url 'portfolio:home' %}">
-            <span class="brand-text">Rahul<span class="text-warning">.</span></span>
+            <span class="brand-text">Ajagare Rahul<span class="text-warning">.</span></span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,8 +33,12 @@
                     <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'portfolio:contact' %}">Contact</a>
                 </li>
             </ul>
-            <a href="{% url 'portfolio:contact' %}" class="btn-hire-me ms-lg-auto">
+            <a href="{% url 'portfolio:contact' %}" class="btn-hire-me me-2">
                 Hire Me <i class="fas fa-paper-plane ms-2"></i>
+            </a>
+            <a href="{% url 'portfolio:profile' %}" class="profile-nav-icon" title="Profile">
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');" style="width:100%;height:100%;object-fit:cover;">
+                <i class="fas fa-user d-none"></i>
             </a>
         </div>
     </div>
