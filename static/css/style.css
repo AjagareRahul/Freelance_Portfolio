@@ -13,21 +13,32 @@
     --primary-light: #fff3cd;
     --secondary-color: #1a1a2e;
     --secondary-dark: #0f0f1a;
+    --secondary-accent: #7c3aed;
     --accent-color: #00d4ff;
     --accent-secondary: #7c3aed;
     --text-dark: #212529;
     --text-light: #9CA3AF;
     --text-muted: #adb5bd;
+    --text-primary: #FFFFFF;
+    --text-secondary: #9CA3AF;
     --text-white-50: rgba(255,255,255,0.5);
     --text-body: #6c757d;
+    --text-white: #FFFFFF;
     --bg-light: #f8f9fa;
     --bg-dark: #0B0F19;
+    --bg-dark-gradient: #0F172A;
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 16px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
     --primary: var(--primary-color);
+    --glow-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 193, 7, 0.3);
+    --glow-shadow-hover: 0 8px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 193, 7, 0.5);
+    --primary-100: rgba(255,193,7,0.2);
 }
 
 /* ==================== Icon Fallbacks ==================== */
@@ -242,18 +253,18 @@ a:hover {
 }
 
 .hero-title {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
     line-height: 1.1;
     letter-spacing: -1px;
-    color: #fff;
+    color: var(--text-white);
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero-subtitle {
     font-size: 1.6rem;
-    color: #e9ecef;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     font-weight: 400;
     text-shadow: 0 1px 5px rgba(0,0,0,0.2);
@@ -271,6 +282,13 @@ a:hover {
     content: '|';
     animation: blink 1s step-end infinite;
     color: var(--primary-color);
+}
+
+.typing-cursor::after {
+    content: '|';
+    animation: blink 1s steps(1) infinite;
+    color: var(--primary-color);
+    font-weight: 300;
 }
 
 @keyframes blink {
@@ -300,8 +318,9 @@ a:hover {
 /* ==================== Profile Image ==================== */
 .profile-image-container {
     position: relative;
-    width: 320px;
-    height: 320px;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
     margin: 0 auto;
 }
 
@@ -317,6 +336,18 @@ a:hover {
     z-index: -1;
     animation: rotate 4s linear infinite;
     opacity: 0.5;
+}
+
+@media (max-width: 992px) {
+    .profile-image-container {
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-image-container {
+        max-width: 220px;
+    }
 }
 
 @keyframes rotate {
@@ -1454,9 +1485,9 @@ a:hover {
         margin-top: 2rem;
     }
     
-    .profile-image-container {
-        width: 220px;
-        height: 220px;
+    .profile-image-container,
+    .profile-image-wrapper {
+        max-width: 220px;
     }
     
     .section-title {
@@ -1796,4 +1827,29 @@ a:hover {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Additional utilities for dark theme */
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.bg-dark-gradient {
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-gradient));
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 100px 0;
+}
+
+/* Skills Section on Home */
+.home-skills-section {
+    padding: 100px 0;
+    background: rgba(255,255,255,0.02);
+}
+
+/* Missing btn-hire-me hide */
+.btn-hire-me {
+    display: none !important;
 }
