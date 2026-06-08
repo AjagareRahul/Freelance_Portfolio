@@ -6,13 +6,22 @@
     --primary-dark: #e0a800;
     --primary-light: #fff3cd;
     --secondary-accent: #7c3aed;
+    --secondary-color: #1a1a2e;
     --bg-dark: #0B0F19;
     --bg-dark-gradient: #0F172A;
     --text-white: #FFFFFF;
+    --text-primary: #FFFFFF;
+    --text-secondary: #9CA3AF;
     --text-muted: #9CA3AF;
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 16px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --glow-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 193, 7, 0.3);
+    --glow-shadow-hover: 0 8px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 193, 7, 0.5);
+    --primary-100: rgba(255,193,7,0.2);
 }
 
 /* ==================== Base Styles ==================== */
@@ -91,17 +100,36 @@ a {
     width: 60%;
 }
 
-.btn-hire-me {
-    background: transparent;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 0.6rem 1.8rem;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
+/* Navbar Dropdown */
+.nav-dropdown .dropdown-menu {
+    background: rgba(11, 15, 25, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    min-width: 180px;
+    padding: 0.5rem;
+}
+
+.nav-dropdown .dropdown-item {
+    color: var(--text-secondary);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
     transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
+}
+
+.nav-dropdown .dropdown-item:hover {
+    background: var(--primary-100);
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.nav-dropdown .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 0.5rem 0;
+}
+
+.btn-hire-me {
+    display: none !important;
 }
 
 .btn-hire-me:hover {
@@ -149,6 +177,7 @@ a {
     z-index: 1;
 }
 
+/* Hero typing text */
 .hero-small-text {
     font-size: 1rem;
     color: var(--text-muted);
@@ -157,28 +186,25 @@ a {
 }
 
 .hero-title {
-    font-size: 6rem;
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
     line-height: 1.1;
-    letter-spacing: -2px;
-    background: linear-gradient(135deg, var(--primary-color), #ffdb4d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 40px rgba(255, 193, 7, 0.3);
+    letter-spacing: -1px;
+    color: var(--text-white);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero-subtitle {
-    font-size: 1.8rem;
-    color: var(--text-white);
+    font-size: 1.5rem;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .hero-description {
     font-size: 1.1rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     max-width: 500px;
     margin-bottom: 2rem;
     line-height: 1.7;
@@ -252,9 +278,28 @@ a {
 /* Profile Image */
 .profile-image-wrapper {
     position: relative;
-    width: 240px;
-    height: 240px;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
     margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+    .profile-image-wrapper {
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-image-wrapper {
+        max-width: 220px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-image-wrapper {
+        max-width: 180px;
+    }
 }
 
 .profile-image-wrapper::before {
@@ -796,25 +841,28 @@ a {
 }
 
 /* ==================== Responsive ==================== */
+@media (max-width: 1200px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+}
+
 @media (max-width: 992px) {
     .hero-title {
-        font-size: 4rem;
+        font-size: 2.75rem;
         text-align: center;
     }
     
     .hero-subtitle {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         text-align: center;
     }
     
     .hero-description {
+        font-size: 1rem;
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-    }
-    
-    .testimonial-wrapper {
-        grid-template-columns: 1fr;
     }
     
     .section-title {
@@ -824,7 +872,7 @@ a {
 
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.25rem;
     }
     
     .hero-subtitle {
@@ -832,12 +880,7 @@ a {
     }
     
     .profile-image-wrapper {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .skill-card-grid {
-        grid-template-columns: 1fr;
+        max-width: 200px;
     }
     
     .section-title {
@@ -857,7 +900,7 @@ a {
 
 @media (max-width: 576px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     
     .hero-subtitle {
@@ -865,11 +908,27 @@ a {
     }
     
     .profile-image-wrapper {
-        width: 180px;
-        height: 180px;
+        max-width: 180px;
     }
     
     .stat-number {
         font-size: 2.5rem;
     }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 100px 0;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.bg-dark-gradient {
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-gradient));
 }

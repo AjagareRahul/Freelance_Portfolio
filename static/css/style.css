@@ -286,10 +286,13 @@ a:hover {
     border-radius: 20px;
     box-shadow: var(--glass-shadow);
     transition: var(--transition-slow);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .glass-card:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-10px) scale(1.02) translateZ(0);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     border-color: var(--primary-color);
 }
@@ -442,7 +445,7 @@ a:hover {
 }
 
 .card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) translateZ(0);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -461,16 +464,25 @@ a:hover {
     overflow: hidden;
     background: #fff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: var(--transition-smooth);
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.project-card:hover {
+    transform: translateY(-10px) translateZ(0);
 }
 
 .project-card .card-img-top {
     height: 220px;
     object-fit: cover;
-    transition: var(--transition);
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
 }
 
 .project-card:hover .card-img-top {
-    transform: scale(1.1);
+    transform: scale(1.12) rotate(0.5deg);
 }
 
 .project-card .card-body {

@@ -24,7 +24,7 @@
         overflow: hidden;
         border: 2px solid var(--primary-color);
         box-shadow: 0 0 12px rgba(255, 193, 7, 0.35);
-        transition: all 0.3s ease;
+        transition: var(--transition);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -33,7 +33,7 @@
     }
     .profile-nav-icon:hover {
         box-shadow: 0 0 22px rgba(255, 193, 7, 0.7);
-        transform: scale(1.08);
+        transform: scale(1.1);
     }
     .profile-nav-icon img {
         width: 100%;
@@ -41,6 +41,28 @@
         object-fit: cover;
     }
     .profile-nav-icon i { color: var(--primary-color); font-size: 1rem; }
+
+    /* Dropdown menu */
+    .nav-dropdown .dropdown-menu {
+        background: rgba(11, 15, 25, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        min-width: 180px;
+    }
+    .nav-dropdown .dropdown-item {
+        color: var(--text-secondary);
+        padding: 0.75rem 1.25rem;
+        transition: var(--transition);
+    }
+    .nav-dropdown .dropdown-item:hover {
+        background: var(--primary-100);
+        color: var(--primary-color);
+        transform: translateX(5px);
+    }
+    .nav-dropdown .dropdown-divider {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
 
     .upcoming-section { background: rgba(255,255,255,0.02); }
     .upcoming-card {
@@ -50,7 +72,7 @@
         border-radius: 16px;
         padding: 1.5rem;
         height: 100%;
-        transition: all 0.4s ease;
+        transition: var(--transition);
         position: relative;
         overflow: hidden;
     }
@@ -84,7 +106,7 @@
     .portfolio-footer .footer-link {
         color: rgba(255,255,255,0.65);
         text-decoration: none;
-        transition: color 0.3s ease;
+        transition: var(--transition);
     }
     .portfolio-footer .footer-link:hover { color: var(--primary-color); }
     .portfolio-footer .footer-social a {
@@ -97,7 +119,7 @@
         color: rgba(255,255,255,0.8);
         margin-right: 0.5rem;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         border: 1px solid rgba(255,255,255,0.1);
     }
     .portfolio-footer .footer-social a:hover {
@@ -115,25 +137,84 @@
         margin-top: 2rem;
     }
 
+    /* Skills Section on Home */
+    .home-skills-section {
+        padding: 100px 0;
+        background: rgba(255,255,255,0.02);
+    }
+    .skill-home-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        transition: var(--transition);
+        height: 100%;
+        box-shadow: var(--glow-shadow);
+    }
+    .skill-home-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: var(--glow-shadow-hover);
+        border-color: var(--primary-color);
+    }
+    .skill-home-card .skill-icon-wrapper {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-accent));
+        border-radius: 14px;
+        transition: var(--transition);
+    }
+    .skill-home-card:hover .skill-icon-wrapper {
+        transform: rotate(5deg) scale(1.1);
+    }
+    .skill-home-card .skill-icon-wrapper i {
+        font-size: 1.5rem;
+        color: var(--bg-dark);
+    }
+    .skill-home-card h5 {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+    .skill-home-card p {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin: 0;
+    }
+
     @media (max-width: 768px) {
         .profile-nav-icon { width: 32px; height: 32px; }
+        .skill-home-card { padding: 1.5rem 1rem; }
+        .skill-home-card .skill-icon-wrapper {
+            width: 50px;
+            height: 50px;
+        }
+    }
+    @media (max-width: 576px) {
+        .skill-home-card { padding: 1.25rem 0.75rem; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 order-2 order-lg-1">
                 <div class="hero-content">
-                    <p class="hero-small-text" data-aos="fade-up">Hello, I'm</p>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                        <span id="typing-name" class="typing-cursor">Ajagare Rahul</span>
+                    <p class="hero-small-text mb-2" data-aos="fade-up">Hello, I'm</p>
+                    <h1 class="hero-title mb-3" data-aos="fade-up" data-aos-delay="100">
+                        <span id="typing-name" class="typing-cursor"></span>
                     </h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Python/Django Backend Developer</p>
-                    <p class="hero-description" data-aos="fade-up" data-aos-delay="300">
+                    <p class="hero-subtitle mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <span id="typing-role" class="typing-cursor"></span>
+                    </p>
+                    <p class="hero-description mb-4" data-aos="fade-up" data-aos-delay="300">
                         I build scalable REST APIs, database-driven web applications, and production-grade Django systems.
                         Passionate about clean architecture, security, and writing maintainable backend code.
                     </p>
@@ -145,17 +226,17 @@
                             <i class="fas fa-download me-2"></i>Download Resume
                         </a>
                     </div>
-                    <div class="hero-social d-flex justify-content-center justify-content-lg-start" data-aos="fade-up" data-aos-delay="500">
-                        <a href="https://github.com/AjagareRahul" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://x.com/AjagareRahul" target="_blank" class="social-icon"><i class="fab fa-x-twitter"></i></a>
-                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <div class="hero-social d-flex justify-content-center justify-content-lg-start gap-3 mt-4" data-aos="fade-up" data-aos-delay="500">
+                        <a href="https://github.com/AjagareRahul" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/rahul-ajagare-63024b2b1/" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://x.com/AjagareRahul" target="_blank" class="social-icon" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://www.instagram.com/ajagarerahul" target="_blank" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2">
                 <div class="profile-image-wrapper">
-                    <img src="{% static 'images/profile.jpg' %}" alt="Ajagare Rahul" onerror="this.style.display='none'; document.querySelector('.profile-placeholder').style.display='flex';">
+                    <img src="{% static 'images/profile.jpg' %}" alt="Ajagare Rahul" class="lazy-load" loading="lazy" onerror="this.style.display='none'; document.querySelector('.profile-placeholder').style.display='flex';">
                     <div class="profile-placeholder d-none">
                         <i class="fas fa-user"></i>
                     </div>
@@ -234,25 +315,63 @@
     </div>
 </section>
 
-<!-- Testimonials + Contact Section -->
-<section class="testimonials-section py-100">
+<!-- Skills Section -->
+<section class="home-skills-section py-100 bg-dark-gradient">
     <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-6" data-aos="fade-right">
-                <div class="glass-card testimonial-content h-100">
-                    <h3 class="section-title">What People Say</h3>
-                    <p class="testimonial-text">
-                        Rahul delivered a robust backend API ahead of schedule. His understanding of Django ORM and query optimization significantly improved our application performance.
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-author-info">
-                            <h5>Project Mentor</h5>
-                            <p>Senior Developer, Open Source Contributor</p>
-                        </div>
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <span class="section-tag">My Skills</span>
+            <h2 class="gradient-text">Core Technologies</h2>
+            <p>Expertise in modern Python and Django development</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="skill-home-card">
+                    <div class="skill-icon-wrapper">
+                        <i class="fab fa-python"></i>
                     </div>
+                    <h5>Python</h5>
+                    <p>Backend Development</p>
                 </div>
             </div>
-            <div class="col-lg-6" data-aos="fade-left">
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="skill-home-card">
+                    <div class="skill-icon-wrapper">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h5>Django</h5>
+                    <p>Web Framework</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="skill-home-card">
+                    <div class="skill-icon-wrapper">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h5>REST APIs</h5>
+                    <p>Django REST Framework</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="skill-home-card">
+                    <div class="skill-icon-wrapper">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h5>PostgreSQL</h5>
+                    <p>Database Design</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="400">
+            <a href="{% url 'portfolio:skills' %}" class="btn-outline-primary">View All Skills</a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section py-100">
+    <div class="container">
+        <div class="row g-5 justify-content-center">
+            <div class="col-lg-6" data-aos="fade-right">
                 <div class="glass-card contact-card-wrapper h-100">
                     <h3 class="section-title">Get In Touch</h3>
                     <div class="contact-info-item">

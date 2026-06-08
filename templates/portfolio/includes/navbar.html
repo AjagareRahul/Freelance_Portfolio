@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'portfolio:home' %}">Home</a>
+                    <a class="nav-link {% if request.path == '/' or request.path == '' %}active{% endif %}" href="{% url 'portfolio:home' %}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/about/' in request.path %}active{% endif %}" href="{% url 'portfolio:about' %}">About</a>
@@ -24,20 +24,26 @@
                     <a class="nav-link {% if '/projects/' in request.path %}active{% endif %}" href="{% url 'portfolio:projects' %}">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if '/experience/' in request.path or '/about/' in request.path %}active{% endif %}" href="{% url 'portfolio:about' %}">Experience</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if '/testimonials/' in request.path %}active{% endif %}" href="{% url 'portfolio:home' %}#testimonials">Testimonials</a>
+                    <a class="nav-link {% if '/gallery/' in request.path %}active{% endif %}" href="{% url 'portfolio:gallery' %}">Gallery</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'portfolio:contact' %}">Contact</a>
                 </li>
             </ul>
-            <a href="{% url 'portfolio:contact' %}" class="btn-hire-me me-2">
-                Hire Me <i class="fas fa-paper-plane ms-2"></i>
-            </a>
-            <a href="{% url 'portfolio:profile' %}" class="profile-nav-icon" title="Profile">
-                <img src="{% static 'images/profile.jpg' %}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');" style="width:100%;height:100%;object-fit:cover;">
+            <div class="nav-dropdown dropdown d-none d-lg-block">
+                <a href="#" class="profile-nav-icon dropdown-toggle" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Profile">
+                    <img src="{% static 'images/profile.jpg' %}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');">
+                    <i class="fas fa-user d-none"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="{% url 'portfolio:profile' %}"><i class="fas fa-user me-2"></i>About</a></li>
+                    <li><a class="dropdown-item" href="{% url 'portfolio:contact' %}"><i class="fas fa-envelope me-2"></i>Contact</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% static 'documents/cv.pdf' %}" download><i class="fas fa-download me-2"></i>Resume</a></li>
+                </ul>
+            </div>
+            <a href="{% url 'portfolio:profile' %}" class="profile-nav-icon d-lg-none ms-2" title="Profile">
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');">
                 <i class="fas fa-user d-none"></i>
             </a>
         </div>

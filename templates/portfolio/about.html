@@ -7,10 +7,14 @@
 
 {% block extra_css %}
 <style>
-/* About Page Styles - New UI */
 .about-hero-image {
     border-radius: var(--radius);
     transition: var(--transition);
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    height: auto;
 }
 .about-hero-image:hover {
     transform: scale(1.02);
@@ -18,6 +22,7 @@
 }
 .about-placeholder {
     width: 100%;
+    max-width: 380px;
     aspect-ratio: 4/5;
     background: linear-gradient(135deg, var(--bg-dark), var(--secondary-accent));
     border-radius: var(--radius);
@@ -25,7 +30,9 @@
     align-items: center;
     justify-content: center;
     border: 3px solid var(--primary-color);
+    margin: 0 auto;
 }
+
 .glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -33,6 +40,7 @@
     border-radius: var(--radius);
     box-shadow: var(--glow-shadow);
     transition: var(--transition);
+    height: 100%;
 }
 .glass-card:hover {
     box-shadow: var(--glow-shadow-hover);
@@ -64,33 +72,41 @@
     font-weight: 700;
     margin-bottom: 0.375rem;
     font-size: 1rem;
+    color: var(--text-primary);
 }
 .glass-card small {
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: 0.85rem;
 }
+
 .timeline-entry {
     padding: 1.25rem 1.5rem;
     border-radius: var(--radius);
     box-shadow: var(--glow-shadow);
     border-left: 4px solid var(--primary-color);
     transition: var(--transition);
+    background: var(--glass-bg);
+    height: 100%;
 }
 .timeline-entry:hover {
     box-shadow: var(--glow-shadow-hover);
     transform: translateX(5px);
 }
+
 .education-card {
     padding: 1.5rem;
     border-radius: var(--radius);
     box-shadow: var(--glow-shadow);
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: var(--transition);
+    background: var(--glass-bg);
+    height: 100%;
 }
 .education-card:hover {
     box-shadow: var(--glow-shadow-hover);
     transform: translateY(-5px);
 }
+
 .certification-badge {
     display: inline-flex;
     align-items: center;
@@ -102,6 +118,7 @@
     font-size: 0.75rem;
     font-weight: 600;
 }
+
 .stat-circle {
     width: 80px;
     height: 80px;
@@ -116,6 +133,23 @@
     margin: 0 auto 0.75rem;
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
+
+/* Typography improvements */
+.about-hero-image {
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--glow-shadow);
+}
+
+.hero-content-text {
+    color: var(--text-primary);
+    line-height: 1.8;
+}
+
+.hero-content-text .lead {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .about-hero-image, .about-placeholder {
         max-width: 320px;
@@ -152,19 +186,17 @@
             <div class="col-lg-5" data-aos="fade-right" data-aos-duration="1000">
                 <div class="text-center text-lg-start">
                     {% if site_info and site_info.profile_image %}
-                     <a href="{% url 'portfolio:profile' %}">
-                         <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="about-hero-image img-fluid mb-4 border-primary-4">
-                     </a>
+                     <img src="{{ site_info.profile_image.url }}" alt="Ajagare Rahul" class="about-hero-image img-fluid mb-4">
                     {% else %}
                     <div class="about-placeholder mb-4">
-                        <i class="fas fa-user fa-8x text-white-50"></i>
+                        <i class="fas fa-user"></i>
                     </div>
                     {% endif %}
-                    <div class="d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap">
-                        <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+                    <div class="d-flex justify-content-center justify-content-lg-start gap-3 mt-4">
+                        <a href="{% url 'portfolio:contact' %}" class="btn-primary-solid">
                             <i class="fas fa-envelope me-2"></i>Contact Me
                         </a>
-                        <a href="{% url 'portfolio:projects' %}" class="btn btn-outline-dark btn-lg">
+                        <a href="{% url 'portfolio:projects' %}" class="btn-outline-primary">
                             <i class="fas fa-briefcase me-2"></i>View Projects
                         </a>
                     </div>
@@ -172,51 +204,59 @@
             </div>
             <div class="col-lg-7" data-aos="fade-left" data-aos-duration="1000">
                 <h2 class="mb-3 fw-bold">Who Am I?</h2>
-                 <p class="lead text-primary fw-600 fs-lg">
-                     I'm <strong>Ajagare Rahul</strong>, a Python & Django Developer.
-                 </p>
-                 <p class="fs-base lh-copy text-body">
-                     I build scalable backend systems, REST APIs, and full-stack web applications using Django and modern tools. My passion lies in creating efficient, user-friendly, and maintainable code that solves real-world problems.
-                 </p>
-                 <p class="fs-base lh-copy text-body">
-                     I'm constantly learning and staying updated with the latest technologies and best practices. When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
-                 </p>
+                <p class="lead text-primary mb-3 fw-600 fs-lg">
+                    I'm <strong>Ajagare Rahul</strong>, a Python & Django Developer.
+                </p>
+                <p class="fs-base lh-copy mb-3 hero-content-text">
+                    I build scalable backend systems, REST APIs, and full-stack web applications using Django and modern tools. My passion lies in creating efficient, user-friendly, and maintainable code that solves real-world problems.
+                </p>
+                <p class="fs-base lh-copy hero-content-text">
+                    I'm constantly learning and staying updated with the latest technologies and best practices. When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
+                </p>
 
-                <div class="row g-3 mt-2">
-                    <div class="col-md-6">
-                        <div class="glass-card">
-                            <div class="card-icon">
+                <div class="row g-3 mt-4">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="glass-card d-flex align-items-center p-3">
+                            <div class="card-icon me-3 mb-0">
                                 <i class="fas fa-code"></i>
                             </div>
-                            <h6>Clean Code</h6>
-                            <small>Maintainable & Scalable</small>
+                            <div>
+                                <h6 class="mb-1">Clean Code</h6>
+                                <small>Maintainable & Scalable</small>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="glass-card">
-                            <div class="card-icon">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="glass-card d-flex align-items-center p-3">
+                            <div class="card-icon me-3 mb-0">
                                 <i class="fas fa-clock"></i>
                             </div>
-                            <h6>On Time Delivery</h6>
-                            <small>Professional Approach</small>
+                            <div>
+                                <h6 class="mb-1">On Time Delivery</h6>
+                                <small>Professional Approach</small>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="glass-card">
-                            <div class="card-icon">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="glass-card d-flex align-items-center p-3">
+                            <div class="card-icon me-3 mb-0">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <h6>Team Player</h6>
-                            <small>Collaborative Skills</small>
+                            <div>
+                                <h6 class="mb-1">Team Player</h6>
+                                <small>Collaborative Skills</small>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="glass-card">
-                            <div class="card-icon">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="glass-card d-flex align-items-center p-3">
+                            <div class="card-icon me-3 mb-0">
                                 <i class="fas fa-lightbulb"></i>
                             </div>
-                            <h6>Problem Solver</h6>
-                            <small>Analytical Thinking</small>
+                            <div>
+                                <h6 class="mb-1">Problem Solver</h6>
+                                <small>Analytical Thinking</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -226,12 +266,12 @@
 </section>
 
 <!-- Experience Section -->
-<section class="experience-section bg-light">
+<section class="py-100">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header text-center mb-5">
             <span class="section-tag">Experience</span>
             <h2>Professional Journey</h2>
-            <p>A look at my work experience and professional growth.</p>
+            <p class="text-secondary">A look at my work experience and professional growth.</p>
         </div>
         <div class="row g-4">
             {% if experiences %}
@@ -242,12 +282,12 @@
                             <i class="fas fa-calendar-alt me-1"></i>
                             {{ experience.start_date|date:"M Y" }} - {% if experience.is_current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
                         </span>
-                        <h5>{{ experience.position }}</h5>
-                        <p class="company"><i class="fas fa-building me-1"></i> {{ experience.company_name }}</p>
+                        <h5 class="text-primary mb-2">{{ experience.position }}</h5>
+                        <p class="company mb-2"><i class="fas fa-building me-1"></i> {{ experience.company_name }}</p>
                         {% if experience.location %}
-                         <p class="text-muted mb-2 fs-xs"><i class="fas fa-map-marker-alt me-1"></i> {{ experience.location }}</p>
+                         <p class="text-secondary mb-2 fs-sm"><i class="fas fa-map-marker-alt me-1"></i> {{ experience.location }}</p>
                         {% endif %}
-                         <p class="mt-2 fs-sm text-body">{{ experience.description }}</p>
+                         <p class="mt-2 fs-base hero-content-text">{{ experience.description }}</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -256,8 +296,8 @@
                     <div class="stat-circle mb-3 mx-auto">
                         <i class="fas fa-briefcase fa-lg"></i>
                     </div>
-                    <h4 class="text-muted">No experience yet</h4>
-                    <p class="text-muted">Work experience will be displayed here as I grow professionally.</p>
+                    <h4 class="text-secondary">No experience yet</h4>
+                    <p class="text-secondary">Work experience will be displayed here as I grow professionally.</p>
                 </div>
             {% endif %}
         </div>
@@ -265,34 +305,34 @@
 </section>
 
 <!-- Education Section -->
-<section class="py-100">
+<section class="py-100 bg-dark-gradient">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header text-center mb-5">
             <span class="section-tag">Education</span>
             <h2>My Academic Background</h2>
-            <p>Formal education and continuous learning journey.</p>
+            <p class="text-secondary">Formal education and continuous learning journey.</p>
         </div>
         <div class="row g-4">
             {% if educations %}
                 {% for education in educations %}
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
                     <div class="education-card h-100 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
                             <div>
-                                <h4 class="mb-1 fw-bold">{{ education.degree }}</h4>
-                                <h5 class="text-primary"><i class="fas fa-graduation-cap me-1"></i> {{ education.institution }}</h5>
+                                <h4 class="mb-1 fw-bold text-primary">{{ education.degree }}</h4>
+                                <h5 class="mb-0"><i class="fas fa-graduation-cap me-1"></i> {{ education.institution }}</h5>
                             </div>
                             <span class="certification-badge">
                                 <i class="fas fa-calendar-alt"></i>
                                 {{ education.start_date|date:"Y" }} - {% if education.is_current %}Present{% else %}{{ education.end_date|date:"Y" }}{% endif %}
                             </span>
                         </div>
-                         <p class="text-muted mb-2 fs-sm">{{ education.field_of_study }}</p>
+                         <p class="text-secondary mb-2 fs-base">{{ education.field_of_study }}</p>
                         {% if education.grade %}
-                        <p class="mb-0"><strong>Grade:</strong> {{ education.grade }}</p>
+                        <p class="mb-0 text-primary"><strong>Grade:</strong> {{ education.grade }}</p>
                         {% endif %}
                         {% if education.description %}
-                         <p class="mt-2 fs-sm text-body">{{ education.description }}</p>
+                         <p class="mt-2 fs-base hero-content-text">{{ education.description }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -302,8 +342,8 @@
                     <div class="stat-circle mb-3 mx-auto">
                         <i class="fas fa-graduation-cap fa-lg"></i>
                     </div>
-                    <h4 class="text-muted">Education details coming soon</h4>
-                    <p class="text-muted">Academic information will be updated here.</p>
+                    <h4 class="text-secondary">Education details coming soon</h4>
+                    <p class="text-secondary">Academic information will be updated here.</p>
                 </div>
             {% endif %}
         </div>
@@ -315,10 +355,10 @@
     <div class="container text-center">
         <div class="cta-content" data-aos="fade-up">
             <h2 class="text-dark mb-3 fw-bold">Want to Know More About Me?</h2>
-             <p class="text-dark mb-4 content-box">
+             <p class="content-box">
                 Let's connect and discuss how I can help with your next project.
             </p>
-            <a href="{% url 'portfolio:contact' %}" class="btn btn-primary btn-lg">
+            <a href="{% url 'portfolio:contact' %}" class="btn-primary-solid">
                 <i class="fas fa-envelope me-2"></i>Get In Touch
             </a>
         </div>

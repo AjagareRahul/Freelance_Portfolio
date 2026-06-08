@@ -1,4 +1,6 @@
 
+{% load static %}
+
 /* Global broken image fallback */
 img:not([src]) {
     display: none;
@@ -9,7 +11,9 @@ img.broken-image {
 }
 img.error {
     display: none;
-}/* ==================== New UI Design System ==================== */
+}
+
+/* ==================== New UI Design System ==================== */
 /* Theme colors and variables */
 :root {
   /* Background gradient */
@@ -21,6 +25,7 @@ img.error {
   --primary-light: #fff3cd;
   /* Secondary Glow */
   --secondary-accent: #7C3AED;
+  --secondary-color: #1a1a2e;
   /* Card Background */
   --glass-bg: rgba(17, 24, 39, 0.7);
   /* Text colors */
@@ -30,17 +35,20 @@ img.error {
   --radius: 16px;
   --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-full: 9999px;
   /* Transitions */
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   /* Glow shadows */
-  --glow-shadow: 0 0 15px rgba(255, 193, 7, 0.4), 0 0 25px rgba(124, 58, 237, 0.4);
-  --glow-shadow-hover: 0 0 25px rgba(255, 193, 7, 0.6), 0 0 35px rgba(124, 58, 237, 0.6);
+  --glow-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 193, 7, 0.3);
+  --glow-shadow-hover: 0 8px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 193, 7, 0.5);
   /* Borders */
+  --glass-border: rgba(255, 255, 255, 0.1);
   --border-color: rgba(255, 255, 255, 0.1);
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 25px rgba(0,0,0,0.15);
   /* Primary tints */
   --primary-100: rgba(255,193,7,0.2);
   --primary-200: rgba(255,193,7,0.1);
@@ -52,7 +60,6 @@ img.error {
   --text-dark: #111827;
   --text-body: #374151;
   --text-muted: #6b7280;
-  --radius-full: 9999px;
 }
 
 /* Base overrides */
@@ -61,19 +68,41 @@ body {
   color: var(--text-primary) !important;
 }
 
-/* Glassmorphism card */
+/* ==================== Performance Optimizations ==================== */
+ will-change: transform, opacity;
+}
+
+/* Hardware acceleration for smooth animations */
+.glass-card, .project-card, .blog-card, .service-card, .skill-card, .btn, .social-icon {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Smoother transitions with proper easing */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-smooth: all 0.35s var(--ease-out-expo);
+  --transition-bounce: all 0.45s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Improved glass card with smooth hover */
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius);
-  box-shadow: var(--glow-shadow);
-  transition: var(--transition);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    box-shadow: var(--glow-shadow);
+    transition: var(--transition-smooth);
+    transform: translateZ(0);
 }
 
 .glass-card:hover {
-  box-shadow: var(--glow-shadow-hover);
-  transform: translateY(-5px);
+    box-shadow: var(--glow-shadow-hover);
+    transform: translateY(-8px) translateZ(0);
 }
 
 /* Gradient text */
@@ -84,24 +113,26 @@ body {
   background-clip: text;
 }
 
-/* Button styles */
+/* Button styles with smooth transforms */
 .btn-primary-solid {
-  background: var(--primary-color);
-  color: var(--bg-dark);
-  border: none;
-  padding: 0.75rem 2rem;
-  font-weight: 600;
-  border-radius: 50px;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  box-shadow: var(--glow-shadow);
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    box-shadow: var(--glow-shadow);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
 }
 
 .btn-primary-solid:hover {
-  background: var(--primary-dark);
-  transform: translateY(-3px);
-  box-shadow: var(--glow-shadow-hover);
+    background: var(--primary-dark);
+    transform: translateY(-4px) translateZ(0);
+    box-shadow: var(--glow-shadow-hover);
 }
 
 .btn-outline-primary {
@@ -194,28 +225,30 @@ body {
   border-radius: 2px;
 }
 
-/* Social icons */
+/* Social icons with smooth transform */
 .social-icon {
-  width: 45px;
-  height: 45px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  font-size: 1.1rem;
-  margin-right: 0.75rem;
-  transition: var(--transition);
+    width: 45px;
+    height: 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    transition: var(--transition-smooth);
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .social-icon:hover {
-  background: var(--primary-color);
-  color: var(--bg-dark);
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    transform: translateY(-6px) scale(1.12) translateZ(0);
+    box-shadow: 0 0 25px rgba(255, 193, 7, 0.6);
 }
 
 /* Progress bar */

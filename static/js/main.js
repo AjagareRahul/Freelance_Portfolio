@@ -200,14 +200,22 @@ function handleIconError(iconElement, iconClass) {
 
 document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
-    // Initialize AOS Animation Library
+    // Animation Performance Optimizations
     // ==========================================
+    const opts = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    // Optimized AOS with smoother easing
     if (typeof AOS !== 'undefined') {
         AOS.init({
-            duration: 800,
+            duration: 1000,
             once: true,
             offset: 100,
-            easing: 'ease-out-cubic'
+            easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+            delay: 0,
+            anchorPlacement: 'top-bottom'
         });
     }
     
@@ -389,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ==========================================
-    // Counter Animation
+    // Counter Animation - Optimized
     // ==========================================
     const counters = document.querySelectorAll('.counter');
     if (counters.length > 0) {
@@ -398,71 +406,69 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const counter = entry.target;
                     const target = parseInt(counter.dataset.target);
-                    const duration = 2000;
-                    const increment = target / (duration / 16);
-                    let current = 0;
+                    const start = performance.now();
+                    const duration = 2200;
                     
-                    const updateCounter = () => {
-                        current += increment;
-                        if (current < target) {
-                            counter.textContent = Math.ceil(current);
-                            requestAnimationFrame(updateCounter);
-                        } else {
-                            counter.textContent = target;
+                    const animateCounter = (currentTime) => {
+                        const elapsed = currentTime - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easedProgress = 1 - Math.pow(1 - progress, 4);
+                        const value = Math.floor(easedProgress * target);
+                        
+                        counter.textContent = value.toLocaleString();
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animateCounter);
                         }
                     };
                     
-                    updateCounter();
+                    requestAnimationFrame(animateCounter);
                     counterObserver.unobserve(counter);
                 }
             });
         }, {
             threshold: 0.5
         });
-        
+
         counters.forEach(counter => {
             counterObserver.observe(counter);
         });
     }
     
     // ==========================================
-    // Progress Bar Animation
+    // Progress Bar Animation - Smooth
     // ==========================================
-    const progressBars = document.querySelectorAll('.progress-bar');
+    const progressBars = document.querySelectorAll('.progress-bar, .skill-bar-fill');
     if (progressBars.length > 0) {
         const progressObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const bar = entry.target;
                     const targetWidth = bar.style.width;
+                    bar.style.transition = 'width 1.8s cubic-bezier(0.25, 1, 0.5, 1)';
                     bar.style.width = '0';
-                    setTimeout(() => {
+                    bar.style.transitionDelay = '0.1s';
+                    requestAnimationFrame(() => {
                         bar.style.width = targetWidth;
-                    }, 100);
+                    });
                     progressObserver.unobserve(bar);
                 }
             });
         }, {
-            threshold: 0.5
+            threshold: 0.5,
+            rootMargin: '0px'
         });
-        
+
         progressBars.forEach(bar => {
             progressObserver.observe(bar);
         });
     }
     
     // ==========================================
-    // Card Hover Effects
+    // Card Hover Effects - CSS handles transforms
     // ==========================================
-    const cards = document.querySelectorAll('.card, .service-card, .skill-card, .project-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-        });
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-        });
-    });
+    // Removed JS-based hover transforms - using CSS for better performance
+    // Cards now use hardware-accelerated CSS transitions
     
     // ==========================================
     // Navbar Active Link Highlight
@@ -616,30 +622,51 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
 
 // ==========================================
 // UI Reliability Enhancements
+// ==========================================
 
 // ==========================================
-// Typing Animation for Hero Name
+// Hero Typing Animation - Combined Name + Role
 // ==========================================
 (function() {
-    var typingEl = document.getElementById("typing-name");
-    if (!typingEl) return;
-    var text = typingEl.textContent.trim();
-    typingEl.textContent = "";
-    var i = 0;
-    var cursorDelay = 180;
-    function type() {
-        if (i < text.length) {
-            typingEl.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, cursorDelay);
+    const typingNameEl = document.getElementById('typing-name');
+    const typingRoleEl = document.getElementById('typing-role');
+    
+    if (typingNameEl && typingRoleEl) {
+        const fullName = 'Ajagare Rahul';
+        const roleText = 'Python/Django Backend Developer';
+        const nameSpeed = 100;
+        const roleSpeed = 80;
+        const delayBetween = 300;
+        
+        let nameIndex = 0;
+        let roleIndex = 0;
+        
+        function typeName() {
+            if (nameIndex < fullName.length) {
+                typingNameEl.textContent += fullName.charAt(nameIndex);
+                nameIndex++;
+                setTimeout(typeName, nameSpeed);
+            } else {
+                setTimeout(typeRole, delayBetween);
+            }
+        }
+        
+        function typeRole() {
+            if (roleIndex < roleText.length) {
+                typingRoleEl.textContent += roleText.charAt(roleIndex);
+                roleIndex++;
+                setTimeout(typeRole, roleSpeed);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', typeName);
+        } else {
+            typeName();
         }
     }
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", type);
-    } else {
-        type();
-    }
-})();// ==========================================
+})();
+
 (function() {
     // Ensure body stays visible after page load
     document.body.style.opacity = '1';

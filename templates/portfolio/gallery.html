@@ -5,53 +5,88 @@
 
 {% block extra_css %}
 <style>
-/* Gallery Page Styles */
-.gallery-item-modern {
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item {
     position: relative;
+    border-radius: 16px;
     overflow: hidden;
-    border-radius: var(--radius-lg);
-    background: var(--bg-white);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition-slow);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glow-shadow);
+    transition: var(--transition);
+    height: 100%;
 }
 
-.gallery-item-modern:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(37, 99, 235, 0.25);
+.gallery-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--glow-shadow-hover);
+    border-color: var(--primary-color);
 }
 
-.gallery-item-modern img {
-    transition: transform 0.6s ease;
+.gallery-item img {
+    width: 100%;
     height: 260px;
     object-fit: cover;
-    width: 100%;
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    display: block;
 }
 
-.gallery-item-modern:hover img {
-    transform: scale(1.05);
+.gallery-item:hover img {
+    transform: scale(1.12);
 }
 
-.gallery-caption-modern {
-    padding: 1rem 1.25rem;
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(11, 15, 25, 0.9), transparent);
+    opacity: 0;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
 }
 
-.gallery-caption-modern h5 {
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 0.25rem;
-    font-size: 1rem;
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
 }
 
-.gallery-caption-modern p {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    margin: 0;
+.gallery-category {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--primary-100);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 1;
+}
+
+@media (max-width: 992px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    .gallery-item img {
+        height: 220px;
+    }
 }
 
 @media (max-width: 576px) {
-    .gallery-item-modern img {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    .gallery-item img {
         height: 200px;
     }
 }
@@ -76,37 +111,34 @@
 <!-- Gallery Section -->
 <section class="py-100">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header text-center mb-5">
             <span class="section-tag">Visuals</span>
             <h2>Gallery</h2>
             <p>A glimpse into my projects, workspace, and journey.</p>
         </div>
-        <div class="row g-4">
+        <div class="gallery-grid">
             {% if gallery_images %}
                 {% for image in gallery_images %}
-                <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
-                    <div class="gallery-item-modern">
-                        <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery Image' }}" class="rounded">
-                        {% if image.title or image.description %}
-                        <div class="gallery-caption-modern">
-                            {% if image.title %}
-                            <h5>{{ image.title }}</h5>
-                            {% endif %}
-                            {% if image.description %}
-                            <p class="text-muted mb-0">{{ image.description }}</p>
-                            {% endif %}
-                        </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}100">
+                    <span class="gallery-category">{{ image.category|default:"General" }}</span>
+                    <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery Image' }}" class="lazy-load" loading="lazy">
+                    <div class="gallery-overlay">
+                        {% if image.title %}
+                        <h5 class="text-white">{{ image.title }}</h5>
+                        {% endif %}
+                        {% if image.description %}
+                        <p class="text-white-50 small">{{ image.description }}</p>
                         {% endif %}
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
             <div class="col-12 text-center py-5">
-                <div class="stat-circle mb-3 mx-auto" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-images fa-lg text-muted"></i>
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--glass-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <i class="fas fa-images fa-lg text-primary"></i>
                 </div>
-                <h4 class="text-muted mt-3">No Gallery Images</h4>
-                <p class="text-muted">Images will be displayed here once added.</p>
+                <h4 class="text-secondary mt-3">No Gallery Images</h4>
+                <p class="text-secondary">Images will be displayed here once added.</p>
             </div>
             {% endif %}
         </div>
@@ -118,10 +150,10 @@
     <div class="container text-center">
         <div class="cta-content" data-aos="fade-up">
             <h2 class="text-dark mb-3 fw-bold">Want to See More?</h2>
-            <p class="text-dark mb-4" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+             <p class="content-box">
                 Check out my projects and get in touch for collaborations.
             </p>
-            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary btn-lg">
+            <a href="{% url 'portfolio:projects' %}" class="btn-primary-solid">
                 <i class="fas fa-briefcase me-2"></i>View Projects
             </a>
         </div>
