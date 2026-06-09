@@ -812,6 +812,17 @@ a {
     border-radius: 2px;
 }
 
+.typing-cursor::after {
+    content: '|';
+    animation: blink 1s steps(1) infinite;
+    color: var(--primary-color);
+    font-weight: 300;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
 /* ==================== Responsive ==================== */
 @media (max-width: 1200px) {
     .hero-title {
@@ -966,4 +977,68 @@ a {
     color: var(--text-secondary);
     font-size: 0.85rem;
     margin: 0;
+}
+
+/* Glass Card */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+}
+
+/* Upcoming Projects Section */
+.upcoming-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-gradient) 100%);
+}
+
+.upcoming-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.upcoming-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 193, 7, 0.2);
+    border-color: var(--primary-color);
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+}
+
+.status-planned { background: rgba(255, 193, 7, 0.2); color: var(--primary-color); }
+.status-in_progress { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.status-completed { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+
+/* Section Tag */
+.section-tag {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(255, 193, 7, 0.15);
+    color: var(--primary-color);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+/* Profile Nav Icon */
+.profile-nav-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+    transition: var(--transition);
 }
