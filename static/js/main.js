@@ -625,19 +625,19 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
 // ==========================================
 
 // ==========================================
-// Hero Typing Animation - Single Line
+// Hero Typing Animation - Name Only
 // ==========================================
 (function() {
-    const typingEl = document.getElementById('typing-text');
+    const typingEl = document.getElementById('typing-name');
     
     if (typingEl) {
-        const fullText = "Ajagare Rahul \u2192 Python/Django Developer";
-        const speed = 90;
+        const fullName = "Ajagare Rahul";
+        const speed = 120;
         let index = 0;
         
         function typeWriter() {
-            if (index < fullText.length) {
-                typingEl.textContent += fullText.charAt(index);
+            if (index < fullName.length) {
+                typingEl.textContent += fullName.charAt(index);
                 index++;
                 setTimeout(typeWriter, speed);
             }
