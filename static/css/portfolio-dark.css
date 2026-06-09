@@ -324,7 +324,7 @@ a {
     transition: var(--transition);
 }
 
-.profile-image-wrapper img:hover {
+.profile-image-wrapper:hover img {
     transform: scale(1.05);
     box-shadow: 0 0 60px rgba(255, 193, 7, 0.6);
 }
@@ -344,7 +344,7 @@ a {
 }
 
 .profile-placeholder i {
-    font-size: 6rem;
+    font-size: 4rem;
     color: var(--primary-color);
 }
 
