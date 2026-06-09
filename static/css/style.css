@@ -324,20 +324,6 @@ a:hover {
     margin: 0 auto;
 }
 
-.profile-image-container::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    right: -15px;
-    bottom: -15px;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color), var(--accent-secondary));
-    border-radius: 50%;
-    z-index: -1;
-    animation: rotate 4s linear infinite;
-    opacity: 0.5;
-}
-
 @media (max-width: 992px) {
     .profile-image-container {
         max-width: 280px;
@@ -348,11 +334,6 @@ a:hover {
     .profile-image-container {
         max-width: 220px;
     }
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 
 .profile-image-container img {
@@ -1853,3 +1834,42 @@ a:hover {
 .btn-hire-me {
     display: none !important;
 }
+
+/* Upcoming Projects Section */
+.upcoming-section {
+    background: rgba(255,255,255,0.02);
+}
+
+.upcoming-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: 100%;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.upcoming-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    border-color: rgba(255,193,7,0.35);
+    background: rgba(255,255,255,0.08);
+}
+
+.upcoming-card .status-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.status-coming { background: rgba(37,99,235,0.2); color: #60a5fa; border: 1px solid rgba(37,99,235,0.3); }
+.status-progress { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
