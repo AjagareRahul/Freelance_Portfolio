@@ -625,44 +625,28 @@ document.querySelectorAll('a:not([href^="#"]):not([href^="mailto"]):not([href^="
 // ==========================================
 
 // ==========================================
-// Hero Typing Animation - Combined Name + Role
+// Hero Typing Animation - Single Line
 // ==========================================
 (function() {
-    const typingNameEl = document.getElementById('typing-name');
-    const typingRoleEl = document.getElementById('typing-role');
+    const typingEl = document.getElementById('typing-text');
     
-    if (typingNameEl && typingRoleEl) {
-        const fullName = 'Ajagare Rahul';
-        const roleText = 'Python/Django Backend Developer';
-        const nameSpeed = 100;
-        const roleSpeed = 80;
-        const delayBetween = 300;
+    if (typingEl) {
+        const fullText = "Ajagare Rahul \u2192 Python/Django Developer";
+        const speed = 90;
+        let index = 0;
         
-        let nameIndex = 0;
-        let roleIndex = 0;
-        
-        function typeName() {
-            if (nameIndex < fullName.length) {
-                typingNameEl.textContent += fullName.charAt(nameIndex);
-                nameIndex++;
-                setTimeout(typeName, nameSpeed);
-            } else {
-                setTimeout(typeRole, delayBetween);
-            }
-        }
-        
-        function typeRole() {
-            if (roleIndex < roleText.length) {
-                typingRoleEl.textContent += roleText.charAt(roleIndex);
-                roleIndex++;
-                setTimeout(typeRole, roleSpeed);
+        function typeWriter() {
+            if (index < fullText.length) {
+                typingEl.textContent += fullText.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
             }
         }
         
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', typeName);
+            document.addEventListener('DOMContentLoaded', typeWriter);
         } else {
-            typeName();
+            typeWriter();
         }
     }
 })();

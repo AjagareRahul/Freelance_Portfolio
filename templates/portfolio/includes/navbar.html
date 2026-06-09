@@ -30,22 +30,27 @@
                     <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'portfolio:contact' %}">Contact</a>
                 </li>
             </ul>
-            <div class="nav-dropdown dropdown d-none d-lg-block">
-                <a href="#" class="profile-nav-icon dropdown-toggle" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Profile">
-                    <img src="{% static 'images/profile.jpg' %}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');">
-                    <i class="fas fa-user d-none"></i>
+            <div class="d-flex align-items-center gap-3">
+                <a href="{% url 'portfolio:contact' %}" class="btn-nav-cta d-none d-md-inline-flex">
+                    <i class="fas fa-paper-plane me-2"></i>Let's Talk
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="{% url 'portfolio:profile' %}"><i class="fas fa-user me-2"></i>About</a></li>
-                    <li><a class="dropdown-item" href="{% url 'portfolio:contact' %}"><i class="fas fa-envelope me-2"></i>Contact</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% static 'documents/cv.pdf' %}" download><i class="fas fa-download me-2"></i>Resume</a></li>
-                </ul>
+                <div class="nav-dropdown dropdown">
+                    <a href="#" class="profile-nav-icon dropdown-toggle" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Profile">
+                        {% if site_info and site_info.profile_image %}
+                            <img src="{{ site_info.profile_image.url }}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');">
+                            <i class="fas fa-user d-none"></i>
+                        {% else %}
+                            <i class="fas fa-user"></i>
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="{% url 'portfolio:profile' %}"><i class="fas fa-user me-2"></i>About</a></li>
+                        <li><a class="dropdown-item" href="{% url 'portfolio:contact' %}"><i class="fas fa-envelope me-2"></i>Contact</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'portfolio:download_resume' %}" download><i class="fas fa-download me-2"></i>Resume</a></li>
+                    </ul>
+                </div>
             </div>
-            <a href="{% url 'portfolio:profile' %}" class="profile-nav-icon d-lg-none ms-2" title="Profile">
-                <img src="{% static 'images/profile.jpg' %}" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');">
-                <i class="fas fa-user d-none"></i>
-            </a>
         </div>
     </div>
 </nav>
